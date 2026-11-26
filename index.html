@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>НейроРацион — сфотографируй холодильник, получи рацион</title>
+<title>НейроРацион — умный сканер холодильника</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a2e1a; line-height: 1.6; }
@@ -20,24 +20,23 @@
   .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
   .feature { background: #f1faee; padding: 20px; border-radius: 10px; border-left: 4px solid #52b788; }
   
-  /* Стили для интерактивного сканера */
-  .scanner-box { background: #2d6a4f; color: white; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 40px; }
-  .scanner-box h2 { color: white; border-left: none; text-align: center; padding-left: 0; margin-bottom: 15px; }
-  .btn-gen { background: #95d5b2; color: #1b4332; border: none; padding: 15px 30px; font-size: 1.1em; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; }
+  /* Стили для камеры */
+  .camera-section { background: #2d6a4f; color: white; padding: 30px; border-radius: 12px; text-align: center; }
+  .camera-section h2 { color: white; border-left: none; text-align: center; padding-left: 0; margin-bottom: 15px; }
+  .camera-container { position: relative; max-width: 500px; margin: 0 auto 20px auto; background: #000; border-radius: 12px; overflow: hidden; display: none; }
+  video { width: 100%; display: block; }
+  .btn-gen { background: #95d5b2; color: #1b4332; border: none; padding: 15px 30px; font-size: 1.1em; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; margin: 5px; }
   .btn-gen:hover { background: #b7e4c7; transform: scale(1.05); }
   .btn-gen:disabled { background: #74c69d; cursor: not-allowed; transform: none; }
+  .btn-scan { background: #ff9f1c; color: #fff; display: none; }
+  .btn-scan:hover { background: #ffbf69; }
+  
   .result-box { display: none; background: #f1faee; color: #1a2e1a; padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; animation: fadeIn 0.5s; }
   .result-box h3 { color: #2d6a4f; margin-bottom: 10px; margin-top: 15px; }
   .result-box ul { padding-left: 20px; margin-bottom: 10px; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  .loader { display: none; color: #fff; margin-top: 15px; font-style: italic; }
+  .loader { display: none; color: #fff; margin-top: 15px; font-style: italic; font-size: 1.1em; }
 
-  .pricing { display: flex; gap: 20px; flex-wrap: wrap; }
-  .plan { flex: 1; min-width: 220px; padding: 25px; border-radius: 12px; border: 2px solid #95d5b2; text-align: center; }
-  .plan.premium { background: #2d6a4f; color: #fff; border-color: #2d6a4f; }
-  .plan .price { font-size: 1.8em; font-weight: bold; margin: 10px 0; }
-  .btn { display: inline-block; background: #52b788; color: #fff; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: bold; margin-top: 10px; }
-  .plan.premium .btn { background: #95d5b2; color: #1b4332; }
   footer { background: #1b4332; color: #b7e4c7; text-align: center; padding: 25px 20px; font-size: 0.9em; }
   @media (max-width: 600px) { header h1 { font-size: 1.8em; } }
 </style>
@@ -50,17 +49,24 @@
 
 <div class="container">
   
-  <!-- НОВЫЙ БЛОК: Интерактивный сканер -->
-  <section class="scanner-box">
-    <h2>Попробуйте ИИ прямо сейчас</h2>
-    <p>Нажмите кнопку, чтобы нейросеть проанализировала продукты и собрала рацион на день.</p>
+  <!-- БЛОК С КАМЕРОЙ -->
+  <section class="camera-section">
+    <h2>Протестируйте ИИ-сканер</h2>
+    <p>Нажмите кнопку ниже, разрешите доступ к камере и наведите её на любые продукты.</p>
     <br>
-    <button class="btn-gen" id="scanBtn" onclick="startScan()">📸 Сканировать холодильник</button>
-    <div class="loader" id="loader">⏳ ИИ анализирует продукты...</div>
+    
+    <div class="camera-container" id="cameraContainer">
+      <video id="video" autoplay playsinline></video>
+    </div>
+
+    <button class="btn-gen" id="startCamBtn" onclick="startCamera()">📷 Включить камеру</button>
+    <button class="btn-gen btn-scan" id="scanBtn" onclick="takeSnap()">📸 Сделать снимок и сканировать</button>
+    
+    <div class="loader" id="loader">⏳ ИИ распознает продукты на фото...</div>
     
     <div class="result-box" id="resultBox">
       <h3>✅ Анализ завершен!</h3>
-      <p><b>Найдено в холодильнике:</b> Куриная грудка, рис, помидоры, яйца, зелень.</p>
+      <p><b>Найдено в кадре:</b> Куриная грудка, рис, помидоры, яйца, зелень.</p>
       <h3>Ваш рацион на сегодня:</h3>
       <ul>
         <li><b>Завтрак:</b> Омлет с зеленью (350 ккал)</li>
@@ -72,7 +78,7 @@
         <li>Оливковое масло (1 бут.)</li>
         <li>Йогурт натуральный (1 шт.)</li>
       </ul>
-      <p style="margin-top: 15px; font-size: 0.9em; color: #555;"><i>* Экономия бюджета: 400 руб. (продукты из холодильника не пропадут).</i></p>
+      <p style="margin-top: 15px; font-size: 0.9em; color: #555;"><i>* Стоимость рациона: ~450 руб. (экономно и полезно).</i></p>
     </div>
   </section>
 
@@ -101,56 +107,65 @@
       <div class="feature"><b>🎤 Голосовой помощник</b><br>«Что приготовить из курицы и риса?»</div>
     </div>
   </section>
-
-  <section>
-    <h2>Тарифы</h2>
-    <div class="pricing">
-      <div class="plan">
-        <h3>Бесплатно</h3>
-        <div class="price">0 ₽</div>
-        <p>3 скана в день<br>Базовые рецепты</p>
-        <a href="#" class="btn">Попробовать</a>
-      </div>
-      <div class="plan premium">
-        <h3>Premium</h3>
-        <div class="price">199 ₽/мес</div>
-        <p>Неограниченные сканы<br>Семейный профиль<br>Экспорт списка покупок</p>
-        <a href="#" class="btn">Подключить</a>
-      </div>
-    </div>
-  </section>
 </div>
 
 <footer>
-  © 2026 НейроРацион — учебный стартап-проект. Сайт создан с помощью ИИ.
+  © 2026 НейроРацион — учебный стартап-проект. Сайт создан с помощью ИИ. Все функции предоставляются бесплатно.
 </footer>
 
-<!-- СКРИПТ ДЛЯ РАБОТЫ КНОПКИ -->
+<!-- СКРИПТ ДЛЯ КАМЕРЫ И СКАНЕРА -->
 <script>
-  function startScan() {
-    // Скрываем старый результат, если он был
-    document.getElementById('resultBox').style.display = 'none';
+  const video = document.getElementById('video');
+  const cameraContainer = document.getElementById('cameraContainer');
+  const startCamBtn = document.getElementById('startCamBtn');
+  const scanBtn = document.getElementById('scanBtn');
+  const loader = document.getElementById('loader');
+  const resultBox = document.getElementById('resultBox');
+  let stream = null;
+
+  // 1. Функция включения камеры
+  async function startCamera() {
+    try {
+      // Запрашиваем доступ к камере (задняя камера на телефоне)
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+      video.srcObject = stream;
+      
+      // Показываем видео, меняем кнопки
+      cameraContainer.style.display = 'block';
+      startCamBtn.style.display = 'none';
+      scanBtn.style.display = 'inline-block';
+      resultBox.style.display = 'none'; // Скрываем старый результат
+    } catch (err) {
+      alert('Не удалось получить доступ к камере. Разрешите использование камеры в настройках браузера.');
+      console.error(err);
+    }
+  }
+
+  // 2. Функция сканирования (имитация)
+  function takeSnap() {
+    // Останавливаем камеру (видео замирает)
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+    }
     
-    // Блокируем кнопку и показываем загрузку
-    const btn = document.getElementById('scanBtn');
-    const loader = document.getElementById('loader');
-    
-    btn.disabled = true;
-    btn.innerText = 'Сканирование...';
+    // Меняем кнопки и показываем загрузку
+    scanBtn.style.display = 'none';
     loader.style.display = 'block';
     
-    // Имитация работы ИИ (задержка 2 секунды)
+    // Делаем вспышку (эффект)
+    cameraContainer.style.opacity = '0.5';
+    setTimeout(() => { cameraContainer.style.opacity = '1'; }, 150);
+
+    // Ждем 2.5 секунды (ИИ "думает")
     setTimeout(function() {
-      // Прячем загрузку
       loader.style.display = 'none';
-      
-      // Возвращаем кнопку в исходное состояние
-      btn.disabled = false;
-      btn.innerText = '📸 Сканировать еще раз';
+      cameraContainer.style.display = 'none';
+      startCamBtn.style.display = 'inline-block';
+      startCamBtn.innerText = '🔄 Сканировать другой продукт';
       
       // Показываем результат
-      document.getElementById('resultBox').style.display = 'block';
-    }, 2000);
+      resultBox.style.display = 'block';
+    }, 2500);
   }
 </script>
 
