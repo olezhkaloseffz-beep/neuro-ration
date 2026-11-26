@@ -65,20 +65,7 @@
     <div class="loader" id="loader">⏳ ИИ распознает продукты на фото...</div>
     
     <div class="result-box" id="resultBox">
-      <h3>✅ Анализ завершен!</h3>
-      <p><b>Найдено в кадре:</b> Куриная грудка, рис, помидоры, яйца, зелень.</p>
-      <h3>Ваш рацион на сегодня:</h3>
-      <ul>
-        <li><b>Завтрак:</b> Омлет с зеленью (350 ккал)</li>
-        <li><b>Обед:</b> Куриная грудка с рисом и салатом (550 ккал)</li>
-        <li><b>Ужин:</b> Легкий салат с яйцом (250 ккал)</li>
-      </ul>
-      <h3>🛒 Вам нужно докупить:</h3>
-      <ul>
-        <li>Оливковое масло (1 бут.)</li>
-        <li>Йогурт натуральный (1 шт.)</li>
-      </ul>
-      <p style="margin-top: 15px; font-size: 0.9em; color: #555;"><i>* Стоимость рациона: ~450 руб. (экономно и полезно).</i></p>
+      <!-- Сюда будет выводиться ответ от ИИ -->
     </div>
   </section>
 
@@ -113,7 +100,7 @@
   © 2026 НейроРацион — учебный стартап-проект. Сайт создан с помощью ИИ. Все функции предоставляются бесплатно.
 </footer>
 
-<!-- СКРИПТ ДЛЯ КАМЕРЫ И СКАНЕРА -->
+<!-- СКРИПТ ДЛЯ КАМЕРЫ И РЕАЛЬНОГО ИИ -->
 <script>
   const video = document.getElementById('video');
   const cameraContainer = document.getElementById('cameraContainer');
@@ -123,49 +110,89 @@
   const resultBox = document.getElementById('resultBox');
   let stream = null;
 
-  // 1. Функция включения камеры
+  // 1. ВСТАВЬТЕ СЮДА ВАШ КЛЮЧ ОТ GOOGLE AI STUDIO
+  const API_KEY = 'AQ.Ab8RN6KpLCyN25btk0fBu2czWVmCmfC1Ha6mtx0yMJz_8TZ6FA';
+  
+  // 2. ССЫЛКА НА ВАШ CLOUDFLARE WORKER (уже вставлена)
+  const PROXY_URL = 'https://square-flower-9f69.olezhka-loseffz.workers.dev';
+
   async function startCamera() {
     try {
-      // Запрашиваем доступ к камере (задняя камера на телефоне)
       stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
       video.srcObject = stream;
-      
-      // Показываем видео, меняем кнопки
       cameraContainer.style.display = 'block';
       startCamBtn.style.display = 'none';
       scanBtn.style.display = 'inline-block';
-      resultBox.style.display = 'none'; // Скрываем старый результат
+      resultBox.style.display = 'none'; // Прячем старый результат
     } catch (err) {
       alert('Не удалось получить доступ к камере. Разрешите использование камеры в настройках браузера.');
-      console.error(err);
     }
   }
 
-  // 2. Функция сканирования (имитация)
-  function takeSnap() {
-    // Останавливаем камеру (видео замирает)
+  async function takeSnap() {
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
     }
-    
-    // Меняем кнопки и показываем загрузку
+
     scanBtn.style.display = 'none';
     loader.style.display = 'block';
-    
-    // Делаем вспышку (эффект)
     cameraContainer.style.opacity = '0.5';
     setTimeout(() => { cameraContainer.style.opacity = '1'; }, 150);
 
-    // Ждем 2.5 секунды (ИИ "думает")
-    setTimeout(function() {
+    // Делаем снимок с видео
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const base64Image = canvas.toDataURL('image/jpeg').split(',')[1];
+
+    try {
+      // Отправляем через прокси
+      const response = await fetch(`${PROXY_URL}/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { text: 'Ты — ИИ-помощник по питанию. Посмотри на фото продуктов. Верни СТРОГО JSON без лишнего текста в формате: {"products": ["продукт1", "продукт2"], "dish": "название блюда или рациона", "calories": "примерно 500 ккал"}. Если на фото нет еды, верни пустой массив products.' },
+              { inline_data: { mime_type: 'image/jpeg', data: base64Image } }
+            ]
+          }]
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+
+      const textResponse = data.candidates[0].content.parts[0].text;
+      const cleanJson = textResponse.replace(/```json|```/g, '').trim();
+      const result = JSON.parse(cleanJson);
+
+      let html = `<h3>✅ Анализ завершен!</h3>`;
+      if (result.products && result.products.length > 0) {
+        html += `<p><b>Найдено:</b> ${result.products.join(', ')}</p>`;
+        html += `<p><b>Предлагаемое блюдо:</b> ${result.dish}</p>`;
+        html += `<p><b>Примерная калорийность:</b> ${result.calories}</p>`;
+        html += `<p style="margin-top: 15px; font-size: 0.9em; color: #555;"><i>* Стоимость рациона: ~450 руб. (экономно и полезно).</i></p>`;
+      } else {
+        html += `<p>На фото не удалось распознать продукты. Попробуйте навести камеру на еду.</p>`;
+      }
+      
+      resultBox.innerHTML = html;
+    } catch (error) {
+      console.error(error);
+      resultBox.innerHTML = `<h3>⚠️ Ошибка</h3><p>Не удалось связаться с ИИ. Проверьте ключ и прокси. Ошибка: ${error.message}</p>`;
+    } finally {
       loader.style.display = 'none';
       cameraContainer.style.display = 'none';
       startCamBtn.style.display = 'inline-block';
       startCamBtn.innerText = '🔄 Сканировать другой продукт';
-      
-      // Показываем результат
       resultBox.style.display = 'block';
-    }, 2500);
+    }
   }
 </script>
 
