@@ -160,10 +160,10 @@
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Api-Key ${AQVNzdq3Tv6baoT_PbM6222MhrZ9Q4gKrx73Veut}`
+          'Authorization': `Api-Key ${YANDEX_API_KEY}`
         },
         body: JSON.stringify({
-          model: `gpt://${ajedrarktvkrda2fufdj}/yandexgpt-lite`, // Бесплатная/дешевая модель
+          model: `gpt://${YANDEX_FOLDER_ID}/yandexgpt-lite`, // Бесплатная/дешевая модель
           messages: [
             { role: 'system', content: 'Ты — помощник по питанию. Отвечай кратко и по делу, предлагай простые рецепты.' },
             { role: 'user', content: text }
