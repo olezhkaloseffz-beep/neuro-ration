@@ -11,32 +11,24 @@
   header { padding: 30px 20px; text-align: center; position: relative; }
   header h1 { font-size: 2.5em; margin-bottom: 10px; background: linear-gradient(90deg, #b7e4c7, #52b788); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
   header p { font-size: 1.1em; color: var(--text-muted); }
-
   #logoutBtn { position: absolute; top: 30px; right: 30px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; display: none; transition: 0.2s; }
   #logoutBtn:hover { background: rgba(255, 107, 107, 0.3); border-color: #ff6b6b; }
-
   .container { max-width: 1040px; margin: 0 auto; padding: 0 20px 40px; }
   .glass-panel { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
   h2 { color: #b7e4c7; font-size: 1.5em; margin-bottom: 20px; border-left: 4px solid var(--primary-light); padding-left: 15px; }
-
   .page { display: none; animation: fadeIn 0.3s; }
   .page.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
   .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
   .nav-tab { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); padding: 10px 20px; border-radius: 10px; cursor: pointer; transition: 0.2s; font-size: 1em; }
   .nav-tab:hover { background: rgba(255,255,255,0.1); }
   .nav-tab.active { background: var(--primary); border-color: var(--primary-light); box-shadow: 0 0 10px rgba(82, 183, 136, 0.3); }
-
-  /* Форма входа */
   .auth-form { max-width: 400px; margin: 0 auto; text-align: center; }
   .auth-form input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1em; }
   .auth-form input:focus { border-color: var(--primary-light); }
   .auth-btn { width: 100%; background: var(--primary-light); color: var(--bg-dark); border: none; padding: 15px; font-size: 1.1em; font-weight: bold; border-radius: 10px; cursor: pointer; transition: 0.2s; margin-bottom: 10px; }
   .auth-btn:hover { background: #b7e4c7; }
   .auth-switch { color: var(--primary-light); cursor: pointer; text-decoration: underline; margin-top: 10px; display: inline-block; }
-
-  /* Выбор цели */
   .goals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 15px; margin-bottom: 10px; }
   .goal-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 16px; cursor: pointer; transition: 0.2s; text-align: left; }
   .goal-card:hover { background: rgba(255,255,255,0.08); border-color: var(--primary-light); transform: translateY(-2px); }
@@ -44,65 +36,53 @@
   .goal-card .goal-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-weight: bold; font-size: 1.05em; color: #f8fafc; }
   .goal-card .goal-kcal { font-size: 0.85em; color: #b7e4c7; font-weight: bold; margin-bottom: 4px; }
   .goal-card .goal-desc { font-size: 0.82em; color: var(--text-muted); line-height: 1.4; }
-
   .section-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
   .mini-actions { display: flex; gap: 8px; }
   .mini-btn { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: var(--text-main); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.85em; transition: 0.2s; }
   .mini-btn:hover { background: rgba(82, 183, 136, 0.2); border-color: var(--primary-light); }
-
   .ingredients-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; margin-bottom: 20px; }
   .ingredient-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 14px 10px; border-radius: 12px; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-main); }
   .ingredient-btn:hover { background: rgba(255,255,255,0.08); border-color: var(--primary-light); transform: translateY(-2px); }
   .ingredient-btn.active { background: rgba(82, 183, 136, 0.2); border-color: var(--primary-light); box-shadow: 0 0 15px rgba(82, 183, 136, 0.2); }
   .ingredient-btn span.icon { font-size: 2.2em; line-height: 1; }
   .ingredient-btn span.name { font-size: 0.88em; font-weight: bold; text-align: center; }
-
   .generate-btn { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; border: none; padding: 18px; font-size: 1.2em; font-weight: bold; border-radius: 15px; cursor: pointer; width: 100%; transition: 0.3s; box-shadow: 0 5px 15px rgba(82, 183, 136, 0.3); margin-top: 10px; }
   .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(82, 183, 136, 0.5); }
   .generate-btn:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
-
   .back-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px 25px; border-radius: 10px; cursor: pointer; transition: 0.2s; font-size: 1em; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 10px; }
   .back-btn:hover { background: rgba(255,255,255,0.2); }
-
   .week-calendar { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 20px; }
   .day-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
   .day-card:hover { background: rgba(255,255,255,0.1); border-color: var(--primary-light); }
   .day-card.active { background: rgba(82, 183, 136, 0.2); border-color: var(--primary-light); box-shadow: 0 0 15px rgba(82, 183, 136, 0.3); }
   .day-card .day-name { font-weight: bold; color: var(--primary-light); margin-bottom: 5px; }
   .day-card .day-date { font-size: 0.8em; color: var(--text-muted); }
-
   .daily-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
   .daily-header h2 { margin-bottom: 0; border-left: none; padding-left: 0; }
   .goal-pill { display: inline-block; background: rgba(82, 183, 136, 0.18); border: 1px solid rgba(82, 183, 136, 0.4); color: #b7e4c7; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; margin-top: 6px; }
   .daily-summary-cards { display: flex; gap: 10px; flex-wrap: wrap; }
-
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px; }
   .recipe-card { background: rgba(255,255,255,0.05); padding: 0; border-radius: 15px; border-top: 3px solid var(--primary-light); cursor: pointer; transition: 0.3s; animation: slideUp 0.5s forwards; opacity: 0; transform: translateY(20px); position: relative; overflow: hidden; display: flex; flex-direction: column; }
   .recipe-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
   .recipe-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px 12px 0 0; background: #1e293b; display: block; }
   .recipe-card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
   .recipe-card h3 { color: var(--primary-light); margin-bottom: 6px; font-size: 1.15em; text-align: center; }
-  .recipe-card p { font-size: 0.9em; color: var(--text-muted); margin-bottom: 5px; }
   .recipe-badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: auto; padding-top: 10px; }
   .recipe-card .badge { display: inline-block; background: rgba(82, 183, 136, 0.2); color: #b7e4c7; padding: 4px 10px; border-radius: 20px; font-size: 0.82em; }
   .recipe-card .badge-portion { background: rgba(56, 189, 248, 0.16); color: #bae6fd; }
   .macros-line { font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: 8px; }
-
   .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
   .stat-card { background: linear-gradient(135deg, rgba(45, 106, 79, 0.4), rgba(82, 183, 136, 0.1)); border: 1px solid var(--primary-light); padding: 15px; border-radius: 15px; text-align: center; }
   .stat-card .number { font-size: 2em; font-weight: bold; color: #b7e4c7; line-height: 1.1; margin-bottom: 5px; }
   .stat-card .label { font-size: 0.82em; color: var(--text-muted); }
-
   .charts-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
   .chart-box { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; position: relative; height: 350px; display: flex; flex-direction: column; align-items: center; }
   .chart-box h3 { color: var(--text-main); margin-bottom: 15px; font-size: 1.1em; text-align: center; }
   .chart-box canvas { max-width: 100%; max-height: 280px; }
-
   .shopping-list { background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); padding: 20px; border-radius: 15px; position: relative; margin-top: 20px; }
   .shopping-list h3 { color: #ffca2c; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
   .shopping-list ul { list-style: none; margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 10px; }
-  .shopping-list li { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 1em; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; }
-
+  .shopping-list li { display: flex; align-items: center; gap: 10px; font-size: 1em; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; }
   .recipe-detail { text-align: center; }
   .recipe-detail .big-image { width: 100%; max-height: 400px; object-fit: cover; border-radius: 20px; margin-bottom: 20px; border: 3px solid var(--primary-light); box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #1e293b; display: block; }
   .recipe-detail h2 { border: none; padding: 0; text-align: center; font-size: 2em; color: white; margin-bottom: 10px; }
@@ -111,7 +91,6 @@
   .recipe-detail .portion-badge { background: rgba(56, 189, 248, 0.2); color: #bae6fd; border: 1px solid rgba(56, 189, 248, 0.4); font-weight: bold; padding: 6px 16px; border-radius: 20px; display: inline-block; }
   .recipe-detail .macros-detail { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
   .macro-chip { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); padding: 8px 16px; border-radius: 12px; font-size: 0.92em; color: #e2e8f0; }
-
   .recipe-detail .instructions { text-align: left; background: rgba(0,0,0,0.2); padding: 25px; border-radius: 15px; line-height: 1.8; font-size: 1.1em; border-left: 4px solid var(--primary-light); margin-top: 20px; }
   .recipe-detail .instructions ol { padding-left: 20px; }
   .recipe-detail .instructions li { margin-bottom: 15px; }
@@ -120,7 +99,6 @@
   .recipe-detail .ingredients-list ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
   .recipe-detail .ingredients-list li { background: rgba(82, 183, 136, 0.2); padding: 5px 15px; border-radius: 20px; }
   .recipe-detail .ingredients-list li.missing { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
-
   .chat-messages { height: 200px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
   .msg-bubble { max-width: 85%; padding: 12px 16px; border-radius: 12px; font-size: 0.95em; line-height: 1.4; }
   .msg-user { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 2px; }
@@ -131,7 +109,6 @@
   .chat-input-group button { padding: 15px 25px; border-radius: 10px; border: none; background: var(--primary-light); color: #0f172a; font-weight: bold; cursor: pointer; transition: 0.2s; }
   .chat-input-group button:hover { background: #b7e4c7; }
   .chat-input-group button:disabled { background: #475569; cursor: not-allowed; }
-
   @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
   footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.9em; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px; }
 </style>
@@ -146,18 +123,14 @@
 </header>
 
 <div class="container">
-
   <div id="authPage" class="page active">
     <div class="glass-panel">
       <div class="auth-form">
         <h2 id="authTitle">Вход в систему</h2>
         <p style="margin-bottom: 20px; color: var(--text-muted);">Войдите, чтобы сохранять свои рационы</p>
-
         <input type="email" id="authEmail" placeholder="Ваш Email">
         <input type="password" id="authPassword" placeholder="Пароль">
-
         <button class="auth-btn" id="authActionBtn" onclick="handleAuth()">Войти</button>
-
         <div>
           <span id="authSwitchText" style="color: var(--text-muted);">Нет аккаунта? </span>
           <span class="auth-switch" id="authSwitchBtn" onclick="toggleAuthMode()">Зарегистрироваться</span>
@@ -167,7 +140,6 @@
   </div>
 
   <div id="appInterface" style="display: none;">
-
     <div class="nav-tabs" id="mainTabs">
       <button class="nav-tab active" onclick="navigateTo('mainPage')">Выбор продуктов</button>
       <button class="nav-tab" onclick="navigateTo('calendarPage')">Мой календарь</button>
@@ -177,14 +149,14 @@
     <div id="mainPage" class="page">
       <div class="glass-panel">
         <h2>Шаг 1: Ваша цель питания</h2>
-        <p style="margin-bottom: 15px; color: var(--text-muted); font-size: 0.9em;">От цели зависит выбор блюд, размер порций и дневная калорийность:</p>
+        <p style="margin-bottom: 15px; color: var(--text-muted); font-size: 0.9em;">От цели зависит выбор блюд, вес порций и дневная калорийность:</p>
         <div class="goals-grid" id="goalsGrid"></div>
       </div>
 
       <div class="glass-panel">
         <h2>Шаг 2: Ваши продукты</h2>
         <div class="section-actions">
-          <p style="color: var(--text-muted); font-size: 0.9em;">Отметьте то, что у вас есть в холодильнике (доступно 24 продукта):</p>
+          <p style="color: var(--text-muted); font-size: 0.9em;">Отметьте то, что есть в холодильнике (24 продукта):</p>
           <div class="mini-actions">
             <button class="mini-btn" onclick="selectAllProducts()">Выбрать все</button>
             <button class="mini-btn" onclick="clearProducts()">Сбросить</button>
@@ -210,9 +182,7 @@
       <div class="glass-panel">
         <h2>📅 Ваш сохраненный рацион</h2>
         <p style="margin-bottom: 20px; color: var(--text-muted); font-size: 0.9em;">Порции и блюда адаптированы под выбранную цель.</p>
-
         <div class="week-calendar" id="weekCalendar"></div>
-
         <div id="dayDetails" style="display: none;">
           <div class="daily-header">
             <div>
@@ -222,7 +192,7 @@
             <div class="daily-summary-cards">
               <div class="stat-card" style="padding: 10px 18px;">
                 <div class="number" id="dayCalories" style="font-size: 1.4em;">0</div>
-                <div class="label" id="dayTargetLabel">Ккал за день</div>
+                <div class="label">Ккал за день</div>
               </div>
               <div class="stat-card" style="padding: 10px 18px;">
                 <div class="number" id="dayMacrosSummary" style="font-size: 1.05em;">0 / 0 / 0</div>
@@ -230,9 +200,7 @@
               </div>
             </div>
           </div>
-
           <div class="menu-grid" id="menuResult"></div>
-
           <div class="shopping-list" id="shoppingResult">
             <h3>🛒 Докупить на этот день</h3>
             <ul id="shoppingList"></ul>
@@ -244,35 +212,15 @@
     <div id="statsPage" class="page">
       <div class="glass-panel">
         <h2>📊 Аналитика вашего питания</h2>
-
         <div class="stats-grid">
-          <div class="stat-card">
-            <div class="number" id="statsTotalDay">0</div>
-            <div class="label">Калорий за выбранный день</div>
-          </div>
-          <div class="stat-card">
-            <div class="number" id="statsTotalWeek">0</div>
-            <div class="label">Калорий за неделю</div>
-          </div>
-          <div class="stat-card">
-            <div class="number" id="statsTotalMonth">0</div>
-            <div class="label">Прогноз на месяц</div>
-          </div>
-          <div class="stat-card">
-            <div class="number" id="statsAvgWeight" style="font-size: 1.5em;">0 г</div>
-            <div class="label">Средний вес еды в день</div>
-          </div>
+          <div class="stat-card"><div class="number" id="statsTotalDay">0</div><div class="label">Калорий за день</div></div>
+          <div class="stat-card"><div class="number" id="statsTotalWeek">0</div><div class="label">Калорий за неделю</div></div>
+          <div class="stat-card"><div class="number" id="statsTotalMonth">0</div><div class="label">Прогноз на месяц</div></div>
+          <div class="stat-card"><div class="number" id="statsAvgWeight" style="font-size: 1.5em;">0 г</div><div class="label">Средний вес еды/день</div></div>
         </div>
-
         <div class="charts-container">
-          <div class="chart-box">
-            <h3>Калории по дням недели</h3>
-            <canvas id="weeklyChart"></canvas>
-          </div>
-          <div class="chart-box">
-            <h3>Приемы пищи за выбранный день</h3>
-            <canvas id="dailyChart"></canvas>
-          </div>
+          <div class="chart-box"><h3>Калории по дням недели</h3><canvas id="weeklyChart"></canvas></div>
+          <div class="chart-box"><h3>Приемы пищи за день</h3><canvas id="dailyChart"></canvas></div>
         </div>
       </div>
     </div>
@@ -280,7 +228,6 @@
     <div id="recipePage" class="page">
       <div class="glass-panel">
         <button class="back-btn" onclick="navigateTo('calendarPage')">← Назад к меню</button>
-
         <div class="recipe-detail">
           <img id="detailImage" class="big-image" src="" alt="Блюдо" referrerpolicy="no-referrer" onerror="handleImageError(this)">
           <h2 id="detailTitle">Название блюда</h2>
@@ -289,12 +236,10 @@
             <span class="portion-badge" id="detailPortion">Порция: 0 г</span>
           </div>
           <div class="macros-detail" id="detailMacros"></div>
-
           <div class="ingredients-list">
             <h4>Ингредиенты и специи:</h4>
             <ul id="detailIngredients"></ul>
           </div>
-
           <div class="instructions">
             <h4 style="color: var(--primary-light); margin-bottom: 15px;">Инструкция приготовления:</h4>
             <ol id="detailSteps"></ol>
@@ -302,61 +247,42 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </div>
 
-<footer>
-  © 2026 НейроРацион — учебный стартап-проект.
-</footer>
+<footer>© 2026 НейроРацион — учебный стартап-проект.</footer>
 
 <script>
   document.addEventListener('contextmenu', e => e.preventDefault());
 
-  // --- ЦЕЛИ ПИТАНИЯ ---
   const GOALS = {
     weight_loss: {
-      id: 'weight_loss',
-      icon: '🔥',
-      title: 'Похудение',
-      targetKcal: '1400–1600 ккал/день',
+      id: 'weight_loss', icon: '🔥', title: 'Похудение', targetKcal: '1400–1600 ккал/день',
       desc: 'Дефицит калорий, меньшие порции (200–300 г), больше белка и лёгкие ужины.',
       portionScale: 0.78,
-      promptNote: 'Цель: ПОХУДЕНИЕ (1450-1600 ккал/день). Делай небольшие порции 200-300 г, лёгкий низкокалорийный ужин, больше белка и овощей.'
+      promptNote: 'Цель: ПОХУДЕНИЕ (1450-1600 ккал/день). Порции 200-300 г, лёгкий ужин, больше белка и овощей.'
     },
     maintenance: {
-      id: 'maintenance',
-      icon: '⚖️',
-      title: 'Поддержание веса',
-      targetKcal: '2000–2200 ккал/день',
-      desc: 'Сбалансированные порции (300–380 г) и ровный баланс белков, жиров и углеводов.',
+      id: 'maintenance', icon: '⚖️', title: 'Поддержание веса', targetKcal: '2000–2200 ккал/день',
+      desc: 'Сбалансированные порции (300–380 г) и ровный баланс БЖУ.',
       portionScale: 1.0,
-      promptNote: 'Цель: ПОДДЕРЖАНИЕ ВЕСА (2000-2200 ккал/день). Делай стандартные сбалансированные порции 300-380 г.'
+      promptNote: 'Цель: ПОДДЕРЖАНИЕ ВЕСА (2000-2200 ккал/день). Сбалансированные порции 300-380 г.'
     },
     muscle_gain: {
-      id: 'muscle_gain',
-      icon: '💪',
-      title: 'Набор массы',
-      targetKcal: '2700–3100 ккал/день',
+      id: 'muscle_gain', icon: '💪', title: 'Набор массы', targetKcal: '2700–3100 ккал/день',
       desc: 'Увеличенные порции (420–550 г), профицит калорий, много белка и сложных углеводов.',
       portionScale: 1.38,
-      promptNote: 'Цель: НАБОР МЫШЕЧНОЙ МАССЫ (2750-3100 ккал/день). Делай сытные увеличенные порции 420-550 г, добавляй сложные углеводы (крупы, пасту, картофель) и высокий белок.'
+      promptNote: 'Цель: НАБОР МАССЫ (2750-3100 ккал/день). Увеличенные порции 420-550 г, больше белка и сложных углеводов.'
     },
     cutting: {
-      id: 'cutting',
-      icon: '⚡',
-      title: 'Сушка / Рельеф',
-      targetKcal: '1700–1900 ккал/день',
+      id: 'cutting', icon: '⚡', title: 'Сушка / Рельеф', targetKcal: '1700–1900 ккал/день',
       desc: 'Максимум белка, умеренные порции (250–330 г), минимум сахара и лишних жиров.',
       portionScale: 0.88,
-      promptNote: 'Цель: СУШКА И РЕЛЬЕФ (1700-1900 ккал/день). Делай акцент на постном белке (курица, индейка, рыба, творог, яйца, креветки), порции 250-330 г, минимум простых углеводов.'
+      promptNote: 'Цель: СУШКА И РЕЛЬЕФ (1700-1900 ккал/день). Постный белок, порции 250-330 г, минимум простых углеводов.'
     }
   };
 
   let selectedGoal = 'maintenance';
-
-  // --- СИСТЕМА АВТОРИЗАЦИИ ---
   let isLoginMode = true;
   let currentUser = null;
 
@@ -371,26 +297,13 @@
   function handleAuth() {
     const email = document.getElementById('authEmail').value.trim();
     const pass = document.getElementById('authPassword').value.trim();
-
-    if (!email || !pass) {
-      alert('Заполните все поля!');
-      return;
-    }
-
+    if (!email || !pass) { alert('Заполните все поля!'); return; }
     let users = JSON.parse(localStorage.getItem('neuro_users')) || {};
-
     if (isLoginMode) {
-      if (users[email] && users[email].password === pass) {
-        currentUser = email;
-        loginSuccess();
-      } else {
-        alert('Неверный email или пароль!');
-      }
+      if (users[email] && users[email].password === pass) { currentUser = email; loginSuccess(); }
+      else alert('Неверный email или пароль!');
     } else {
-      if (users[email]) {
-        alert('Этот email уже зарегистрирован!');
-        return;
-      }
+      if (users[email]) { alert('Этот email уже зарегистрирован!'); return; }
       users[email] = { password: pass, plan: null, selectedProducts: [], goal: 'maintenance' };
       localStorage.setItem('neuro_users', JSON.stringify(users));
       currentUser = email;
@@ -404,7 +317,6 @@
     document.getElementById('appInterface').style.display = 'block';
     document.getElementById('logoutBtn').style.display = 'block';
     document.getElementById('userGreeting').innerText = `Привет, ${currentUser}!`;
-
     loadUserPlan();
     navigateTo('mainPage');
   }
@@ -418,198 +330,102 @@
     document.getElementById('userGreeting').innerText = 'Твой персональный ИИ-нутрициолог';
     document.getElementById('authEmail').value = '';
     document.getElementById('authPassword').value = '';
-
     if (weeklyChartInstance) weeklyChartInstance.destroy();
     if (dailyChartInstance) dailyChartInstance.destroy();
   }
 
   window.onload = function() {
     const savedUser = localStorage.getItem('neuro_currentUser');
-    if (savedUser) {
-      currentUser = savedUser;
-      loginSuccess();
-    }
+    if (savedUser) { currentUser = savedUser; loginSuccess(); }
   };
 
-  // --- РЕАЛЬНЫЕ ФОТОГРАФИИ ЕДЫ ---
+  // --- РЕАЛЬНЫЕ ФОТО ЕДЫ ---
   const imageCache = {};
-
   const ruToEnFood = [
-    ['омлет', 'omelette'],
-    ['яичниц', 'fried eggs'],
-    ['яйц', 'eggs'],
-    ['пашот', 'poached egg'],
-    ['сырник', 'pancakes'],
-    ['сыр', 'cheese'],
-    ['куриц', 'chicken'],
-    ['курин', 'chicken'],
-    ['индейк', 'turkey'],
-    ['рис', 'rice'],
-    ['паст', 'pasta'],
-    ['макарон', 'pasta'],
-    ['спагетти', 'spaghetti'],
-    ['салат', 'salad'],
-    ['помидор', 'tomato'],
-    ['томат', 'tomato'],
-    ['огур', 'cucumber'],
-    ['брокколи', 'broccoli'],
-    ['авокадо', 'avocado'],
-    ['гриб', 'mushroom'],
-    ['креветк', 'shrimp'],
-    ['бутерброд', 'sandwich'],
-    ['сэндвич', 'sandwich'],
-    ['тост', 'toast'],
-    ['рыб', 'fish'],
-    ['лосос', 'salmon'],
-    ['говядин', 'beef'],
-    ['стейк', 'steak'],
-    ['мяс', 'meat'],
-    ['картоф', 'potato'],
-    ['картош', 'potato'],
-    ['пюре', 'mashed potatoes'],
-    ['суп', 'soup'],
-    ['каш', 'porridge'],
-    ['овсян', 'oatmeal'],
-    ['греч', 'buckwheat'],
-    ['блин', 'pancakes'],
-    ['оладь', 'pancakes'],
-    ['творог', 'cottage cheese'],
-    ['банан', 'banana'],
-    ['яблок', 'apple'],
-    ['орех', 'nuts'],
-    ['запекан', 'casserole'],
-    ['рагу', 'stew'],
-    ['котлет', 'cutlet'],
-    ['хлеб', 'bread'],
-    ['молок', 'milk'],
-    ['зелен', 'herbs'],
-    ['овощ', 'vegetables']
+    ['омлет', 'omelette'], ['яичниц', 'fried eggs'], ['яйц', 'eggs'], ['пашот', 'poached egg'],
+    ['сырник', 'pancakes'], ['сыр', 'cheese'], ['куриц', 'chicken'], ['курин', 'chicken'],
+    ['индейк', 'turkey'], ['рис', 'rice'], ['паст', 'pasta'], ['макарон', 'pasta'],
+    ['спагетти', 'spaghetti'], ['салат', 'salad'], ['помидор', 'tomato'], ['томат', 'tomato'],
+    ['огур', 'cucumber'], ['брокколи', 'broccoli'], ['авокадо', 'avocado'], ['гриб', 'mushroom'],
+    ['креветк', 'shrimp'], ['бутерброд', 'sandwich'], ['сэндвич', 'sandwich'], ['тост', 'toast'],
+    ['рыб', 'fish'], ['лосос', 'salmon'], ['говядин', 'beef'], ['стейк', 'steak'],
+    ['мяс', 'meat'], ['картоф', 'potato'], ['картош', 'potato'], ['суп', 'soup'],
+    ['каш', 'porridge'], ['овсян', 'oatmeal'], ['греч', 'buckwheat'], ['блин', 'pancakes'],
+    ['творог', 'cottage cheese'], ['банан', 'banana'], ['яблок', 'apple'], ['орех', 'nuts'],
+    ['запекан', 'casserole'], ['рагу', 'stew'], ['хлеб', 'bread'], ['молок', 'milk'], ['зелен', 'herbs']
   ];
 
   function escapeHtml(str) {
-    return String(str || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
   function makePlaceholderSvg(title, isLoading = false) {
-    const safeTitle = escapeHtml((title || 'Блюдо').slice(0, 28));
-    const sub = isLoading ? 'Загрузка фото...' : safeTitle;
-    const svg = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
-        <defs>
-          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#1b4332"/>
-            <stop offset="100%" stop-color="#0f172a"/>
-          </linearGradient>
-        </defs>
-        <rect width="400" height="300" fill="url(#g)"/>
-        <text x="50%" y="44%" text-anchor="middle" font-size="46">🍽️</text>
-        <text x="50%" y="64%" text-anchor="middle" fill="#b7e4c7" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="bold">${sub}</text>
-      </svg>`;
+    const safe = escapeHtml((title || 'Блюдо').slice(0, 28));
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="#1e293b"/><text x="50%" y="44%" text-anchor="middle" font-size="44">🍽️</text><text x="50%" y="64%" text-anchor="middle" fill="#b7e4c7" font-family="Segoe UI, Arial" font-size="16" font-weight="bold">${isLoading ? 'Загрузка фото...' : safe}</text></svg>`;
     return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
   }
 
-  function handleImageError(img) {
-    img.onerror = null;
-    img.src = makePlaceholderSvg(img.alt || 'Блюдо', false);
-  }
+  function handleImageError(img) { img.onerror = null; img.src = makePlaceholderSvg(img.alt || 'Блюдо', false); }
 
   function buildFoodKeywords(dish) {
-    if (dish.imageQuery && /[a-zA-Z]/.test(dish.imageQuery)) {
-      return dish.imageQuery.trim().split(/\s+/);
-    }
-    const lowerName = (dish.name || '').toLowerCase();
+    if (dish.imageQuery && /[a-zA-Z]/.test(dish.imageQuery)) return dish.imageQuery.trim().split(/\s+/);
+    const lower = (dish.name || '').toLowerCase();
     const matched = [];
-    for (const [ru, en] of ruToEnFood) {
-      if (lowerName.includes(ru) && !matched.includes(en)) {
-        matched.push(en);
-      }
-    }
-    if (matched.length > 0) return matched;
-    return ['food', 'dish'];
+    for (const [ru, en] of ruToEnFood) if (lower.includes(ru) && !matched.includes(en)) matched.push(en);
+    return matched.length ? matched : ['food', 'dish'];
   }
 
   async function searchMealDB(query, seed = 0) {
     try {
-      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(query)}`);
-      if (!res.ok) return null;
-      const data = await res.json();
-      if (data.meals && data.meals.length > 0) {
-        const meal = data.meals[seed % Math.min(data.meals.length, 6)];
-        return meal.strMealThumb || null;
-      }
+      const r = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(query)}`);
+      const d = await r.json();
+      if (d.meals?.length) return d.meals[seed % Math.min(d.meals.length, 6)].strMealThumb || null;
     } catch (e) {}
     return null;
   }
 
   async function searchWikimediaFood(query, seed = 0) {
     try {
-      const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query + ' food')}&gsrnamespace=6&gsrlimit=6&prop=imageinfo&iiprop=url|mime&iiurlwidth=600&format=json&origin=*`;
-      const res = await fetch(url);
-      if (!res.ok) return null;
-      const data = await res.json();
-      const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
-      const valid = pages
+      const r = await fetch(`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query + ' food')}&gsrnamespace=6&gsrlimit=6&prop=imageinfo&iiprop=url|mime&iiurlwidth=600&format=json&origin=*`);
+      const d = await r.json();
+      const valid = Object.values(d?.query?.pages || {})
         .filter(p => {
           const info = p.imageinfo?.[0];
-          const title = (p.title || '').toLowerCase();
-          return info?.thumburl &&
-            (info.mime === 'image/jpeg' || info.mime === 'image/png' || info.mime === 'image/webp') &&
-            !title.includes('icon') &&
-            !title.includes('logo');
+          const t = (p.title || '').toLowerCase();
+          return info?.thumburl && /image\/(jpeg|png|webp)/.test(info.mime) && !t.includes('icon') && !t.includes('logo');
         })
         .map(p => p.imageinfo[0].thumburl);
-
-      if (valid.length > 0) {
-        return valid[seed % valid.length];
-      }
+      if (valid.length) return valid[seed % valid.length];
     } catch (e) {}
     return null;
   }
 
   async function searchRuWikiFood(dishName) {
     try {
-      const url = `https://ru.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(dishName)}&gsrlimit=3&prop=pageimages&piprop=thumbnail&pithumbsize=600&format=json&origin=*`;
-      const res = await fetch(url);
-      if (!res.ok) return null;
-      const data = await res.json();
-      const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
-      const found = pages.find(p => p.thumbnail?.source);
+      const r = await fetch(`https://ru.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(dishName)}&gsrlimit=3&prop=pageimages&piprop=thumbnail&pithumbsize=600&format=json&origin=*`);
+      const d = await r.json();
+      const found = Object.values(d?.query?.pages || {}).find(p => p.thumbnail?.source);
       return found ? found.thumbnail.source : null;
     } catch (e) {}
     return null;
   }
 
   async function resolveFoodImage(dish, seed = 0) {
-    const cacheKey = `${dish.name}|${seed}`;
-    if (imageCache[cacheKey]) return imageCache[cacheKey];
-
-    const keywords = buildFoodKeywords(dish);
-    const fullQuery = keywords.slice(0, 3).join(' ');
-
-    let imgUrl = await searchMealDB(fullQuery, seed);
-    if (!imgUrl) imgUrl = await searchWikimediaFood(fullQuery, seed);
-    if (!imgUrl && dish.name) imgUrl = await searchRuWikiFood(dish.name);
-    if (!imgUrl) {
-      for (const kw of keywords) {
-        imgUrl = await searchMealDB(kw, seed);
-        if (imgUrl) break;
-      }
+    const key = `${dish.name}|${seed}`;
+    if (imageCache[key]) return imageCache[key];
+    const kws = buildFoodKeywords(dish);
+    const full = kws.slice(0, 3).join(' ');
+    let url = await searchMealDB(full, seed);
+    if (!url) url = await searchWikimediaFood(full, seed);
+    if (!url && dish.name) url = await searchRuWikiFood(dish.name);
+    if (!url) {
+      for (const kw of kws) { url = await searchMealDB(kw, seed); if (url) break; }
     }
-    if (!imgUrl) {
-      try {
-        const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
-        const data = await res.json();
-        imgUrl = data?.meals?.[0]?.strMealThumb || null;
-      } catch (e) {}
+    if (!url) {
+      try { const r = await fetch('https://www.themealdb.com/api/json/v1/1/random.php'); url = (await r.json())?.meals?.[0]?.strMealThumb || null; } catch (e) {}
     }
-
-    if (imgUrl) imageCache[cacheKey] = imgUrl;
-    return imgUrl;
+    if (url) imageCache[key] = url;
+    return url;
   }
 
   async function loadDishImage(imgEl, dish, seed) {
@@ -617,263 +433,57 @@
     const reqId = `${Date.now()}_${Math.random()}`;
     imgEl.dataset.reqId = reqId;
     imgEl.src = makePlaceholderSvg(dish.name, true);
-
     const realUrl = await resolveFoodImage(dish, seed);
     if (imgEl.dataset.reqId !== reqId) return;
-
     imgEl.src = realUrl || makePlaceholderSvg(dish.name, false);
   }
 
-  // --- РАСШИРЕННАЯ БАЗА ПРОДУКТОВ И БЛЮД ---
+  // --- БАЗА ПРОДУКТОВ И БЛЮД ---
   const database = {
     products: [
-      { id: 'chicken', name: 'Курица', icon: '🍗' },
-      { id: 'turkey', name: 'Индейка', icon: '🦃' },
-      { id: 'beef', name: 'Говядина', icon: '🥩' },
-      { id: 'fish', name: 'Рыба', icon: '🐟' },
-      { id: 'shrimp', name: 'Креветки', icon: '🦐' },
-      { id: 'eggs', name: 'Яйца', icon: '🥚' },
-      { id: 'cottage_cheese', name: 'Творог', icon: '🍥' },
-      { id: 'cheese', name: 'Сыр', icon: '🧀' },
-      { id: 'milk', name: 'Молоко', icon: '🥛' },
-      { id: 'rice', name: 'Рис', icon: '🍚' },
-      { id: 'buckwheat', name: 'Гречка', icon: '🌾' },
-      { id: 'oatmeal', name: 'Овсянка', icon: '🥣' },
-      { id: 'pasta', name: 'Макароны', icon: '🍝' },
-      { id: 'potato', name: 'Картофель', icon: '🥔' },
-      { id: 'bread', name: 'Хлеб', icon: '🍞' },
-      { id: 'tomato', name: 'Помидоры', icon: '🍅' },
-      { id: 'cucumber', name: 'Огурцы', icon: '🥒' },
-      { id: 'broccoli', name: 'Брокколи', icon: '🥦' },
-      { id: 'avocado', name: 'Авокадо', icon: '🥑' },
-      { id: 'mushrooms', name: 'Грибы', icon: '🍄' },
-      { id: 'greens', name: 'Зелень', icon: '🌿' },
-      { id: 'banana', name: 'Банан', icon: '🍌' },
-      { id: 'apple', name: 'Яблоко', icon: '🍎' },
-      { id: 'nuts', name: 'Орехи', icon: '🥜' }
+      { id: 'chicken', name: 'Курица', icon: '🍗' }, { id: 'turkey', name: 'Индейка', icon: '🦃' },
+      { id: 'beef', name: 'Говядина', icon: '🥩' }, { id: 'fish', name: 'Рыба', icon: '🐟' },
+      { id: 'shrimp', name: 'Креветки', icon: '🦐' }, { id: 'eggs', name: 'Яйца', icon: '🥚' },
+      { id: 'cottage_cheese', name: 'Творог', icon: '🍥' }, { id: 'cheese', name: 'Сыр', icon: '🧀' },
+      { id: 'milk', name: 'Молоко', icon: '🥛' }, { id: 'rice', name: 'Рис', icon: '🍚' },
+      { id: 'buckwheat', name: 'Гречка', icon: '🌾' }, { id: 'oatmeal', name: 'Овсянка', icon: '🥣' },
+      { id: 'pasta', name: 'Макароны', icon: '🍝' }, { id: 'potato', name: 'Картофель', icon: '🥔' },
+      { id: 'bread', name: 'Хлеб', icon: '🍞' }, { id: 'tomato', name: 'Помидоры', icon: '🍅' },
+      { id: 'cucumber', name: 'Огурцы', icon: '🥒' }, { id: 'broccoli', name: 'Брокколи', icon: '🥦' },
+      { id: 'avocado', name: 'Авокадо', icon: '🥑' }, { id: 'mushrooms', name: 'Грибы', icon: '🍄' },
+      { id: 'greens', name: 'Зелень', icon: '🌿' }, { id: 'banana', name: 'Банан', icon: '🍌' },
+      { id: 'apple', name: 'Яблоко', icon: '🍎' }, { id: 'nuts', name: 'Орехи', icon: '🥜' }
     ],
     fallbackRecipes: {
       breakfast: [
-        {
-          name: 'Омлет с сыром и зеленью',
-          imageQuery: 'cheese omelette',
-          goals: ['weight_loss', 'maintenance', 'cutting'],
-          baseGrams: 240, calories: 330, protein: 24, fat: 22, carbs: 4,
-          ingredients: ['eggs', 'cheese', 'greens'],
-          missing: ['соль', 'перец', 'капля масла'],
-          steps: ['Взбейте яйца с солью и перцем.', 'Натрите сыр и порубите зелень.', 'Вылейте на сковороду, посыпьте сыром и готовьте 4 минуты под крышкой.']
-        },
-        {
-          name: 'Овсянка с бананом и орехами',
-          imageQuery: 'oatmeal banana nuts',
-          goals: ['maintenance', 'muscle_gain'],
-          baseGrams: 340, calories: 460, protein: 14, fat: 16, carbs: 64,
-          ingredients: ['oatmeal', 'milk', 'banana', 'nuts'],
-          missing: ['корица'],
-          steps: ['Залейте овсяные хлопья молоком и варите 5–7 минут.', 'Нарежьте банан кружочками.', 'Украсьте орехами и щепоткой корицы.']
-        },
-        {
-          name: 'Творог с яблоком и орехами',
-          imageQuery: 'cottage cheese apple',
-          goals: ['weight_loss', 'cutting', 'maintenance'],
-          baseGrams: 250, calories: 290, protein: 26, fat: 10, carbs: 22,
-          ingredients: ['cottage_cheese', 'apple', 'nuts'],
-          missing: ['корица'],
-          steps: ['Выложите творог в миску.', 'Нарежьте яблоко кубиками.', 'Посыпьте дроблеными орехами и корицей.']
-        },
-        {
-          name: 'Тост с авокадо и яйцом пашот',
-          imageQuery: 'avocado toast poached egg',
-          goals: ['weight_loss', 'maintenance', 'muscle_gain'],
-          baseGrams: 260, calories: 390, protein: 16, fat: 24, carbs: 28,
-          ingredients: ['bread', 'avocado', 'eggs', 'greens'],
-          missing: ['лимонный сок', 'соль'],
-          steps: ['Подсушите хлеб в тостере.', 'Разомните авокадо вилкой с солью и лимонным соком.', 'Выложите сверху яйцо пашот и зелень.']
-        },
-        {
-          name: 'Сырники из творога с бананом',
-          imageQuery: 'cheese pancakes syrniki',
-          goals: ['muscle_gain', 'maintenance'],
-          baseGrams: 280, calories: 440, protein: 25, fat: 15, carbs: 48,
-          ingredients: ['cottage_cheese', 'eggs', 'banana'],
-          missing: ['2 ст. л. муки', 'масло'],
-          steps: ['Смешайте творог, яйцо и муку.', 'Сформируйте сырники и обжарьте с двух сторон.', 'Подавайте с нарезанным бананом.']
-        },
-        {
-          name: 'Белковый омлет с брокколи',
-          imageQuery: 'broccoli omelette',
-          goals: ['weight_loss', 'cutting'],
-          baseGrams: 250, calories: 250, protein: 23, fat: 13, carbs: 8,
-          ingredients: ['eggs', 'broccoli', 'greens'],
-          missing: ['соль', 'перец'],
-          steps: ['Бланшируйте соцветия брокколи 3 минуты.', 'Взбейте яйца с солью.', 'Залейте брокколи яйцами на сковороде и запекайте до готовности.']
-        },
-        {
-          name: 'Гречневая каша на молоке',
-          imageQuery: 'buckwheat porridge milk',
-          goals: ['muscle_gain', 'maintenance'],
-          baseGrams: 350, calories: 430, protein: 16, fat: 10, carbs: 66,
-          ingredients: ['buckwheat', 'milk'],
-          missing: ['щепотка соли'],
-          steps: ['Отварите гречку в воде до готовности.', 'Добавьте теплое молоко и доведите до кипения.', 'Дайте настояться 5 минут.']
-        },
-        {
-          name: 'Горячие сэндвичи с курицей и сыром',
-          imageQuery: 'chicken cheese sandwich',
-          goals: ['muscle_gain', 'maintenance'],
-          baseGrams: 300, calories: 510, protein: 32, fat: 21, carbs: 45,
-          ingredients: ['bread', 'chicken', 'cheese', 'tomato'],
-          missing: ['горчица'],
-          steps: ['Нарежьте отварную курицу и помидор.', 'Выложите между ломтиками хлеба с сыром.', 'Подрумяньте на сухой сковороде по 2 минуты с каждой стороны.']
-        }
+        { name: 'Омлет с сыром и зеленью', imageQuery: 'cheese omelette', goals: ['weight_loss', 'maintenance', 'cutting'], baseGrams: 240, calories: 330, protein: 24, fat: 22, carbs: 4, ingredients: ['eggs', 'cheese', 'greens'], missing: ['соль', 'перец'], steps: ['Взбейте яйца с солью и перцем.', 'Натрите сыр и порубите зелень.', 'Вылейте на сковороду, посыпьте сыром и готовьте 4 мин.'] },
+        { name: 'Овсянка с бананом и орехами', imageQuery: 'oatmeal banana nuts', goals: ['maintenance', 'muscle_gain'], baseGrams: 340, calories: 460, protein: 14, fat: 16, carbs: 64, ingredients: ['oatmeal', 'milk', 'banana', 'nuts'], missing: ['корица'], steps: ['Варите овсянку в молоке 6 мин.', 'Нарежьте банан.', 'Украсьте орехами и корицей.'] },
+        { name: 'Творог с яблоком и орехами', imageQuery: 'cottage cheese apple', goals: ['weight_loss', 'cutting', 'maintenance'], baseGrams: 250, calories: 290, protein: 26, fat: 10, carbs: 22, ingredients: ['cottage_cheese', 'apple', 'nuts'], missing: ['корица'], steps: ['Выложите творог в миску.', 'Нарежьте яблоко кубиками.', 'Посыпьте орехами.'] },
+        { name: 'Тост с авокадо и яйцом пашот', imageQuery: 'avocado toast poached egg', goals: ['weight_loss', 'maintenance', 'muscle_gain'], baseGrams: 260, calories: 390, protein: 16, fat: 24, carbs: 28, ingredients: ['bread', 'avocado', 'eggs', 'greens'], missing: ['лимонный сок', 'соль'], steps: ['Подсушите хлеб.', 'Разомните авокадо с солью и лимоном.', 'Выложите яйцо пашот и зелень.'] },
+        { name: 'Сырники из творога с бананом', imageQuery: 'cheese pancakes syrniki', goals: ['muscle_gain', 'maintenance'], baseGrams: 280, calories: 440, protein: 25, fat: 15, carbs: 48, ingredients: ['cottage_cheese', 'eggs', 'banana'], missing: ['2 ст. л. муки'], steps: ['Смешайте творог, яйцо и муку.', 'Обжарьте с двух сторон.', 'Подавайте с бананом.'] },
+        { name: 'Белковый омлет с брокколи', imageQuery: 'broccoli omelette', goals: ['weight_loss', 'cutting'], baseGrams: 250, calories: 250, protein: 23, fat: 13, carbs: 8, ingredients: ['eggs', 'broccoli', 'greens'], missing: ['соль', 'перец'], steps: ['Отварите брокколи 3 мин.', 'Залейте взбитыми яйцами.', 'Готовьте под крышкой 5 мин.'] },
+        { name: 'Гречневая каша на молоке', imageQuery: 'buckwheat porridge milk', goals: ['muscle_gain', 'maintenance'], baseGrams: 350, calories: 430, protein: 16, fat: 10, carbs: 66, ingredients: ['buckwheat', 'milk'], missing: ['соль'], steps: ['Отварите гречку.', 'Добавьте теплое молоко и прогрейте 3 мин.'] },
+        { name: 'Сэндвич с курицей и сыром', imageQuery: 'chicken cheese sandwich', goals: ['muscle_gain', 'maintenance'], baseGrams: 300, calories: 510, protein: 32, fat: 21, carbs: 45, ingredients: ['bread', 'chicken', 'cheese', 'tomato'], missing: ['горчица'], steps: ['Нарежьте курицу и помидор.', 'Выложите на хлеб с сыром.', 'Подрумяньте на сковороде.'] }
       ],
       lunch: [
-        {
-          name: 'Курица с рисом и брокколи',
-          imageQuery: 'chicken rice broccoli',
-          goals: ['weight_loss', 'cutting', 'maintenance', 'muscle_gain'],
-          baseGrams: 360, calories: 510, protein: 42, fat: 10, carbs: 58,
-          ingredients: ['chicken', 'rice', 'broccoli'],
-          missing: ['соевый соус', 'чеснок'],
-          steps: ['Отварите рис до рассыпчатости.', 'Обжарьте кусочки курицы с чесноком.', 'Добавьте брокколи на пару и сбрызните соевым соусом.']
-        },
-        {
-          name: 'Сливочная паста с грибами и сыром',
-          imageQuery: 'mushroom cheese pasta',
-          goals: ['muscle_gain', 'maintenance'],
-          baseGrams: 380, calories: 640, protein: 24, fat: 26, carbs: 74,
-          ingredients: ['pasta', 'mushrooms', 'cheese', 'milk'],
-          missing: ['чеснок', 'соль', 'перец'],
-          steps: ['Отварите макароны аль денте.', 'Обжарьте нарезанные грибы до золотистого цвета.', 'Влейте молоко, добавьте тертый сыр и перемешайте с пастой.']
-        },
-        {
-          name: 'Гречка с говядиной и зеленью',
-          imageQuery: 'beef buckwheat',
-          goals: ['muscle_gain', 'maintenance', 'cutting'],
-          baseGrams: 350, calories: 560, protein: 38, fat: 18, carbs: 54,
-          ingredients: ['buckwheat', 'beef', 'greens'],
-          missing: ['лук', 'соль', 'специи'],
-          steps: ['Отварите гречку.', 'Нарежьте говядину полосками и потушите с луком и специями 20 минут.', 'Подавайте с гречкой и свежей зеленью.']
-        },
-        {
-          name: 'Индейка с запечённым картофелем',
-          imageQuery: 'roast turkey potatoes',
-          goals: ['maintenance', 'muscle_gain', 'weight_loss'],
-          baseGrams: 360, calories: 490, protein: 39, fat: 11, carbs: 52,
-          ingredients: ['turkey', 'potato', 'greens'],
-          missing: ['паприка', 'оливковое масло', 'соль'],
-          steps: ['Нарежьте картофель дольками и запекайте с паприкой 25 минут.', 'Обжарьте филе индейки на гриле.', 'Посыпьте свежей зеленью.']
-        },
-        {
-          name: 'Запечённый лосось с рисом и огурцом',
-          imageQuery: 'baked salmon rice',
-          goals: ['maintenance', 'weight_loss', 'cutting'],
-          baseGrams: 330, calories: 520, protein: 35, fat: 22, carbs: 42,
-          ingredients: ['fish', 'rice', 'cucumber', 'avocado'],
-          missing: ['лимон', 'соль'],
-          steps: ['Запеките рыбу с лимоном в духовке 15 минут.', 'Отварите рис.', 'Соберите боул с ломтиками огурца и авокадо.']
-        },
-        {
-          name: 'Паста с креветками и томатами',
-          imageQuery: 'shrimp tomato pasta',
-          goals: ['maintenance', 'muscle_gain'],
-          baseGrams: 350, calories: 540, protein: 32, fat: 14, carbs: 66,
-          ingredients: ['pasta', 'shrimp', 'tomato', 'greens'],
-          missing: ['чеснок', 'оливковое масло'],
-          steps: ['Отварите пасту.', 'Быстро обжарьте креветки с чесноком и помидорами.', 'Соедините с пастой и свежей зеленью.']
-        },
-        {
-          name: 'Говяжий стейк с картофелем и грибами',
-          imageQuery: 'beef steak potatoes mushrooms',
-          goals: ['muscle_gain'],
-          baseGrams: 410, calories: 690, protein: 46, fat: 30, carbs: 52,
-          ingredients: ['beef', 'potato', 'mushrooms'],
-          missing: ['розмарин', 'масло', 'соль'],
-          steps: ['Обжарьте стейк по 3 минуты с каждой стороны и дайте отдохнуть.', 'Запеките картофель и подрумяньте грибы.', 'Подавайте вместе.']
-        },
-        {
-          name: 'Куриный боул с гречкой и овощами',
-          imageQuery: 'chicken salad bowl',
-          goals: ['weight_loss', 'cutting'],
-          baseGrams: 320, calories: 410, protein: 38, fat: 10, carbs: 38,
-          ingredients: ['chicken', 'buckwheat', 'tomato', 'cucumber', 'greens'],
-          missing: ['оливковое масло', 'соль'],
-          steps: ['Отварите гречку и куриное филе.', 'Нарежьте свежие помидоры и огурцы.', 'Выложите в миску, сбрызните маслом и посыпьте зеленью.']
-        }
+        { name: 'Курица с рисом и брокколи', imageQuery: 'chicken rice broccoli', goals: ['weight_loss', 'cutting', 'maintenance', 'muscle_gain'], baseGrams: 360, calories: 510, protein: 42, fat: 10, carbs: 58, ingredients: ['chicken', 'rice', 'broccoli'], missing: ['соевый соус', 'чеснок'], steps: ['Отварите рис.', 'Обжарьте курицу с чесноком.', 'Добавьте брокколи и соевый соус.'] },
+        { name: 'Паста с грибами и сыром', imageQuery: 'mushroom cheese pasta', goals: ['muscle_gain', 'maintenance'], baseGrams: 380, calories: 640, protein: 24, fat: 26, carbs: 74, ingredients: ['pasta', 'mushrooms', 'cheese', 'milk'], missing: ['чеснок', 'соль'], steps: ['Отварите пасту.', 'Обжарьте грибы.', 'Влейте молоко, добавьте сыр и смешайте с пастой.'] },
+        { name: 'Гречка с говядиной и зеленью', imageQuery: 'beef buckwheat', goals: ['muscle_gain', 'maintenance', 'cutting'], baseGrams: 350, calories: 560, protein: 38, fat: 18, carbs: 54, ingredients: ['buckwheat', 'beef', 'greens'], missing: ['лук', 'специи'], steps: ['Отварите гречку.', 'Потушите говядину со специями 20 мин.', 'Подавайте с зеленью.'] },
+        { name: 'Индейка с запечённым картофелем', imageQuery: 'roast turkey potatoes', goals: ['maintenance', 'muscle_gain', 'weight_loss'], baseGrams: 360, calories: 490, protein: 39, fat: 11, carbs: 52, ingredients: ['turkey', 'potato', 'greens'], missing: ['паприка', 'масло'], steps: ['Запеките картофель дольками 25 мин.', 'Обжарьте индейку на гриле.', 'Посыпьте зеленью.'] },
+        { name: 'Лосось с рисом и огурцом', imageQuery: 'baked salmon rice', goals: ['maintenance', 'weight_loss', 'cutting'], baseGrams: 330, calories: 520, protein: 35, fat: 22, carbs: 42, ingredients: ['fish', 'rice', 'cucumber', 'avocado'], missing: ['лимон', 'соль'], steps: ['Запеките рыбу 15 мин.', 'Отварите рис.', 'Соберите боул с огурцом и авокадо.'] },
+        { name: 'Паста с креветками и томатами', imageQuery: 'shrimp tomato pasta', goals: ['maintenance', 'muscle_gain'], baseGrams: 350, calories: 540, protein: 32, fat: 14, carbs: 66, ingredients: ['pasta', 'shrimp', 'tomato', 'greens'], missing: ['чеснок', 'оливковое масло'], steps: ['Отварите пасту.', 'Обжарьте креветки с чесноком и томатами.', 'Смешайте всё.'] },
+        { name: 'Говяжий стейк с картофелем и грибами', imageQuery: 'beef steak potatoes mushrooms', goals: ['muscle_gain'], baseGrams: 410, calories: 690, protein: 46, fat: 30, carbs: 52, ingredients: ['beef', 'potato', 'mushrooms'], missing: ['розмарин', 'соль'], steps: ['Обжарьте стейк по 3 мин с каждой стороны.', 'Запеките картофель и подрумяньте грибы.'] },
+        { name: 'Куриный боул с гречкой и овощами', imageQuery: 'chicken salad bowl', goals: ['weight_loss', 'cutting'], baseGrams: 320, calories: 410, protein: 38, fat: 10, carbs: 38, ingredients: ['chicken', 'buckwheat', 'tomato', 'cucumber', 'greens'], missing: ['оливковое масло', 'соль'], steps: ['Отварите гречку и курицу.', 'Нарежьте овощи.', 'Соедините в миске и сбрызните маслом.'] }
       ],
       dinner: [
-        {
-          name: 'Салат из помидоров, огурцов и сыра',
-          imageQuery: 'tomato cucumber salad',
-          goals: ['weight_loss', 'cutting'],
-          baseGrams: 260, calories: 230, protein: 11, fat: 15, carbs: 11,
-          ingredients: ['tomato', 'cucumber', 'cheese', 'greens'],
-          missing: ['оливковое масло', 'соль'],
-          steps: ['Крупно нарежьте помидоры и огурцы.', 'Добавьте кубики сыра и зелень.', 'Заправьте ложкой оливкового масла.']
-        },
-        {
-          name: 'Запечённая рыба с брокколи',
-          imageQuery: 'baked fish broccoli',
-          goals: ['weight_loss', 'cutting', 'maintenance'],
-          baseGrams: 290, calories: 310, protein: 34, fat: 14, carbs: 9,
-          ingredients: ['fish', 'broccoli', 'greens'],
-          missing: ['лимон', 'соль', 'перец'],
-          steps: ['Выложите рыбу и брокколи на противень.', 'Сбрызните лимоном и посолите.', 'Запекайте 18 минут при 190°C.']
-        },
-        {
-          name: 'Салат с креветками и авокадо',
-          imageQuery: 'shrimp avocado salad',
-          goals: ['weight_loss', 'cutting', 'maintenance'],
-          baseGrams: 270, calories: 320, protein: 28, fat: 18, carbs: 10,
-          ingredients: ['shrimp', 'avocado', 'cucumber', 'greens', 'tomato'],
-          missing: ['лимонный сок', 'соль'],
-          steps: ['Отварите или обжарьте креветки 3 минуты.', 'Нарежьте авокадо, огурец и помидоры.', 'Смешайте всё с зеленью и лимонным соком.']
-        },
-        {
-          name: 'Тушёная индейка с грибами',
-          imageQuery: 'turkey mushrooms',
-          goals: ['weight_loss', 'cutting', 'maintenance', 'muscle_gain'],
-          baseGrams: 300, calories: 360, protein: 40, fat: 14, carbs: 12,
-          ingredients: ['turkey', 'mushrooms', 'greens'],
-          missing: ['чеснок', 'соль', 'перец'],
-          steps: ['Нарежьте филе индейки и грибы.', 'Тушите на сковороде с чесноком 15 минут.', 'Посыпьте свежей зеленью перед подачей.']
-        },
-        {
-          name: 'Творог с огурцом и зеленью',
-          imageQuery: 'cottage cheese herbs',
-          goals: ['weight_loss', 'cutting'],
-          baseGrams: 220, calories: 220, protein: 27, fat: 8, carbs: 8,
-          ingredients: ['cottage_cheese', 'cucumber', 'greens'],
-          missing: ['щепотка соли'],
-          steps: ['Мелко нарежьте огурец и зелень.', 'Смешайте с творогом и слегка посолите.', 'Идеальный лёгкий белковый ужин.']
-        },
-        {
-          name: 'Куриное филе с салатом из томатов',
-          imageQuery: 'grilled chicken tomato salad',
-          goals: ['weight_loss', 'cutting', 'maintenance'],
-          baseGrams: 310, calories: 350, protein: 41, fat: 12, carbs: 14,
-          ingredients: ['chicken', 'tomato', 'greens'],
-          missing: ['специи', 'оливковое масло'],
-          steps: ['Обжарьте куриную грудку со специями до румяности.', 'Нарежьте помидоры с зеленью.', 'Подавайте вместе.']
-        },
-        {
-          name: 'Картофель с грибами и говядиной',
-          imageQuery: 'beef potatoes mushrooms',
-          goals: ['muscle_gain', 'maintenance'],
-          baseGrams: 370, calories: 560, protein: 35, fat: 22, carbs: 50,
-          ingredients: ['beef', 'potato', 'mushrooms', 'greens'],
-          missing: ['лук', 'соль'],
-          steps: ['Нарежьте картофель и обжарьте до полуготовности.', 'Добавьте полоски говядины и грибы, тушите под крышкой 15 минут.', 'Посыпьте зеленью.']
-        },
-        {
-          name: 'Омлет с помидорами и авокадо',
-          imageQuery: 'tomato omelet avocado',
-          goals: ['weight_loss', 'maintenance', 'cutting'],
-          baseGrams: 270, calories: 340, protein: 20, fat: 24, carbs: 10,
-          ingredients: ['eggs', 'tomato', 'avocado'],
-          missing: ['соль', 'перец'],
-          steps: ['Нарежьте помидоры и слегка припустите на сковороде.', 'Залейте взбитыми яйцами и готовьте под крышкой.', 'Подавайте с ломтиками авокадо.']
-        }
+        { name: 'Салат из помидоров, огурцов и сыра', imageQuery: 'tomato cucumber salad', goals: ['weight_loss', 'cutting'], baseGrams: 260, calories: 230, protein: 11, fat: 15, carbs: 11, ingredients: ['tomato', 'cucumber', 'cheese', 'greens'], missing: ['оливковое масло', 'соль'], steps: ['Нарежьте помидоры и огурцы.', 'Добавьте сыр и зелень.', 'Заправьте маслом.'] },
+        { name: 'Запечённая рыба с брокколи', imageQuery: 'baked fish broccoli', goals: ['weight_loss', 'cutting', 'maintenance'], baseGrams: 290, calories: 310, protein: 34, fat: 14, carbs: 9, ingredients: ['fish', 'broccoli', 'greens'], missing: ['лимон', 'соль'], steps: ['Выложите рыбу и брокколи в форму.', 'Сбрызните лимоном и запекайте 18 мин при 190°C.'] },
+        { name: 'Салат с креветками и авокадо', imageQuery: 'shrimp avocado salad', goals: ['weight_loss', 'cutting', 'maintenance'], baseGrams: 270, calories: 320, protein: 28, fat: 18, carbs: 10, ingredients: ['shrimp', 'avocado', 'cucumber', 'greens', 'tomato'], missing: ['лимонный сок', 'соль'], steps: ['Обжарьте креветки 3 мин.', 'Нарежьте авокадо, огурцы и томаты.', 'Смешайте с лимонным соком.'] },
+        { name: 'Тушёная индейка с грибами', imageQuery: 'turkey mushrooms', goals: ['weight_loss', 'cutting', 'maintenance', 'muscle_gain'], baseGrams: 300, calories: 360, protein: 40, fat: 14, carbs: 12, ingredients: ['turkey', 'mushrooms', 'greens'], missing: ['чеснок', 'соль'], steps: ['Нарежьте индейку и грибы.', 'Тушите 15 мин на сковороде.', 'Посыпьте зеленью.'] },
+        { name: 'Творог с огурцом и зеленью', imageQuery: 'cottage cheese herbs', goals: ['weight_loss', 'cutting'], baseGrams: 220, calories: 220, protein: 27, fat: 8, carbs: 8, ingredients: ['cottage_cheese', 'cucumber', 'greens'], missing: ['соль'], steps: ['Мелко нарежьте огурец и зелень.', 'Смешайте с творогом и посолите.'] },
+        { name: 'Куриное филе с салатом из томатов', imageQuery: 'grilled chicken tomato salad', goals: ['weight_loss', 'cutting', 'maintenance'], baseGrams: 310, calories: 350, protein: 41, fat: 12, carbs: 14, ingredients: ['chicken', 'tomato', 'greens'], missing: ['специи', 'оливковое масло'], steps: ['Обжарьте филе со специями.', 'Подавайте с нарезанными помидорами и зеленью.'] },
+        { name: 'Картофель с грибами и говядиной', imageQuery: 'beef potatoes mushrooms', goals: ['muscle_gain', 'maintenance'], baseGrams: 370, calories: 560, protein: 35, fat: 22, carbs: 50, ingredients: ['beef', 'potato', 'mushrooms', 'greens'], missing: ['лук', 'соль'], steps: ['Обжарьте картофель 10 мин.', 'Добавьте говядину и грибы, тушите ещё 15 мин.'] },
+        { name: 'Омлет с помидорами и авокадо', imageQuery: 'tomato omelet avocado', goals: ['weight_loss', 'maintenance', 'cutting'], baseGrams: 270, calories: 340, protein: 20, fat: 24, carbs: 10, ingredients: ['eggs', 'tomato', 'avocado'], missing: ['соль', 'перец'], steps: ['Припустите помидоры на сковороде.', 'Залейте яйцами и готовьте под крышкой.', 'Подавайте с авокадо.'] }
       ]
     }
   };
@@ -887,14 +497,12 @@
   const shortDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
   function navigateTo(pageId) {
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
-
-    document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     if (pageId === 'mainPage') document.querySelector('.nav-tab:nth-child(1)').classList.add('active');
     if (pageId === 'calendarPage') document.querySelector('.nav-tab:nth-child(2)').classList.add('active');
     if (pageId === 'statsPage') document.querySelector('.nav-tab:nth-child(3)').classList.add('active');
-
     if (pageId === 'statsPage') updateCharts();
     window.scrollTo(0, 0);
   }
@@ -905,52 +513,31 @@
     Object.values(GOALS).forEach(goal => {
       const card = document.createElement('div');
       card.className = `goal-card ${selectedGoal === goal.id ? 'active' : ''}`;
-      card.onclick = () => selectGoal(goal.id);
-      card.innerHTML = `
-        <div class="goal-top"><span>${goal.icon}</span><span>${goal.title}</span></div>
-        <div class="goal-kcal">${goal.targetKcal}</div>
-        <div class="goal-desc">${goal.desc}</div>
-      `;
+      card.onclick = () => { selectedGoal = goal.id; renderGoals(); };
+      card.innerHTML = `<div class="goal-top"><span>${goal.icon}</span><span>${goal.title}</span></div><div class="goal-kcal">${goal.targetKcal}</div><div class="goal-desc">${goal.desc}</div>`;
       grid.appendChild(card);
     });
-  }
-
-  function selectGoal(goalId) {
-    selectedGoal = goalId;
-    renderGoals();
   }
 
   function renderIngredients() {
     const grid = document.getElementById('ingredientsGrid');
     grid.innerHTML = '';
-    database.products.forEach(product => {
+    database.products.forEach(p => {
       const btn = document.createElement('div');
-      btn.className = `ingredient-btn ${selectedProducts.includes(product.id) ? 'active' : ''}`;
-      btn.innerHTML = `<span class="icon">${product.icon}</span><span class="name">${product.name}</span>`;
-      btn.onclick = () => toggleProduct(product.id, btn);
+      btn.className = `ingredient-btn ${selectedProducts.includes(p.id) ? 'active' : ''}`;
+      btn.innerHTML = `<span class="icon">${p.icon}</span><span class="name">${p.name}</span>`;
+      btn.onclick = () => toggleProduct(p.id, btn);
       grid.appendChild(btn);
     });
   }
 
   function toggleProduct(id, btn) {
-    if (selectedProducts.includes(id)) {
-      selectedProducts = selectedProducts.filter(p => p !== id);
-      btn.classList.remove('active');
-    } else {
-      selectedProducts.push(id);
-      btn.classList.add('active');
-    }
+    if (selectedProducts.includes(id)) { selectedProducts = selectedProducts.filter(p => p !== id); btn.classList.remove('active'); }
+    else { selectedProducts.push(id); btn.classList.add('active'); }
   }
 
-  function selectAllProducts() {
-    selectedProducts = database.products.map(p => p.id);
-    renderIngredients();
-  }
-
-  function clearProducts() {
-    selectedProducts = [];
-    renderIngredients();
-  }
+  function selectAllProducts() { selectedProducts = database.products.map(p => p.id); renderIngredients(); }
+  function clearProducts() { selectedProducts = []; renderIngredients(); }
 
   function savePlanToDB(plan) {
     let users = JSON.parse(localStorage.getItem('neuro_users')) || {};
@@ -965,14 +552,11 @@
   function loadUserPlan() {
     let users = JSON.parse(localStorage.getItem('neuro_users')) || {};
     const userData = users[currentUser];
-
-    selectedGoal = (userData && userData.goal && GOALS[userData.goal]) ? userData.goal : 'maintenance';
+    selectedGoal = (userData && GOALS[userData.goal]) ? userData.goal : 'maintenance';
     selectedProducts = (userData && Array.isArray(userData.selectedProducts)) ? userData.selectedProducts : [];
-
     renderGoals();
     renderIngredients();
-
-    if (userData && userData.plan && userData.plan.length > 0) {
+    if (userData?.plan?.length) {
       currentWeekPlan = userData.plan;
       renderCalendar();
       selectDay(0);
@@ -983,77 +567,53 @@
     }
   }
 
-  // Масштабирование порции, калорий и БЖУ под выбранную цель
   function adaptRecipeToGoal(recipe, goalId) {
-    const goal = GOALS[goalId] || GOALS.maintenance;
-    const scale = goal.portionScale;
+    const scale = (GOALS[goalId] || GOALS.maintenance).portionScale;
     const grams = Math.round((recipe.baseGrams || 300) * scale / 10) * 10;
-    const calories = Math.round((recipe.calories || 350) * scale / 5) * 5;
-    const protein = Math.round((recipe.protein || 20) * scale);
-    const fat = Math.round((recipe.fat || 12) * scale);
-    const carbs = Math.round((recipe.carbs || 30) * scale);
-
     return {
       name: recipe.name,
       imageQuery: recipe.imageQuery,
       portion: `${grams} г`,
       portionGrams: grams,
-      calories,
-      protein,
-      fat,
-      carbs,
-      ingredients: recipe.ingredients.map(id => {
-        const found = database.products.find(p => p.id === id);
-        return found ? found.name.toLowerCase() : id;
-      }),
+      calories: Math.round((recipe.calories || 350) * scale / 5) * 5,
+      protein: Math.round((recipe.protein || 20) * scale),
+      fat: Math.round((recipe.fat || 12) * scale),
+      carbs: Math.round((recipe.carbs || 30) * scale),
+      ingredients: recipe.ingredients.map(id => database.products.find(p => p.id === id)?.name.toLowerCase() || id),
       missing: recipe.missing || [],
       steps: recipe.steps || []
     };
   }
 
-  // Умный выбор резервного блюда с учётом цели, продуктов и разнообразия
   function pickSmartRecipe(list, goalId, usedNames) {
-    const scored = list.map(recipe => {
-      let score = 0;
-      if (recipe.goals && recipe.goals.includes(goalId)) score += 10;
-      const matchedCount = (recipe.ingredients || []).filter(id => selectedProducts.includes(id)).length;
-      score += matchedCount * 4;
-      if (!usedNames.has(recipe.name)) score += 6;
-      score += Math.random() * 2;
-      return { recipe, score };
-    });
-
-    scored.sort((a, b) => b.score - a.score);
-    const chosen = scored[0].recipe;
-    usedNames.add(chosen.name);
-    return adaptRecipeToGoal(chosen, goalId);
+    const scored = list.map(r => {
+      let score = (r.goals?.includes(goalId) ? 10 : 0) + (r.ingredients || []).filter(id => selectedProducts.includes(id)).length * 4 + (usedNames.has(r.name) ? 0 : 6) + Math.random() * 2;
+      return { recipe: r, score };
+    }).sort((a, b) => b.score - a.score);
+    usedNames.add(scored[0].recipe.name);
+    return adaptRecipeToGoal(scored[0].recipe, goalId);
   }
 
   function buildFallbackWeekPlan(goalId) {
-    const week = [];
-    const usedBreakfast = new Set();
-    const usedLunch = new Set();
-    const usedDinner = new Set();
-
+    const week = [], ub = new Set(), ul = new Set(), ud = new Set();
     for (let i = 0; i < 7; i++) {
-      if (usedBreakfast.size >= database.fallbackRecipes.breakfast.length) usedBreakfast.clear();
-      if (usedLunch.size >= database.fallbackRecipes.lunch.length) usedLunch.clear();
-      if (usedDinner.size >= database.fallbackRecipes.dinner.length) usedDinner.clear();
-
+      if (ub.size >= database.fallbackRecipes.breakfast.length) ub.clear();
+      if (ul.size >= database.fallbackRecipes.lunch.length) ul.clear();
+      if (ud.size >= database.fallbackRecipes.dinner.length) ud.clear();
       week.push({
         goalId,
-        breakfast: pickSmartRecipe(database.fallbackRecipes.breakfast, goalId, usedBreakfast),
-        lunch: pickSmartRecipe(database.fallbackRecipes.lunch, goalId, usedLunch),
-        dinner: pickSmartRecipe(database.fallbackRecipes.dinner, goalId, usedDinner)
+        breakfast: pickSmartRecipe(database.fallbackRecipes.breakfast, goalId, ub),
+        lunch: pickSmartRecipe(database.fallbackRecipes.lunch, goalId, ul),
+        dinner: pickSmartRecipe(database.fallbackRecipes.dinner, goalId, ud)
       });
     }
     return week;
   }
 
   function normalizeAiDish(dish, goalId) {
-    const goal = GOALS[goalId] || GOALS.maintenance;
-    const rawGrams = parseInt(String(dish.portion || '').replace(/\D/g, ''), 10);
-    const grams = rawGrams > 0 ? rawGrams : Math.round(320 * goal.portionScale);
+    const scale = (GOALS[goalId] || GOALS.maintenance).portionScale;
+    const raw = parseInt(String(dish.portion || '').replace(/\D/g, ''), 10);
+    const grams = raw > 0 ? raw : Math.round(320 * scale);
     return {
       name: dish.name || 'Полезное блюдо',
       imageQuery: dish.imageQuery || '',
@@ -1070,11 +630,7 @@
   }
 
   async function generateWeekPlan() {
-    if (selectedProducts.length === 0) {
-      alert('Выберите хотя бы один продукт!');
-      return;
-    }
-
+    if (selectedProducts.length === 0) { alert('Выберите хотя бы один продукт!'); return; }
     const btn = document.getElementById('generateBtn');
     const goal = GOALS[selectedGoal] || GOALS.maintenance;
     btn.disabled = true;
@@ -1082,171 +638,92 @@
 
     try {
       const productNames = selectedProducts.map(id => database.products.find(p => p.id === id).name).join(', ');
+      const prompt = `Ты — профессиональный нутрициолог. Продукты: ${productNames}. ${goal.promptNote}
+Составь разнообразное меню на 7 дней. Верни СТРОГО JSON без лишнего текста:
+{"week":[{"breakfast":{"name":"...","imageQuery":"short English dish name","portion":"250 г","calories":350,"protein":22,"fat":14,"carbs":30,"ingredients":[],"missing":[],"steps":[]},"lunch":{"name":"...","imageQuery":"...","portion":"380 г","calories":550,"protein":40,"fat":18,"carbs":55,"ingredients":[],"missing":[],"steps":[]},"dinner":{"name":"...","imageQuery":"...","portion":"280 г","calories":340,"protein":30,"fat":12,"carbs":20,"ingredients":[],"missing":[],"steps":[]}}]}`;
 
-      const prompt = `Ты — профессиональный нутрициолог.
-У пользователя есть продукты: ${productNames}.
-${goal.promptNote}
-Составь разнообразное меню на 7 дней (разные блюда каждый день).
-Верни СТРОГО валидный JSON без пояснений:
-{
-  "week": [
-    {
-      "breakfast": {
-        "name": "Название блюда на русском",
-        "imageQuery": "short dish name in English, e.g. cheese omelette",
-        "portion": "250 г",
-        "calories": 350,
-        "protein": 22,
-        "fat": 14,
-        "carbs": 30,
-        "ingredients": ["продукт1", "продукт2"],
-        "missing": ["чего не хватает (включая специи)"],
-        "steps": ["Шаг 1", "Шаг 2"]
-      },
-      "lunch": { "name": "...", "imageQuery": "...", "portion": "380 г", "calories": 550, "protein": 40, "fat": 18, "carbs": 55, "ingredients": [], "missing": [], "steps": [] },
-      "dinner": { "name": "...", "imageQuery": "...", "portion": "280 г", "calories": 340, "protein": 30, "fat": 12, "carbs": 20, "ingredients": [], "missing": [], "steps": [] }
-    }
-  ]
-}`;
-
-      const response = await fetch("https://text.pollinations.ai/", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("https://text.pollinations.ai/", {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: [{ role: "user", content: prompt }] })
       });
-
-      let aiText = await response.text();
-      const cleanJson = aiText.replace(/```json|```/g, '').trim();
-      const aiData = JSON.parse(cleanJson);
-
-      if (!aiData.week || !Array.isArray(aiData.week) || aiData.week.length < 7) {
-        throw new Error('Неполный план от ИИ');
-      }
-
-      currentWeekPlan = aiData.week.slice(0, 7).map(day => ({
+      const aiData = JSON.parse((await res.text()).replace(/```json|```/g, '').trim());
+      if (!aiData.week || aiData.week.length < 7) throw new Error('Неполный ответ ИИ');
+      currentWeekPlan = aiData.week.slice(0, 7).map(d => ({
         goalId: selectedGoal,
-        breakfast: normalizeAiDish(day.breakfast, selectedGoal),
-        lunch: normalizeAiDish(day.lunch, selectedGoal),
-        dinner: normalizeAiDish(day.dinner, selectedGoal)
+        breakfast: normalizeAiDish(d.breakfast, selectedGoal),
+        lunch: normalizeAiDish(d.lunch, selectedGoal),
+        dinner: normalizeAiDish(d.dinner, selectedGoal)
       }));
-
-    } catch (error) {
-      console.log("Используем расширенную локальную базу рецептов", error);
+    } catch (e) {
       currentWeekPlan = buildFallbackWeekPlan(selectedGoal);
     }
 
     savePlanToDB(currentWeekPlan);
     renderCalendar();
     selectDay(0);
-
     btn.disabled = false;
     btn.innerText = '✨ Составить рацион на неделю';
     navigateTo('calendarPage');
   }
 
   function renderCalendar() {
-    const calendarGrid = document.getElementById('weekCalendar');
-    calendarGrid.innerHTML = '';
+    const grid = document.getElementById('weekCalendar');
+    grid.innerHTML = '';
     const today = new Date();
-
     for (let i = 0; i < 7; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-
-      const dayCard = document.createElement('div');
-      dayCard.className = `day-card ${i === 0 ? 'active' : ''}`;
-      dayCard.onclick = () => selectDay(i);
-      dayCard.id = `day-card-${i}`;
-
-      dayCard.innerHTML = `
-        <div class="day-name">${shortDays[i]}</div>
-        <div class="day-date">${date.getDate()}.${date.getMonth() + 1}</div>
-      `;
-      calendarGrid.appendChild(dayCard);
+      const d = new Date(today); d.setDate(today.getDate() + i);
+      const card = document.createElement('div');
+      card.className = `day-card ${i === 0 ? 'active' : ''}`;
+      card.id = `day-card-${i}`;
+      card.onclick = () => selectDay(i);
+      card.innerHTML = `<div class="day-name">${shortDays[i]}</div><div class="day-date">${d.getDate()}.${d.getMonth() + 1}</div>`;
+      grid.appendChild(card);
     }
   }
 
   function selectDay(index) {
     activeDayIndex = index;
-    document.querySelectorAll('.day-card').forEach(card => card.classList.remove('active'));
-    const activeCard = document.getElementById(`day-card-${index}`);
-    if (activeCard) activeCard.classList.add('active');
-
-    const details = document.getElementById('dayDetails');
-    details.style.display = 'block';
+    document.querySelectorAll('.day-card').forEach(c => c.classList.remove('active'));
+    document.getElementById(`day-card-${index}`)?.classList.add('active');
+    document.getElementById('dayDetails').style.display = 'block';
     document.getElementById('selectedDayTitle').innerText = daysOfWeek[index];
 
-    const dailyPlan = currentWeekPlan[index];
-    const planGoal = GOALS[dailyPlan.goalId || selectedGoal] || GOALS.maintenance;
+    const daily = currentWeekPlan[index];
+    const planGoal = GOALS[daily.goalId || selectedGoal] || GOALS.maintenance;
     document.getElementById('activeGoalBadge').innerText = `${planGoal.icon} Цель: ${planGoal.title} (${planGoal.targetKcal})`;
 
-    const menuResult = document.getElementById('menuResult');
-    const shoppingList = document.getElementById('shoppingList');
+    const meals = [{ type: 'Завтрак', dish: daily.breakfast }, { type: 'Обед', dish: daily.lunch }, { type: 'Ужин', dish: daily.dinner }];
+    let html = '', missing = new Set(), cal = 0, tp = 0, tf = 0, tc = 0;
 
-    let menuHTML = '';
-    let missingIngredients = new Set();
-    let totalCalories = 0;
-    let totalP = 0, totalF = 0, totalC = 0;
-
-    const meals = [
-      { type: 'Завтрак', dish: dailyPlan.breakfast },
-      { type: 'Обед', dish: dailyPlan.lunch },
-      { type: 'Ужин', dish: dailyPlan.dinner }
-    ];
-
-    meals.forEach((item, mealIndex) => {
-      const dish = item.dish;
-      totalCalories += dish.calories || 0;
-      totalP += dish.protein || 0;
-      totalF += dish.fat || 0;
-      totalC += dish.carbs || 0;
-
-      if (dish.missing) {
-        dish.missing.forEach(ing => missingIngredients.add(ing));
-      }
-
-      const portionText = dish.portion || (dish.portionGrams ? `${dish.portionGrams} г` : '300 г');
-      const macrosText = (dish.protein || dish.fat || dish.carbs)
-        ? `Б: ${dish.protein || 0}г · Ж: ${dish.fat || 0}г · У: ${dish.carbs || 0}г`
-        : '';
-
-      menuHTML += `
-        <div class="recipe-card" onclick="openRecipe(${index}, ${mealIndex})">
-          <img
-            id="meal-img-${index}-${mealIndex}"
-            src="${makePlaceholderSvg(dish.name, true)}"
-            class="recipe-image"
-            alt="${escapeHtml(dish.name)}"
-            referrerpolicy="no-referrer"
-            onerror="handleImageError(this)">
+    meals.forEach((item, mIdx) => {
+      const d = item.dish;
+      cal += d.calories || 0; tp += d.protein || 0; tf += d.fat || 0; tc += d.carbs || 0;
+      (d.missing || []).forEach(ing => missing.add(ing));
+      const portion = d.portion || (d.portionGrams ? `${d.portionGrams} г` : '300 г');
+      const macros = (d.protein || d.fat || d.carbs) ? `Б: ${d.protein || 0}г · Ж: ${d.fat || 0}г · У: ${d.carbs || 0}г` : '';
+      html += `
+        <div class="recipe-card" onclick="openRecipe(${index}, ${mIdx})">
+          <img id="meal-img-${index}-${mIdx}" src="${makePlaceholderSvg(d.name, true)}" class="recipe-image" alt="${escapeHtml(d.name)}" referrerpolicy="no-referrer" onerror="handleImageError(this)">
           <div class="recipe-card-content">
             <h3>${item.type}</h3>
-            <p style="font-size: 1.08em; color: white; font-weight: bold; margin: 4px 0; text-align: center;">${escapeHtml(dish.name)}</p>
-            ${macrosText ? `<div class="macros-line">${macrosText}</div>` : ''}
+            <p style="font-size: 1.08em; color: white; font-weight: bold; margin: 4px 0; text-align: center;">${escapeHtml(d.name)}</p>
+            ${macros ? `<div class="macros-line">${macros}</div>` : ''}
             <div class="recipe-badges">
-              <span class="badge badge-portion">⚖️ ${escapeHtml(portionText)}</span>
-              <span class="badge">🔥 ${dish.calories || 0} ккал</span>
+              <span class="badge badge-portion">⚖️ ${escapeHtml(portion)}</span>
+              <span class="badge">🔥 ${d.calories || 0} ккал</span>
             </div>
           </div>
-        </div>
-      `;
+        </div>`;
     });
 
-    document.getElementById('dayCalories').innerText = totalCalories;
-    document.getElementById('dayMacrosSummary').innerText = `${totalP} / ${totalF} / ${totalC}`;
-    menuResult.innerHTML = menuHTML;
+    document.getElementById('dayCalories').innerText = cal;
+    document.getElementById('dayMacrosSummary').innerText = `${tp} / ${tf} / ${tc}`;
+    document.getElementById('menuResult').innerHTML = html;
+    meals.forEach((item, mIdx) => loadDishImage(document.getElementById(`meal-img-${index}-${mIdx}`), item.dish, index * 10 + mIdx));
 
-    meals.forEach((item, mealIndex) => {
-      const imgEl = document.getElementById(`meal-img-${index}-${mealIndex}`);
-      loadDishImage(imgEl, item.dish, index * 10 + mealIndex);
-    });
-
-    if (missingIngredients.size > 0) {
-      let shoppingHTML = '';
-      missingIngredients.forEach(ing => {
-        shoppingHTML += `<li><span>${escapeHtml(ing)}</span></li>`;
-      });
-      shoppingList.innerHTML = shoppingHTML;
+    const shop = document.getElementById('shoppingList');
+    if (missing.size) {
+      shop.innerHTML = Array.from(missing).map(i => `<li><span>${escapeHtml(i)}</span></li>`).join('');
       document.getElementById('shoppingResult').style.display = 'block';
     } else {
       document.getElementById('shoppingResult').style.display = 'none';
@@ -1254,101 +731,60 @@ ${goal.promptNote}
   }
 
   function openRecipe(dayIndex, mealIndex) {
-    const dailyPlan = currentWeekPlan[dayIndex];
-    let dish;
-    if (mealIndex === 0) dish = dailyPlan.breakfast;
-    if (mealIndex === 1) dish = dailyPlan.lunch;
-    if (mealIndex === 2) dish = dailyPlan.dinner;
-
-    const detailImg = document.getElementById('detailImage');
-    detailImg.onerror = function() { handleImageError(this); };
-    detailImg.alt = dish.name;
-    loadDishImage(detailImg, dish, dayIndex * 10 + mealIndex);
+    const daily = currentWeekPlan[dayIndex];
+    const dish = mealIndex === 0 ? daily.breakfast : mealIndex === 1 ? daily.lunch : daily.dinner;
+    const img = document.getElementById('detailImage');
+    img.onerror = function() { handleImageError(this); };
+    img.alt = dish.name;
+    loadDishImage(img, dish, dayIndex * 10 + mealIndex);
 
     document.getElementById('detailTitle').innerText = dish.name;
     document.getElementById('detailCalories').innerText = `🔥 ${dish.calories || 0} ккал`;
     document.getElementById('detailPortion').innerText = `⚖️ Порция: ${dish.portion || '300 г'}`;
-
-    const detailMacros = document.getElementById('detailMacros');
-    detailMacros.innerHTML = `
+    document.getElementById('detailMacros').innerHTML = `
       <div class="macro-chip">Белки: <b>${dish.protein || 0} г</b></div>
       <div class="macro-chip">Жиры: <b>${dish.fat || 0} г</b></div>
-      <div class="macro-chip">Углеводы: <b>${dish.carbs || 0} г</b></div>
-    `;
-
-    const ingredientsList = document.getElementById('detailIngredients');
-    ingredientsList.innerHTML = '';
-
-    if (dish.ingredients) {
-      dish.ingredients.forEach(ing => {
-        ingredientsList.innerHTML += `<li>${escapeHtml(ing)}</li>`;
-      });
-    }
-
-    if (dish.missing) {
-      dish.missing.forEach(ing => {
-        ingredientsList.innerHTML += `<li class="missing">${escapeHtml(ing)} (докупить)</li>`;
-      });
-    }
-
-    const stepsList = document.getElementById('detailSteps');
-    stepsList.innerHTML = '';
-    if (dish.steps) {
-      dish.steps.forEach(step => {
-        stepsList.innerHTML += `<li>${escapeHtml(step)}</li>`;
-      });
-    }
-
+      <div class="macro-chip">Углеводы: <b>${dish.carbs || 0} г</b></div>`;
+    document.getElementById('detailIngredients').innerHTML =
+      (dish.ingredients || []).map(i => `<li>${escapeHtml(i)}</li>`).join('') +
+      (dish.missing || []).map(i => `<li class="missing">${escapeHtml(i)} (докупить)</li>`).join('');
+    document.getElementById('detailSteps').innerHTML = (dish.steps || []).map(s => `<li>${escapeHtml(s)}</li>`).join('');
     navigateTo('recipePage');
   }
 
   function updateCharts() {
-    if (!currentWeekPlan || currentWeekPlan.length === 0) return;
+    if (!currentWeekPlan?.length) return;
+    const weekly = currentWeekPlan.map(d => (d.breakfast.calories || 0) + (d.lunch.calories || 0) + (d.dinner.calories || 0));
+    const grams = currentWeekPlan.map(d => ['breakfast', 'lunch', 'dinner'].reduce((s, k) => s + (d[k].portionGrams || parseInt(String(d[k].portion || '300').replace(/\D/g, ''), 10) || 300), 0));
+    const today = currentWeekPlan[activeDayIndex];
+<!DOCTYPE html>const daily = [today.breakfast.calories || 0, today.lunch.calories || 0, today.dinner.calories || 0];
 
-    const weeklyData = currentWeekPlan.map(day => {
-      return (day.breakfast.calories || 0) + (day.lunch.calories || 0) + (day.dinner.calories || 0);
-    });
-
-    const weeklyGrams = currentWeekPlan.map(day => {
-      const g1 = day.breakfast.portionGrams || parseInt(String(day.breakfast.portion || '300').replace(/\D/g, ''), 10) || 300;
-      const g2 = day.lunch.portionGrams || parseInt(String(day.lunch.portion || '350').replace(/\D/g, ''), 10) || 350;
-      const g3 = day.dinner.portionGrams || parseInt(String(day.dinner.portion || '280').replace(/\D/g, ''), 10) || 280;
-      return g1 + g2 + g3;
-    });
-
-    const todayData = currentWeekPlan[activeDayIndex];
-    const dailyData = [todayData.breakfast.calories || 0, todayData.lunch.calories || 0, todayData.dinner.calories || 0];
-
-    document.getElementById('statsTotalDay').innerText = dailyData.reduce((a, b) => a + b, 0);
-    document.getElementById('statsTotalWeek').innerText = weeklyData.reduce((a, b) => a + b, 0);
-    document.getElementById('statsTotalMonth').innerText = weeklyData.reduce((a, b) => a + b, 0) * 4;
-    document.getElementById('statsAvgWeight').innerText = `${Math.round(weeklyGrams.reduce((a, b) => a + b, 0) / 7)} г`;
+    document.getElementById('statsTotalDay').innerText = daily.reduce((a, b) => a + b, 0);
+    document.getElementById('statsTotalWeek').innerText = weekly.reduce((a, b) => a + b, 0);
+    document.getElementById('statsTotalMonth').innerText = weekly.reduce((a, b) => a + b, 0) * 4;
+    document.getElementById('statsAvgWeight').innerText = `${Math.round(grams.reduce((a, b) => a + b, 0) / 7)} г`;
 
     if (weeklyChartInstance) weeklyChartInstance.destroy();
-    const ctxWeekly = document.getElementById('weeklyChart').getContext('2d');
-    weeklyChartInstance = new Chart(ctxWeekly, {
+    weeklyChartInstance = new Chart(document.getElementById('weeklyChart').getContext('2d'), {
       type: 'bar',
-      data: { labels: shortDays, datasets: [{ label: 'Ккал', data: weeklyData, backgroundColor: 'rgba(82, 183, 136, 0.6)', borderColor: 'rgba(82, 183, 136, 1)', borderWidth: 1, borderRadius: 5 }] },
+      data: { labels: shortDays, datasets: [{ label: 'Ккал', data: weekly, backgroundColor: 'rgba(82, 183, 136, 0.6)', borderColor: '#52b788', borderWidth: 1, borderRadius: 5 }] },
       options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }, x: { grid: { display: false }, ticks: { color: '#94a3b8' } } }, plugins: { legend: { display: false } } }
     });
 
     if (dailyChartInstance) dailyChartInstance.destroy();
-    const ctxDaily = document.getElementById('dailyChart').getContext('2d');
-    dailyChartInstance = new Chart(ctxDaily, {
+    dailyChartInstance = new Chart(document.getElementById('dailyChart').getContext('2d'), {
       type: 'doughnut',
-      data: { labels: ['Завтрак', 'Обед', 'Ужин'], datasets: [{ data: dailyData, backgroundColor: ['#52b788', '#2d6a4f', '#b7e4c7'], borderWidth: 0 }] },
+      data: { labels: ['Завтрак', 'Обед', 'Ужин'], datasets: [{ data: daily, backgroundColor: ['#52b788', '#2d6a4f', '#b7e4c7'], borderWidth: 0 }] },
       options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc', padding: 20 } } } }
     });
   }
 
-  // --- ЧАТ ---
   const chatMessages = document.getElementById('chatMessages');
   const userInput = document.getElementById('userInput');
   const sendBtn = document.getElementById('sendBtn');
   let isWaiting = false;
 
   function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
-
   function addMessage(text, sender) {
     const div = document.createElement('div');
     div.className = `msg-bubble ${sender}`;
@@ -1361,31 +797,21 @@ ${goal.promptNote}
   async function sendMessage() {
     const text = userInput.value.trim();
     if (!text || isWaiting) return;
-
     addMessage(text, 'msg-user');
     userInput.value = '';
     sendBtn.disabled = true;
     isWaiting = true;
-
     const loadingMsg = addMessage('Печатает...', 'msg-ai msg-loading');
     const goal = GOALS[selectedGoal] || GOALS.maintenance;
-
     try {
-      const response = await fetch("https://text.pollinations.ai/", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [
-            { role: "system", content: `Ты — ИИ-нутрициолог. Текущая цель пользователя: ${goal.title} (${goal.targetKcal}). Отвечай на русском языке кратко и по делу.` },
-            { role: "user", content: text }
-          ]
-        })
+      const res = await fetch("https://text.pollinations.ai/", {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: "system", content: `Ты — ИИ-нутрициолог. Цель пользователя: ${goal.title} (${goal.targetKcal}). Отвечай на русском кратко.` }, { role: "user", content: text }] })
       });
-      const aiText = await response.text();
-      loadingMsg.innerText = aiText;
+      loadingMsg.innerText = await res.text();
       loadingMsg.classList.remove('msg-loading');
-    } catch (error) {
-      loadingMsg.innerText = `⚠️ Ошибка: ${error.message}`;
+    } catch (e) {
+      loadingMsg.innerText = `⚠️ Ошибка: ${e.message}`;
       loadingMsg.style.color = '#ff6b6b';
     } finally {
       setTimeout(() => { sendBtn.disabled = false; isWaiting = false; }, 10000);
@@ -1395,6 +821,5 @@ ${goal.promptNote}
   renderGoals();
   renderIngredients();
 </script>
-
 </body>
 </html>
