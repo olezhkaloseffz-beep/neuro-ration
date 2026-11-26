@@ -829,69 +829,69 @@
     document.getElementById('statsTotalMonth').innerText = weekly.reduce((a, b) => a + b, 0) * 4;
     document.getElementById('statsAvgWeight').innerText = `${Math.round(grams.reduce((a, b) => a + b, 0) / 7)} г`;
 
-/html>
-    weeklyChartInstance = новый Диаграмма(документ.getElementById('еженедельная диаграмма').получитьКонтекст('2д'), {
-      тип: 'бар',
-      данные: { этикетки: короткиеДни, наборы данных: [{ этикетка: 'Ккал', данные: еженедельно, цвет фона: 'rgba(82, 183, 136, 0,6)', цвет границы: '#52b788', ширина границы: 1, borderRadius: 5 }] },
-      варианты: { отзывчивый: истинный, подерживатьAspectRatio: ложный, весы: { y: { beginAtZero: истинный, сетка: { цвет: 'rgba(255,255,255,0.1)' }, клещи: { цвет: '#94a3b8' } }, x: { сетка: { отображать: ложный }, клещи: { цвет: '#94a3b8' } } }, плагины: { легенда: { display: false } } }
+    if (weeklyChartInstance) weeklyChartInstance.destroy();
+    weeklyChartInstance = new Chart(document.getElementById('weeklyChart').getContext('2d'), {
+      type: 'bar',
+      data: { labels: shortDays, datasets: [{ label: 'Ккал', data: weekly, backgroundColor: 'rgba(82, 183, 136, 0.6)', borderColor: '#52b788', borderWidth: 1, borderRadius: 5 }] },
+      options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }, x: { grid: { display: false }, ticks: { color: '#94a3b8' } } }, plugins: { legend: { display: false } } }
     });
 
-    если (dailyChartInstance) dailyChartInstance.разрушать();
-    dailyChartInstance = новый Диаграмма(документ.getElementById('ежедневный чарт').получитьКонтекст('2д'), {
-      тип: «пончик»,
-      данные: { этикетки: ['Завтрак', 'Обед', 'Ужин'], наборы данных: [{ данные: ежедневно, цвет фона: ['#52b788', '#2d6a4f', '#b7e4c7'], ширина границы: 0 }] },
-      варианты: { отзывчивый: истинный, подерживатьAspectRatio: ложный, вырезать: «70%», плагины: { легенда: { позиция: 'нижний', этикетки: { цвет: '#f8fafc', прокладка: 20 } } } }
+    if (dailyChartInstance) dailyChartInstance.destroy();
+    dailyChartInstance = new Chart(document.getElementById('dailyChart').getContext('2d'), {
+      type: 'doughnut',
+      data: { labels: ['Завтрак', 'Обед', 'Ужин'], datasets: [{ data: daily, backgroundColor: ['#52b788', '#2d6a4f', '#b7e4c7'], borderWidth: 0 }] },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc', padding: 20 } } } }
     });
   }
 
-  константа чатСообщения = документ.getElementById('чатСообщения');
-  константа пользовательВвод = документ.getElementById('пользовательский ввод');
-  константа sendBtn = документ.getElementById('sendBtn');
-  позволять ждет = ложный;
+  const chatMessages = document.getElementById('chatMessages');
+  const userInput = document.getElementById('userInput');
+  const sendBtn = document.getElementById('sendBtn');
+  let isWaiting = false;
 
-  функция handleEnter(e) { если (e.ключ === «Вход») отправитьСообщение(); }
-  функция добавитьСообщение(текст, отправитель) {
-    константа див = документ.создатьЭлемент('див');
-    див.имя класса = `msg-пузырь ${отправитель}`;
-    див.внутреннийТекст = текст;
-    чатСообщения.добавитьРебенок(див);
-    чатСообщения.прокрутитьВверх = чатСообщения.scrollHeight;
-    возвращаться див;
+  function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
+  function addMessage(text, sender) {
+    const div = document.createElement('div');
+    div.className = `msg-bubble ${sender}`;
+    div.innerText = text;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return div;
   }
 
-  асинхронный функция отправитьСообщение() {
-    константа текст = пользовательВвод.ценить.подрезать();
-    если (!текст || ждет) возвращаться;
-    добавитьСообщение(текст, 'msg-пользователь');
-    пользовательВвод.ценить = '';
-    sendBtn.неполноценный = истинный;
-    ждет = истинный;
-    константа загрузкаСообщение = добавитьСообщение('Печатает...', 'msg-ai msg-loading');
-    константа цель = ЦЕЛИ[выбраннаяЦель] || ЦЕЛИ.обслуживание;
-    пытаться {
-      константа рез = ждать принести("https://text.pollinations.ai/", {
-        метод: 'ПОСТ', заголовки: { «Тип содержимого»: 'приложение/json' },
-        тело: JSON.стринглиф({ сообщения: [{ роль: "система", содержание: `Ты — ИИ-нутрициолог. Цель пользователя: ${цель.заголовок} (${цель.цельКкал}). Отвечай на русском кратко.` }, { роль: "пользователь", содержание: текст }] })
+  async function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text || isWaiting) return;
+    addMessage(text, 'msg-user');
+    userInput.value = '';
+    sendBtn.disabled = true;
+    isWaiting = true;
+    const loadingMsg = addMessage('Печатает...', 'msg-ai msg-loading');
+    const goal = GOALS[selectedGoal] || GOALS.maintenance;
+    try {
+      const res = await fetch("https://text.pollinations.ai/", {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: "system", content: `Ты — ИИ-нутрициолог. Цель пользователя: ${goal.title} (${goal.targetKcal}). Отвечай на русском кратко.` }, { role: "user", content: text }] })
       });
-      загрузкаСообщение.внутреннийТекст = ждать рез.текст();
-      загрузкаСообщение.список классов.удалять('загрузка сообщений');
-    } ловить (e) {
-      загрузкаСообщение.внутреннийТекст = `⚠️ Ошибка: ${e.сообщение}`;
-      загрузкаСообщение.стиль.цвет = '#ff6b6b';
-    } окончательно {
-      setTimeout(() => { sendBtn.неполноценный = ложный; ждет = ложный; }, 10000);
+      loadingMsg.innerText = await res.text();
+      loadingMsg.classList.remove('msg-loading');
+    } catch (e) {
+      loadingMsg.innerText = `⚠️ Ошибка: ${e.message}`;
+      loadingMsg.style.color = '#ff6b6b';
+    } finally {
+      setTimeout(() => { sendBtn.disabled = false; isWaiting = false; }, 10000);
     }
   }
 
-  документ.addEventListener(«DOMContentLoaded», () => {
+  document.addEventListener('DOMContentLoaded', () => {
     renderGoals();
     renderIngredients();
-    константа сохраненныйПользователь = safeGetString('neuro_currentUser');
-    если (сохраненныйПользователь) {
-      текущийПользователь = сохраненныйПользователь;
-      входУспех();
+    const savedUser = safeGetString('neuro_currentUser');
+    if (savedUser) {
+      currentUser = savedUser;
+      loginSuccess();
     }
   });
-</сценарий>
-</тело>
- </html>
+</script>
+</body>
+</html>
