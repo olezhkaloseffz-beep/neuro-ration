@@ -11,7 +11,7 @@
   header { padding: 30px 20px; text-align: center; position: relative; }
   header h1 { font-size: 2.5em; margin-bottom: 10px; background: linear-gradient(90deg, #b7e4c7, #52b788); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
   header p { font-size: 1.1em; color: var(--text-muted); }
-  
+
   #logoutBtn { position: absolute; top: 30px; right: 30px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; display: none; transition: 0.2s; }
   #logoutBtn:hover { background: rgba(255, 107, 107, 0.3); border-color: #ff6b6b; }
 
@@ -46,7 +46,7 @@
   .generate-btn { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; border: none; padding: 18px; font-size: 1.2em; font-weight: bold; border-radius: 15px; cursor: pointer; width: 100%; transition: 0.3s; box-shadow: 0 5px 15px rgba(82, 183, 136, 0.3); margin-top: 10px; }
   .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(82, 183, 136, 0.5); }
   .generate-btn:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
-  
+
   .back-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px 25px; border-radius: 10px; cursor: pointer; transition: 0.2s; font-size: 1em; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 10px; }
   .back-btn:hover { background: rgba(255,255,255,0.2); }
 
@@ -59,13 +59,13 @@
 
   .daily-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
   .daily-header h2 { margin-bottom: 0; border-left: none; padding-left: 0; }
-  
+
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px; }
   .recipe-card { background: rgba(255,255,255,0.05); padding: 0; border-radius: 15px; border-top: 3px solid var(--primary-light); cursor: pointer; transition: 0.3s; animation: slideUp 0.5s forwards; opacity: 0; transform: translateY(20px); position: relative; overflow: hidden; display: flex; flex-direction: column; }
   .recipe-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-  .recipe-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px 12px 0 0; background: #1e293b; }
+  .recipe-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px 12px 0 0; background: #1e293b; display: block; }
   .recipe-card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
-  .recipe-card h3 { color: var(--primary-light); margin-bottom: 10px; font-size: 1.2em; text-align: center;}
+  .recipe-card h3 { color: var(--primary-light); margin-bottom: 10px; font-size: 1.2em; text-align: center; }
   .recipe-card p { font-size: 0.9em; color: var(--text-muted); margin-bottom: 5px; }
   .recipe-card .badge { display: inline-block; background: rgba(82, 183, 136, 0.2); color: #b7e4c7; padding: 3px 10px; border-radius: 20px; font-size: 0.8em; margin-top: auto; align-self: flex-start; }
 
@@ -79,7 +79,7 @@
   .chart-box h3 { color: var(--text-main); margin-bottom: 15px; font-size: 1.1em; text-align: center; }
   .chart-box canvas { max-width: 100%; max-height: 280px; }
 
-  .shopping-list { background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); padding: 20px; border-radius: 15px; position: relative; margin-top: 20px;}
+  .shopping-list { background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); padding: 20px; border-radius: 15px; position: relative; margin-top: 20px; }
   .shopping-list h3 { color: #ffca2c; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
   .shopping-list ul { list-style: none; margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 10px; }
   .shopping-list li { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 1em; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; }
@@ -87,7 +87,7 @@
   .shopping-list li.completed span { text-decoration: line-through; opacity: 0.5; }
 
   .recipe-detail { text-align: center; }
-  .recipe-detail .big-image { width: 100%; max-height: 400px; object-fit: cover; border-radius: 20px; margin-bottom: 20px; border: 3px solid var(--primary-light); box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #1e293b;}
+  .recipe-detail .big-image { width: 100%; max-height: 400px; object-fit: cover; border-radius: 20px; margin-bottom: 20px; border: 3px solid var(--primary-light); box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #1e293b; display: block; }
   .recipe-detail h2 { border: none; padding: 0; text-align: center; font-size: 2em; color: white; margin-bottom: 10px; }
   .recipe-detail .calories-badge { background: var(--primary-light); color: var(--bg-dark); font-weight: bold; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 20px; }
   .recipe-detail .instructions { text-align: left; background: rgba(0,0,0,0.2); padding: 25px; border-radius: 15px; line-height: 1.8; font-size: 1.1em; border-left: 4px solid var(--primary-light); margin-top: 20px; }
@@ -124,18 +124,18 @@
 </header>
 
 <div class="container">
-  
+
   <div id="authPage" class="page active">
     <div class="glass-panel">
       <div class="auth-form">
         <h2 id="authTitle">Вход в систему</h2>
         <p style="margin-bottom: 20px; color: var(--text-muted);">Войдите, чтобы сохранять свои рационы</p>
-        
+
         <input type="email" id="authEmail" placeholder="Ваш Email">
         <input type="password" id="authPassword" placeholder="Пароль">
-        
+
         <button class="auth-btn" id="authActionBtn" onclick="handleAuth()">Войти</button>
-        
+
         <div>
           <span id="authSwitchText" style="color: var(--text-muted);">Нет аккаунта? </span>
           <span class="auth-switch" id="authSwitchBtn" onclick="toggleAuthMode()">Зарегистрироваться</span>
@@ -145,7 +145,7 @@
   </div>
 
   <div id="appInterface" style="display: none;">
-    
+
     <div class="nav-tabs" id="mainTabs">
       <button class="nav-tab active" onclick="navigateTo('mainPage')">Выбор продуктов</button>
       <button class="nav-tab" onclick="navigateTo('calendarPage')">Мой календарь</button>
@@ -176,7 +176,7 @@
       <div class="glass-panel">
         <h2>📅 Ваш сохраненный рацион</h2>
         <p style="margin-bottom: 20px; color: var(--text-muted); font-size: 0.9em;">Данные сохраняются в вашем аккаунте.</p>
-        
+
         <div class="week-calendar" id="weekCalendar"></div>
 
         <div id="dayDetails" style="display: none;">
@@ -191,7 +191,7 @@
           </div>
 
           <div class="menu-grid" id="menuResult"></div>
-          
+
           <div class="shopping-list" id="shoppingResult">
             <h3>🛒 Докупить на этот день</h3>
             <ul id="shoppingList"></ul>
@@ -203,7 +203,7 @@
     <div id="statsPage" class="page">
       <div class="glass-panel">
         <h2>📊 Аналитика вашего питания</h2>
-        
+
         <div class="stats-grid">
           <div class="stat-card">
             <div class="number" id="statsTotalDay">0</div>
@@ -235,12 +235,12 @@
     <div id="recipePage" class="page">
       <div class="glass-panel">
         <button class="back-btn" onclick="navigateTo('calendarPage')">← Назад к меню</button>
-        
+
         <div class="recipe-detail">
-          <img id="detailImage" class="big-image" src="" alt="Блюдо" onerror="this.src='https://via.placeholder.com/800x400/1e293b/52b788?text=Image+Not+Found'">
+          <img id="detailImage" class="big-image" src="" alt="Блюдо" referrerpolicy="no-referrer" onerror="handleImageError(this)">
           <h2 id="detailTitle">Название блюда</h2>
           <span class="calories-badge" id="detailCalories">0 ккал</span>
-          
+
           <div class="ingredients-list">
             <h4>Ингредиенты и специи:</h4>
             <ul id="detailIngredients"></ul>
@@ -313,7 +313,7 @@
     document.getElementById('appInterface').style.display = 'block';
     document.getElementById('logoutBtn').style.display = 'block';
     document.getElementById('userGreeting').innerText = `Привет, ${currentUser}!`;
-    
+
     loadUserPlan();
     navigateTo('mainPage');
   }
@@ -327,7 +327,7 @@
     document.getElementById('userGreeting').innerText = 'Твой персональный ИИ-нутрициолог';
     document.getElementById('authEmail').value = '';
     document.getElementById('authPassword').value = '';
-    
+
     if (weeklyChartInstance) weeklyChartInstance.destroy();
     if (dailyChartInstance) dailyChartInstance.destroy();
   }
@@ -341,39 +341,108 @@
   };
 
   // --- ФОТОГРАФИИ БЛЮД ---
-  function getFoodImage(query) {
-    const cleanQuery = query.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '').trim();
-    const tags = cleanQuery.split(' ').join(',');
-    return `https://loremflickr.com/400/300/food,${encodeURIComponent(tags)}`;
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function getFoodImage(dish, seed = 1, width = 400, height = 300) {
+    const basePrompt = dish.imagePrompt || dish.name || 'healthy food';
+    const fullPrompt = `${basePrompt}, appetizing food photography, restaurant plating, studio lighting`;
+    return `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=${width}&height=${height}&nologo=true&seed=${seed}`;
+  }
+
+  function handleImageError(img) {
+    img.onerror = null;
+    const title = (img.alt || 'Блюдо').slice(0, 28);
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1b4332"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="300" fill="url(#g)"/>
+        <text x="50%" y="44%" text-anchor="middle" font-size="48">🍽️</text>
+        <text x="50%" y="64%" text-anchor="middle" fill="#b7e4c7" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="bold">${escapeHtml(title)}</text>
+      </svg>`;
+    img.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
   }
 
   const database = {
     products: [
-      { id: 'chicken', name: 'Курица', icon: '🍗' }, 
+      { id: 'chicken', name: 'Курица', icon: '🍗' },
       { id: 'rice', name: 'Рис', icon: '🍚' },
-      { id: 'eggs', name: 'Яйца', icon: '🥚' }, 
+      { id: 'eggs', name: 'Яйца', icon: '🥚' },
       { id: 'tomato', name: 'Помидоры', icon: '🍅' },
-      { id: 'cheese', name: 'Сыр', icon: '🧀' }, 
+      { id: 'cheese', name: 'Сыр', icon: '🧀' },
       { id: 'pasta', name: 'Макароны', icon: '🍝' },
-      { id: 'potato', name: 'Картофель', icon: '🥔' }, 
+      { id: 'potato', name: 'Картофель', icon: '🥔' },
       { id: 'greens', name: 'Зелень', icon: '🌿' },
-      { id: 'bread', name: 'Хлеб', icon: '🍞' }, 
+      { id: 'bread', name: 'Хлеб', icon: '🍞' },
       { id: 'milk', name: 'Молоко', icon: '🥛' },
-      { id: 'beef', name: 'Говядина', icon: '🥩' }, 
+      { id: 'beef', name: 'Говядина', icon: '🥩' },
       { id: 'fish', name: 'Рыба', icon: '🐟' }
     ],
     fallbackRecipes: {
       breakfast: [
-        { name: 'Омлет с сыром', calories: 350, ingredients: ['eggs', 'cheese'], missing: ['tomato', 'соль', 'перец'], steps: ['Взбейте яйца с солью и перцем.', 'Натрите сыр.', 'Вылейте яйца на сковороду.', 'Посыпьте сыром и готовьте 3-5 мин.'] },
-        { name: 'Бутерброды с сыром', calories: 250, ingredients: ['bread', 'cheese'], missing: ['tomato', 'масло'], steps: ['Нарежьте хлеб.', 'Намажьте маслом.', 'Положите сыр.', 'Разогрейте.'] }
+        {
+          name: 'Омлет с сыром',
+          imagePrompt: 'fluffy cheese omelet on white ceramic plate',
+          calories: 350,
+          ingredients: ['eggs', 'cheese'],
+          missing: ['tomato', 'соль', 'перец'],
+          steps: ['Взбейте яйца с солью и перцем.', 'Натрите сыр.', 'Вылейте яйца на сковороду.', 'Посыпьте сыром и готовьте 3-5 мин.']
+        },
+        {
+          name: 'Бутерброды с сыром',
+          imagePrompt: 'toasted cheese sandwiches with herbs on wooden board',
+          calories: 250,
+          ingredients: ['bread', 'cheese'],
+          missing: ['tomato', 'масло'],
+          steps: ['Нарежьте хлеб.', 'Намажьте маслом.', 'Положите сыр.', 'Разогрейте.']
+        }
       ],
       lunch: [
-        { name: 'Курица с рисом', calories: 550, ingredients: ['chicken', 'rice'], missing: ['greens', 'соль', 'специи'], steps: ['Отварите рис.', 'Обжарьте курицу со специями.', 'Смешайте.'] },
-        { name: 'Паста с сыром', calories: 600, ingredients: ['pasta', 'cheese'], missing: ['milk', 'соль'], steps: ['Отварите макароны.', 'Добавьте сыр и молоко.', 'Перемешайте.'] }
+        {
+          name: 'Курица с рисом',
+          imagePrompt: 'grilled chicken breast with steamed white rice and herbs',
+          calories: 550,
+          ingredients: ['chicken', 'rice'],
+          missing: ['greens', 'соль', 'специи'],
+          steps: ['Отварите рис.', 'Обжарьте курицу со специями.', 'Смешайте.']
+        },
+        {
+          name: 'Паста с сыром',
+          imagePrompt: 'creamy pasta with melted cheese in bowl',
+          calories: 600,
+          ingredients: ['pasta', 'cheese'],
+          missing: ['milk', 'соль'],
+          steps: ['Отварите макароны.', 'Добавьте сыр и молоко.', 'Перемешайте.']
+        }
       ],
       dinner: [
-        { name: 'Салат из помидоров', calories: 150, ingredients: ['tomato', 'greens'], missing: ['масло', 'соль'], steps: ['Нарежьте помидоры.', 'Порубите зелень.', 'Заправьте маслом.'] },
-        { name: 'Омлет с помидорами', calories: 300, ingredients: ['eggs', 'tomato'], missing: ['соль', 'перец'], steps: ['Нарежьте помидоры.', 'Взбейте яйца.', 'Готовьте под крышкой.'] }
+        {
+          name: 'Салат из помидоров',
+          imagePrompt: 'fresh tomato salad with green herbs and olive oil',
+          calories: 150,
+          ingredients: ['tomato', 'greens'],
+          missing: ['масло', 'соль'],
+          steps: ['Нарежьте помидоры.', 'Порубите зелень.', 'Заправьте маслом.']
+        },
+        {
+          name: 'Омлет с помидорами',
+          imagePrompt: 'omelet with fresh tomatoes and herbs in skillet',
+          calories: 300,
+          ingredients: ['eggs', 'tomato'],
+          missing: ['соль', 'перец'],
+          steps: ['Нарежьте помидоры.', 'Взбейте яйца.', 'Готовьте под крышкой.']
+        }
       ]
     }
   };
@@ -389,7 +458,7 @@
   function navigateTo(pageId) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
-    
+
     document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
     if (pageId === 'mainPage') document.querySelector('.nav-tab:nth-child(1)').classList.add('active');
     if (pageId === 'calendarPage') document.querySelector('.nav-tab:nth-child(2)').classList.add('active');
@@ -434,21 +503,28 @@
   function loadUserPlan() {
     let users = JSON.parse(localStorage.getItem('neuro_users')) || {};
     const userData = users[currentUser];
-    
+
+    renderIngredients();
+
     if (userData && userData.plan && userData.plan.length > 0) {
       currentWeekPlan = userData.plan;
       selectedProducts = userData.selectedProducts || [];
-      
-      renderIngredients();
+
       selectedProducts.forEach(id => {
-        const prodName = database.products.find(p => p.id === id).name;
+        const prod = database.products.find(p => p.id === id);
+        if (!prod) return;
         document.querySelectorAll('.ingredient-btn').forEach(btn => {
-          if (btn.innerHTML.includes(prodName)) btn.classList.add('active');
+          if (btn.innerHTML.includes(prod.name)) btn.classList.add('active');
         });
       });
 
       renderCalendar();
       selectDay(0);
+    } else {
+      currentWeekPlan = [];
+      selectedProducts = [];
+      document.getElementById('weekCalendar').innerHTML = '';
+      document.getElementById('dayDetails').style.display = 'none';
     }
   }
 
@@ -465,21 +541,22 @@
 
     try {
       const productNames = selectedProducts.map(id => database.products.find(p => p.id === id).name).join(', ');
-      
+
       const prompt = `Ты — профессиональный нутрициолог. У пользователя есть: ${productNames}. 
       Составь меню на 7 дней. Верни СТРОГО JSON без лишнего текста в формате:
       {
         "week": [
           {
             "breakfast": {
-              "name": "Название блюда",
+              "name": "Название блюда на русском",
+              "imagePrompt": "short appetizing dish description in English",
               "calories": 350,
               "ingredients": ["продукт1", "продукт2"],
               "missing": ["чего не хватает (включая специи: соль, перец, масло)"],
               "steps": ["Шаг 1", "Шаг 2"]
             },
-            "lunch": { "name": "...", "calories": 500, "ingredients": [], "missing": [], "steps": [] },
-            "dinner": { "name": "...", "calories": 300, "ingredients": [], "missing": [], "steps": [] }
+            "lunch": { "name": "...", "imagePrompt": "...", "calories": 500, "ingredients": [], "missing": [], "steps": [] },
+            "dinner": { "name": "...", "imagePrompt": "...", "calories": 300, "ingredients": [], "missing": [], "steps": [] }
           },
           ... (7 дней)
         ]
@@ -490,7 +567,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: [{ role: "user", content: prompt }] })
       });
-      
+
       let aiText = await response.text();
       const cleanJson = aiText.replace(/```json|```/g, '').trim();
       const aiData = JSON.parse(cleanJson);
@@ -513,7 +590,6 @@
       }
     }
 
-    // Сохраняем в "базу данных" (LocalStorage)
     savePlanToDB(currentWeekPlan);
 
     renderCalendar();
@@ -528,16 +604,16 @@
     const calendarGrid = document.getElementById('weekCalendar');
     calendarGrid.innerHTML = '';
     const today = new Date();
-    
+
     for (let i = 0; i < 7; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
-      
+
       const dayCard = document.createElement('div');
       dayCard.className = `day-card ${i === 0 ? 'active' : ''}`;
       dayCard.onclick = () => selectDay(i);
       dayCard.id = `day-card-${i}`;
-      
+
       dayCard.innerHTML = `
         <div class="day-name">${shortDays[i]}</div>
         <div class="day-date">${date.getDate()}.${date.getMonth() + 1}</div>
@@ -550,16 +626,16 @@
     activeDayIndex = index;
     document.querySelectorAll('.day-card').forEach(card => card.classList.remove('active'));
     const activeCard = document.getElementById(`day-card-${index}`);
-    if(activeCard) activeCard.classList.add('active');
+    if (activeCard) activeCard.classList.add('active');
 
     const details = document.getElementById('dayDetails');
     details.style.display = 'block';
     document.getElementById('selectedDayTitle').innerText = daysOfWeek[index];
-    
+
     const dailyPlan = currentWeekPlan[index];
     const menuResult = document.getElementById('menuResult');
     const shoppingList = document.getElementById('shoppingList');
-    
+
     let menuHTML = '';
     let missingIngredients = new Set();
     let totalCalories = 0;
@@ -577,15 +653,22 @@
       if (dish.missing) {
         dish.missing.forEach(ing => missingIngredients.add(ing));
       }
-      
-      const imgUrl = getFoodImage(dish.name);
+
+      const seed = index * 10 + mealIndex + 1;
+      const imgUrl = getFoodImage(dish, seed, 400, 300);
 
       menuHTML += `
         <div class="recipe-card" onclick="openRecipe(${index}, ${mealIndex})">
-          <img src="${imgUrl}" class="recipe-image" alt="${dish.name}" onerror="this.src='https://via.placeholder.com/400x300/1e293b/52b788?text=Food'">
+          <img
+            src="${imgUrl}"
+            class="recipe-image"
+            alt="${escapeHtml(dish.name)}"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            onerror="handleImageError(this)">
           <div class="recipe-card-content">
             <h3>${item.type}</h3>
-            <p style="font-size: 1.1em; color: white; font-weight: bold; margin: 5px 0; text-align: center;">${dish.name}</p>
+            <p style="font-size: 1.1em; color: white; font-weight: bold; margin: 5px 0; text-align: center;">${escapeHtml(dish.name)}</p>
             <span class="badge">${dish.calories || 0} ккал</span>
           </div>
         </div>
@@ -598,7 +681,7 @@
     if (missingIngredients.size > 0) {
       let shoppingHTML = '';
       missingIngredients.forEach(ing => {
-        shoppingHTML += `<li><span>${ing}</span></li>`;
+        shoppingHTML += `<li><span>${escapeHtml(ing)}</span></li>`;
       });
       shoppingList.innerHTML = shoppingHTML;
       document.getElementById('shoppingResult').style.display = 'block';
@@ -614,22 +697,27 @@
     if (mealIndex === 1) dish = dailyPlan.lunch;
     if (mealIndex === 2) dish = dailyPlan.dinner;
 
-    document.getElementById('detailImage').src = getFoodImage(dish.name);
+    const detailImg = document.getElementById('detailImage');
+    const seed = dayIndex * 10 + mealIndex + 1;
+    detailImg.onerror = function() { handleImageError(this); };
+    detailImg.alt = dish.name;
+    detailImg.src = getFoodImage(dish, seed, 800, 450);
+
     document.getElementById('detailTitle').innerText = dish.name;
     document.getElementById('detailCalories').innerText = `${dish.calories || 0} ккал`;
 
     const ingredientsList = document.getElementById('detailIngredients');
     ingredientsList.innerHTML = '';
-    
+
     if (dish.ingredients) {
       dish.ingredients.forEach(ing => {
-        ingredientsList.innerHTML += `<li>${ing}</li>`;
+        ingredientsList.innerHTML += `<li>${escapeHtml(ing)}</li>`;
       });
     }
-    
+
     if (dish.missing) {
       dish.missing.forEach(ing => {
-        ingredientsList.innerHTML += `<li class="missing">${ing} (докупить)</li>`;
+        ingredientsList.innerHTML += `<li class="missing">${escapeHtml(ing)} (докупить)</li>`;
       });
     }
 
@@ -637,7 +725,7 @@
     stepsList.innerHTML = '';
     if (dish.steps) {
       dish.steps.forEach(step => {
-        stepsList.innerHTML += `<li>${step}</li>`;
+        stepsList.innerHTML += `<li>${escapeHtml(step)}</li>`;
       });
     }
 
