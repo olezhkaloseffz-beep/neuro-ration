@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>НейроРацион 10.0 — AI планировщик</title>
+<title>НейроРацион 11.0 — AI с фото</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root { --primary: #2d6a4f; --primary-light: #52b788; --bg-dark: #0f172a; --card-bg: rgba(30, 41, 59, 0.7); --text-main: #f8fafc; --text-muted: #94a3b8; }
@@ -54,12 +54,16 @@
   .daily-header h2 { margin-bottom: 0; border-left: none; padding-left: 0; }
   
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px; }
-  .recipe-card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border-top: 3px solid var(--primary-light); cursor: pointer; transition: 0.3s; animation: slideUp 0.5s forwards; opacity: 0; transform: translateY(20px); position: relative; overflow: hidden; }
+  .recipe-card { background: rgba(255,255,255,0.05); padding: 0; border-radius: 15px; border-top: 3px solid var(--primary-light); cursor: pointer; transition: 0.3s; animation: slideUp 0.5s forwards; opacity: 0; transform: translateY(20px); position: relative; overflow: hidden; display: flex; flex-direction: column; }
   .recipe-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-  .recipe-image { font-size: 4em; text-align: center; margin-bottom: 10px; line-height: 1; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
+  
+  /* Картинка блюда */
+  .recipe-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px 12px 0 0; background: #1e293b; }
+  
+  .recipe-card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
   .recipe-card h3 { color: var(--primary-light); margin-bottom: 10px; font-size: 1.2em; text-align: center;}
   .recipe-card p { font-size: 0.9em; color: var(--text-muted); margin-bottom: 5px; }
-  .recipe-card .badge { display: inline-block; background: rgba(82, 183, 136, 0.2); color: #b7e4c7; padding: 3px 10px; border-radius: 20px; font-size: 0.8em; margin-top: 10px; }
+  .recipe-card .badge { display: inline-block; background: rgba(82, 183, 136, 0.2); color: #b7e4c7; padding: 3px 10px; border-radius: 20px; font-size: 0.8em; margin-top: auto; align-self: flex-start; }
 
   /* Статистика */
   .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
@@ -83,16 +87,17 @@
 
   /* Детальная страница рецепта */
   .recipe-detail { text-align: center; }
-  .recipe-detail .big-icon { font-size: 6em; margin-bottom: 20px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
+  .recipe-detail .big-image { width: 100%; max-height: 400px; object-fit: cover; border-radius: 20px; margin-bottom: 20px; border: 3px solid var(--primary-light); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
   .recipe-detail h2 { border: none; padding: 0; text-align: center; font-size: 2em; color: white; margin-bottom: 10px; }
   .recipe-detail .calories-badge { background: var(--primary-light); color: var(--bg-dark); font-weight: bold; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 20px; }
-  .recipe-detail .instructions { text-align: left; background: rgba(0,0,0,0.2); padding: 25px; border-radius: 15px; line-height: 1.8; font-size: 1.1em; border-left: 4px solid var(--primary-light); }
+  .recipe-detail .instructions { text-align: left; background: rgba(0,0,0,0.2); padding: 25px; border-radius: 15px; line-height: 1.8; font-size: 1.1em; border-left: 4px solid var(--primary-light); margin-top: 20px; }
   .recipe-detail .instructions ol { padding-left: 20px; }
   .recipe-detail .instructions li { margin-bottom: 15px; }
   .recipe-detail .ingredients-list { margin-top: 20px; text-align: left; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; }
   .recipe-detail .ingredients-list h4 { color: var(--primary-light); margin-bottom: 10px; }
   .recipe-detail .ingredients-list ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
   .recipe-detail .ingredients-list li { background: rgba(82, 183, 136, 0.2); padding: 5px 15px; border-radius: 20px; }
+  .recipe-detail .ingredients-list li.missing { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
 
   /* Чат с ИИ */
   .chat-messages { height: 200px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
@@ -114,7 +119,7 @@
 <body>
 
 <header>
-  <h1 onclick="showPage('mainPage')">🥗 НейроРацион 10.0</h1>
+  <h1 onclick="showPage('mainPage')">🥗 НейроРацион 11.0</h1>
   <p>Твой персональный ИИ-нутрициолог</p>
 </header>
 
@@ -211,12 +216,12 @@
       <button class="back-btn" onclick="showPage('calendarPage')">← Назад к меню</button>
       
       <div class="recipe-detail">
-        <div class="big-icon" id="detailIcon">🍳</div>
+        <img id="detailImage" class="big-image" src="" alt="Блюдо">
         <h2 id="detailTitle">Название блюда</h2>
         <span class="calories-badge" id="detailCalories">0 ккал</span>
         
         <div class="ingredients-list">
-          <h4>Вам понадобится:</h4>
+          <h4>Ингредиенты и специи:</h4>
           <ul id="detailIngredients"></ul>
         </div>
 
@@ -237,6 +242,13 @@
 <script>
   document.addEventListener('contextmenu', e => e.preventDefault());
 
+  // Функция получения картинки по названию (через Unsplash)
+  function getFoodImage(query) {
+    // Используем бесплатный сервис Source.unsplash для подбора картинки по ключевому слову
+    const cleanQuery = query.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '').trim();
+    return `https://source.unsplash.com/featured/400x300/?food,${encodeURIComponent(cleanQuery)}`;
+  }
+
   const database = {
     products: [
       { id: 'chicken', name: 'Курица', icon: '🍗', price: 200, weight: 0.5 }, 
@@ -252,20 +264,19 @@
       { id: 'beef', name: 'Говядина', icon: '🥩', price: 400, weight: 0.5 }, 
       { id: 'fish', name: 'Рыба', icon: '🐟', price: 300, weight: 0.4 }
     ],
-    recipes: {
+    // Резервная база (на случай, если ИИ не ответит)
+    fallbackRecipes: {
       breakfast: [
-        { name: 'Омлет с сыром', icon: '🍳', ingredients: ['eggs', 'cheese'], missing: ['tomato'], calories: 350, steps: ['Взбейте яйца.', 'Натрите сыр.', 'Вылейте яйца на сковороду.', 'Посыпьте сыром и готовьте 3-5 мин.'] },
-        { name: 'Бутерброды с сыром', icon: '🥪', ingredients: ['bread', 'cheese'], missing: ['tomato'], calories: 250, steps: ['Нарежьте хлеб.', 'Положите сыр.', 'Разогрейте в микроволновке.'] },
-        { name: 'Овсянка с молоком', icon: '🥣', ingredients: ['milk'], missing: ['bread'], calories: 300, steps: ['Вскипятите молоко.', 'Добавьте хлопья.', 'Варите 5-7 мин.'] }
+        { name: 'Омлет с сыром', ingredients: ['eggs', 'cheese'], missing: ['tomato', 'соль', 'перец'], calories: 350, steps: ['Взбейте яйца с солью и перцем.', 'Натрите сыр.', 'Вылейте яйца на сковороду.', 'Посыпьте сыром и готовьте 3-5 мин.'] },
+        { name: 'Бутерброды с сыром', ingredients: ['bread', 'cheese'], missing: ['tomato', 'масло'], calories: 250, steps: ['Нарежьте хлеб.', 'Намажьте маслом.', 'Положите сыр.', 'Разогрейте в микроволновке.'] }
       ],
       lunch: [
-        { name: 'Курица с рисом', icon: '🍲', ingredients: ['chicken', 'rice'], missing: ['greens'], calories: 550, steps: ['Отварите рис.', 'Обжарьте курицу.', 'Смешайте и подавайте.'] },
-        { name: 'Паста с сыром', icon: '🍝', ingredients: ['pasta', 'cheese'], missing: ['milk'], calories: 600, steps: ['Отварите макароны.', 'Добавьте сыр и молоко.', 'Перемешайте.'] },
-        { name: 'Жареная картошка с курицей', icon: '🥘', ingredients: ['potato', 'chicken'], missing: [], calories: 650, steps: ['Нарежьте продукты.', 'Обжарьте картошку.', 'Добавьте курицу.'] }
+        { name: 'Курица с рисом', ingredients: ['chicken', 'rice'], missing: ['greens', 'соль', 'специи'], calories: 550, steps: ['Отварите рис.', 'Обжарьте курицу со специями.', 'Смешайте и подавайте.'] },
+        { name: 'Паста с сыром', ingredients: ['pasta', 'cheese'], missing: ['milk', 'соль'], calories: 600, steps: ['Отварите макароны.', 'Добавьте сыр и молоко.', 'Перемешайте до расплавления.'] }
       ],
       dinner: [
-        { name: 'Салат из помидоров', icon: '🥗', ingredients: ['tomato', 'greens'], missing: [], calories: 150, steps: ['Нарежьте помидоры.', 'Порубите зелень.', 'Смешайте.'] },
-        { name: 'Омлет с помидорами', icon: '🍳', ingredients: ['eggs', 'tomato'], missing: [], calories: 300, steps: ['Нарежьте помидоры.', 'Взбейте яйца.', 'Готовьте под крышкой.'] }
+        { name: 'Салат из помидоров', ingredients: ['tomato', 'greens'], missing: ['масло', 'соль'], calories: 150, steps: ['Нарежьте помидоры.', 'Порубите зелень.', 'Заправьте маслом и солью.'] },
+        { name: 'Омлет с помидорами', ingredients: ['eggs', 'tomato'], missing: ['соль', 'перец'], calories: 300, steps: ['Нарежьте помидоры.', 'Взбейте яйца с солью.', 'Готовьте под крышкой.'] }
       ]
     }
   };
@@ -317,7 +328,7 @@
     }
   }
 
-  // ГЕНЕРАЦИЯ ПЛАНА С ПОМОЩЬЮ ИИ
+  // ГЕНЕРАЦИЯ ПЛАНА С ПОМОЩЬЮ ИИ (ПРОДВИНУТЫЙ ПРОМПТ)
   async function generateWeekPlan() {
     if (selectedProducts.length === 0) {
       alert('Выберите хотя бы один продукт!');
@@ -329,54 +340,81 @@
     btn.innerText = '⏳ ИИ думает и составляет план...';
 
     try {
-      // 1. Формируем список продуктов для ИИ
       const productNames = selectedProducts.map(id => database.products.find(p => p.id === id).name).join(', ');
       
-      // 2. Запрос к ИИ (Pollinations)
-      const prompt = `Ты — нутрициолог. У пользователя есть: ${productNames}. Составь меню на 7 дней. Верни СТРОГО JSON без лишнего текста в формате: {"week": [{"breakfast": "Омлет", "lunch": "Курица с рисом", "dinner": "Салат"}, ... 7 дней]}. Блюда должны быть простыми и состоять из этих продуктов.`;
-      
+      // НОВЫЙ ПРОМПТ: Требуем специи, ингредиенты и шаги
+      const prompt = `Ты — профессиональный нутрициолог. У пользователя есть: ${productNames}. 
+      Составь меню на 7 дней. Верни СТРОГО JSON без лишнего текста в формате:
+      {
+        "week": [
+          {
+            "breakfast": {
+              "name": "Название блюда",
+              "calories": 350,
+              "ingredients": ["продукт1", "продукт2"],
+              "missing": ["чего не хватает (включая специи: соль, перец, масло)"],
+              "steps": ["Шаг 1", "Шаг 2"]
+            },
+            "lunch": { ... },
+            "dinner": { ... }
+          },
+          ... (и так 7 дней)
+        ]
+      }
+      Важно: в поле "ingredients" пиши только те продукты, которые ЕСТЬ у пользователя. В поле "missing" пиши то, чего нет (специи, масло и т.д.).`;
+
       const response = await fetch("https://text.pollinations.ai/", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [{ role: "user", content: prompt }]
-        })
+        body: JSON.stringify({ messages: [{ role: "user", content: prompt }] })
       });
       
       let aiText = await response.text();
       
-      // 3. Очищаем ответ от возможных маркеров
+      // Очистка и парсинг JSON
       const cleanJson = aiText.replace(/```json|```/g, '').trim();
       const aiData = JSON.parse(cleanJson);
 
-      // 4. Парсим ответ ИИ и переносим в наш формат
+      // Переносим ответ ИИ в наш формат
       currentWeekPlan = aiData.week.map(day => {
-        // Ищем блюдо в базе по названию, если нет — берем случайное
-        const findDish = (type, name) => {
-          const found = database.recipes[type].find(r => r.name.toLowerCase().includes(name.toLowerCase()));
-          return found || database.recipes[type][Math.floor(Math.random() * database.recipes[type].length)];
-        };
         return {
-          breakfast: findDish('breakfast', day.breakfast),
-          lunch: findDish('lunch', day.lunch),
-          dinner: findDish('dinner', day.dinner)
+          breakfast: {
+            name: day.breakfast.name,
+            calories: day.breakfast.calories,
+            ingredients: day.breakfast.ingredients || [],
+            missing: day.breakfast.missing || [],
+            steps: day.breakfast.steps || ['Приготовьте по вкусу.']
+          },
+          lunch: {
+            name: day.lunch.name,
+            calories: day.lunch.calories,
+            ingredients: day.lunch.ingredients || [],
+            missing: day.lunch.missing || [],
+            steps: day.lunch.steps || ['Приготовьте по вкусу.']
+          },
+          dinner: {
+            name: day.dinner.name,
+            calories: day.dinner.calories,
+            ingredients: day.dinner.ingredients || [],
+            missing: day.dinner.missing || [],
+            steps: day.dinner.steps || ['Приготовьте по вкусу.']
+          }
         };
       });
 
     } catch (error) {
       console.log("ИИ не справился, используем резервную базу", error);
-      // РЕЗЕРВНЫЙ ВАРИАНТ (если ИИ выдал ошибку)
+      // РЕЗЕРВНЫЙ ВАРИАНТ
       currentWeekPlan = [];
       for (let i = 0; i < 7; i++) {
         currentWeekPlan.push({
-          breakfast: database.recipes.breakfast[Math.floor(Math.random() * database.recipes.breakfast.length)],
-          lunch: database.recipes.lunch[Math.floor(Math.random() * database.recipes.lunch.length)],
-          dinner: database.recipes.dinner[Math.floor(Math.random() * database.recipes.dinner.length)]
+          breakfast: database.fallbackRecipes.breakfast[Math.floor(Math.random() * database.fallbackRecipes.breakfast.length)],
+          lunch: database.fallbackRecipes.lunch[Math.floor(Math.random() * database.fallbackRecipes.lunch.length)],
+          dinner: database.fallbackRecipes.dinner[Math.floor(Math.random() * database.fallbackRecipes.dinner.length)]
         });
       }
     }
 
-    // 5. Отрисовка
     renderCalendar();
     selectDay(0);
 
@@ -439,20 +477,24 @@
 
     meals.forEach((item, mealIndex) => {
       const dish = item.dish;
-      totalCalories += dish.calories;
+      totalCalories += dish.calories || 0;
 
-      dish.missing.forEach(ing => {
-        if (!selectedProducts.includes(ing)) {
-          missingIngredients.add(ing);
-        }
-      });
+      // Собираем недостающие ингредиенты
+      if (dish.missing) {
+        dish.missing.forEach(ing => missingIngredients.add(ing));
+      }
       
+      // Получаем картинку по названию блюда
+      const imgUrl = getFoodImage(dish.name);
+
       menuHTML += `
         <div class="recipe-card" onclick="openRecipe(${index}, ${mealIndex})">
-          <div class="recipe-image">${dish.icon}</div>
-          <h3>${item.type}</h3>
-          <p style="font-size: 1.1em; color: white; font-weight: bold; margin: 5px 0; text-align: center;">${dish.name}</p>
-          <span class="badge">${dish.calories} ккал</span>
+          <img src="${imgUrl}" class="recipe-image" alt="${dish.name}" onerror="this.src='https://via.placeholder.com/400x300/1e293b/52b788?text=Food'">
+          <div class="recipe-card-content">
+            <h3>${item.type}</h3>
+            <p style="font-size: 1.1em; color: white; font-weight: bold; margin: 5px 0; text-align: center;">${dish.name}</p>
+            <span class="badge">${dish.calories || 0} ккал</span>
+          </div>
         </div>
       `;
     });
@@ -463,8 +505,7 @@
     if (missingIngredients.size > 0) {
       let shoppingHTML = '';
       missingIngredients.forEach(ing => {
-        const product = database.products.find(p => p.id === ing);
-        shoppingHTML += `<li><span>${product.icon} ${product.name}</span></li>`;
+        shoppingHTML += `<li><span>${ing}</span></li>`;
       });
       shoppingList.innerHTML = shoppingHTML;
       document.getElementById('shoppingResult').style.display = 'block';
@@ -473,24 +514,63 @@
     }
   }
 
+  function openRecipe(dayIndex, mealIndex) {
+    const dailyPlan = currentWeekPlan[dayIndex];
+    let dish;
+    if (mealIndex === 0) dish = dailyPlan.breakfast;
+    if (mealIndex === 1) dish = dailyPlan.lunch;
+    if (mealIndex === 2) dish = dailyPlan.dinner;
+
+    // Ставим картинку
+    document.getElementById('detailImage').src = getFoodImage(dish.name);
+    document.getElementById('detailTitle').innerText = dish.name;
+    document.getElementById('detailCalories').innerText = `${dish.calories || 0} ккал`;
+
+    // Ингредиенты
+    const ingredientsList = document.getElementById('detailIngredients');
+    ingredientsList.innerHTML = '';
+    
+    if (dish.ingredients) {
+      dish.ingredients.forEach(ing => {
+        ingredientsList.innerHTML += `<li>${ing}</li>`;
+      });
+    }
+    
+    // Красным выделяем недостающее
+    if (dish.missing) {
+      dish.missing.forEach(ing => {
+        ingredientsList.innerHTML += `<li class="missing">${ing} (докупить)</li>`;
+      });
+    }
+
+    // Шаги
+    const stepsList = document.getElementById('detailSteps');
+    stepsList.innerHTML = '';
+    if (dish.steps) {
+      dish.steps.forEach(step => {
+        stepsList.innerHTML += `<li>${step}</li>`;
+      });
+    }
+
+    showPage('recipePage');
+  }
+
   // --- СТАТИСТИКА И ГРАФИКИ ---
   function updateCharts() {
     if (!currentWeekPlan || currentWeekPlan.length === 0) return;
 
-    // Считаем калории по дням
     const weeklyData = currentWeekPlan.map(day => {
-      return day.breakfast.calories + day.lunch.calories + day.dinner.calories;
+      return (day.breakfast.calories || 0) + (day.lunch.calories || 0) + (day.dinner.calories || 0);
     });
 
     const todayData = currentWeekPlan[activeDayIndex];
-    const dailyData = [todayData.breakfast.calories, todayData.lunch.calories, todayData.dinner.calories];
+    const dailyData = [todayData.breakfast.calories || 0, todayData.lunch.calories || 0, todayData.dinner.calories || 0];
 
-    // Обновляем цифры
     document.getElementById('statsTotalDay').innerText = dailyData.reduce((a, b) => a + b, 0);
     document.getElementById('statsTotalWeek').innerText = weeklyData.reduce((a, b) => a + b, 0);
     document.getElementById('statsTotalMonth').innerText = weeklyData.reduce((a, b) => a + b, 0) * 4;
 
-    // График недели (Столбчатый)
+    // График недели
     if (weeklyChartInstance) weeklyChartInstance.destroy();
     const ctxWeekly = document.getElementById('weeklyChart').getContext('2d');
     weeklyChartInstance = new Chart(ctxWeekly, {
@@ -507,8 +587,7 @@
         }]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         scales: {
           y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } },
           x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
@@ -517,7 +596,7 @@
       }
     });
 
-    // График дня (Пончик)
+    // График дня
     if (dailyChartInstance) dailyChartInstance.destroy();
     const ctxDaily = document.getElementById('dailyChart').getContext('2d');
     dailyChartInstance = new Chart(ctxDaily, {
@@ -531,48 +610,10 @@
         }]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '70%',
-        plugins: {
-          legend: { position: 'bottom', labels: { color: '#f8fafc', padding: 20 } }
-        }
+        responsive: true, maintainAspectRatio: false, cutout: '70%',
+        plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc', padding: 20 } } }
       }
     });
-  }
-
-  function openRecipe(dayIndex, mealIndex) {
-    const dailyPlan = currentWeekPlan[dayIndex];
-    let dish;
-    if (mealIndex === 0) dish = dailyPlan.breakfast;
-    if (mealIndex === 1) dish = dailyPlan.lunch;
-    if (mealIndex === 2) dish = dailyPlan.dinner;
-
-    document.getElementById('detailIcon').innerText = dish.icon;
-    document.getElementById('detailTitle').innerText = dish.name;
-    document.getElementById('detailCalories').innerText = `${dish.calories} ккал`;
-
-    const ingredientsList = document.getElementById('detailIngredients');
-    ingredientsList.innerHTML = '';
-    dish.ingredients.forEach(ing => {
-      const prod = database.products.find(p => p.id === ing);
-      ingredientsList.innerHTML += `<li>${prod.icon} ${prod.name}</li>`;
-    });
-    
-    dish.missing.forEach(ing => {
-      if (!selectedProducts.includes(ing)) {
-        const prod = database.products.find(p => p.id === ing);
-        ingredientsList.innerHTML += `<li style="background: rgba(255, 107, 107, 0.2); color: #ff6b6b;">${prod.icon} ${prod.name} (докупить)</li>`;
-      }
-    });
-
-    const stepsList = document.getElementById('detailSteps');
-    stepsList.innerHTML = '';
-    dish.steps.forEach(step => {
-      stepsList.innerHTML += `<li>${step}</li>`;
-    });
-
-    showPage('recipePage');
   }
 
   // --- ИИ-ЧАТ ---
@@ -610,10 +651,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: [
-            { role: "system", content: "Ты — ИИ-нутрициолог. Отвечай на русском языке кратко." },
-            { role: "user", content: text }
-          ]
+          messages: [{ role: "system", content: "Ты — ИИ-нутрициолог. Отвечай на русском языке кратко." }, { role: "user", content: text }]
         })
       });
       
@@ -624,10 +662,7 @@
       loadingMsg.innerText = `⚠️ Ошибка: ${error.message}`;
       loadingMsg.style.color = '#ff6b6b';
     } finally {
-      setTimeout(() => {
-        sendBtn.disabled = false;
-        isWaiting = false; 
-      }, 45000);
+      setTimeout(() => { sendBtn.disabled = false; isWaiting = false; }, 45000);
     }
   }
 
