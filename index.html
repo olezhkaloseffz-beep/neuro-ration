@@ -8,6 +8,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root { --primary: #2d6a4f; --primary-light: #52b788; --bg-dark: #0f172a; --card-bg: rgba(30, 41, 59, 0.7); --text-main: #f8fafc; --text-muted: #94a3b8; }
   body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--text-main); line-height: 1.6; background-color: var(--bg-dark); background-image: radial-gradient(circle at top right, #1b4332, transparent 40%), radial-gradient(circle at bottom left, #0f172a, transparent 40%); min-height: 100vh; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
+  input, textarea { -webkit-user-select: text; user-select: text; }
   header { padding: 30px 20px; text-align: center; position: relative; }
   header h1 { font-size: 2.5em; margin-bottom: 10px; background: linear-gradient(90deg, #b7e4c7, #52b788); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
   header p { font-size: 1.1em; color: var(--text-muted); }
@@ -24,11 +25,12 @@
   .nav-tab:hover { background: rgba(255,255,255,0.1); }
   .nav-tab.active { background: var(--primary); border-color: var(--primary-light); box-shadow: 0 0 10px rgba(82, 183, 136, 0.3); }
   .auth-form { max-width: 400px; margin: 0 auto; text-align: center; }
-  .auth-form input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1em; }
+  .auth-form input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.25); color: white; outline: none; font-size: 1em; }
   .auth-form input:focus { border-color: var(--primary-light); }
   .auth-btn { width: 100%; background: var(--primary-light); color: var(--bg-dark); border: none; padding: 15px; font-size: 1.1em; font-weight: bold; border-radius: 10px; cursor: pointer; transition: 0.2s; margin-bottom: 10px; }
   .auth-btn:hover { background: #b7e4c7; }
   .auth-switch { color: var(--primary-light); cursor: pointer; text-decoration: underline; margin-top: 10px; display: inline-block; }
+  .inline-error { display: none; color: #ff8787; background: rgba(255, 107, 107, 0.14); border: 1px solid rgba(255, 107, 107, 0.35); padding: 10px 14px; border-radius: 10px; margin-bottom: 14px; font-size: 0.92em; text-align: center; }
   .goals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 15px; margin-bottom: 10px; }
   .goal-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 16px; cursor: pointer; transition: 0.2s; text-align: left; }
   .goal-card:hover { background: rgba(255,255,255,0.08); border-color: var(--primary-light); transform: translateY(-2px); }
@@ -119,31 +121,32 @@
 <header>
   <h1 onclick="navigateTo('mainPage')">🥗 НейроРацион 12.0</h1>
   <p id="userGreeting">Твой персональный ИИ-нутрициолог</p>
-  <button id="logoutBtn" onclick="logout()">Выйти</button>
+  <button id="logoutBtn" type="button" onclick="logout()">Выйти</button>
 </header>
 
 <div class="container">
   <div id="authPage" class="page active">
     <div class="glass-panel">
-      <div class="auth-form">
+      <form class="auth-form" onsubmit="handleAuth(event)" novalidate>
         <h2 id="authTitle">Вход в систему</h2>
         <p style="margin-bottom: 20px; color: var(--text-muted);">Войдите, чтобы сохранять свои рационы</p>
-        <input type="email" id="authEmail" placeholder="Ваш Email">
-        <input type="password" id="authPassword" placeholder="Пароль">
-        <button class="auth-btn" id="authActionBtn" onclick="handleAuth()">Войти</button>
+        <input type="email" id="authEmail" placeholder="Ваш Email" autocomplete="email">
+        <input type="password" id="authPassword" placeholder="Пароль" autocomplete="current-password">
+        <div id="authError" class="inline-error"></div>
+        <button type="submit" class="auth-btn" id="authActionBtn">Войти</button>
         <div>
           <span id="authSwitchText" style="color: var(--text-muted);">Нет аккаунта? </span>
           <span class="auth-switch" id="authSwitchBtn" onclick="toggleAuthMode()">Зарегистрироваться</span>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 
   <div id="appInterface" style="display: none;">
     <div class="nav-tabs" id="mainTabs">
-      <button class="nav-tab active" onclick="navigateTo('mainPage')">Выбор продуктов</button>
-      <button class="nav-tab" onclick="navigateTo('calendarPage')">Мой календарь</button>
-      <button class="nav-tab" onclick="navigateTo('statsPage')">Статистика 📊</button>
+      <button type="button" class="nav-tab active" onclick="navigateTo('mainPage')">Выбор продуктов</button>
+      <button type="button" class="nav-tab" onclick="navigateTo('calendarPage')">Мой календарь</button>
+      <button type="button" class="nav-tab" onclick="navigateTo('statsPage')">Статистика 📊</button>
     </div>
 
     <div id="mainPage" class="page">
@@ -158,12 +161,13 @@
         <div class="section-actions">
           <p style="color: var(--text-muted); font-size: 0.9em;">Отметьте то, что есть в холодильнике (24 продукта):</p>
           <div class="mini-actions">
-            <button class="mini-btn" onclick="selectAllProducts()">Выбрать все</button>
-            <button class="mini-btn" onclick="clearProducts()">Сбросить</button>
+            <button type="button" class="mini-btn" onclick="selectAllProducts()">Выбрать все</button>
+            <button type="button" class="mini-btn" onclick="clearProducts()">Сбросить</button>
           </div>
         </div>
         <div class="ingredients-grid" id="ingredientsGrid"></div>
-        <button class="generate-btn" id="generateBtn" onclick="generateWeekPlan()">✨ Составить рацион на неделю</button>
+        <div id="planError" class="inline-error"></div>
+        <button type="button" class="generate-btn" id="generateBtn" onclick="generateWeekPlan()">✨ Составить рацион на неделю</button>
       </div>
 
       <div class="glass-panel">
@@ -173,7 +177,7 @@
         </div>
         <div class="chat-input-group">
           <input type="text" id="userInput" placeholder="Например: Что лучше на ужин при похудении?" onkeypress="handleEnter(event)">
-          <button id="sendBtn" onclick="sendMessage()">Отправить</button>
+          <button type="button" id="sendBtn" onclick="sendMessage()">Отправить</button>
         </div>
       </div>
     </div>
@@ -227,7 +231,7 @@
 
     <div id="recipePage" class="page">
       <div class="glass-panel">
-        <button class="back-btn" onclick="navigateTo('calendarPage')">← Назад к меню</button>
+        <button type="button" class="back-btn" onclick="navigateTo('calendarPage')">← Назад к меню</button>
         <div class="recipe-detail">
           <img id="detailImage" class="big-image" src="" alt="Блюдо" referrerpolicy="no-referrer" onerror="handleImageError(this)">
           <h2 id="detailTitle">Название блюда</h2>
@@ -254,6 +258,32 @@
 
 <script>
   document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // Безопасное хранилище (не падает при блокировке localStorage или битом JSON)
+  const memoryStore = {};
+  function safeGetJson(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) {
+      return key in memoryStore ? memoryStore[key] : fallback;
+    }
+  }
+  function safeSetJson(key, value) {
+    memoryStore[key] = value;
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+  function safeGetString(key) {
+    try { return localStorage.getItem(key); } catch (e) { return memoryStore[key] || null; }
+  }
+  function safeSetString(key, value) {
+    memoryStore[key] = value;
+    try { localStorage.setItem(key, value); } catch (e) {}
+  }
+  function safeRemove(key) {
+    delete memoryStore[key];
+    try { localStorage.removeItem(key); } catch (e) {}
+  }
 
   const GOALS = {
     weight_loss: {
@@ -285,34 +315,65 @@
   let selectedGoal = 'maintenance';
   let isLoginMode = true;
   let currentUser = null;
+  let selectedProducts = [];
+  let currentWeekPlan = [];
+  let activeDayIndex = 0;
+  let weeklyChartInstance = null;
+  let dailyChartInstance = null;
+  const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+  const shortDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+
+  function showAuthError(msg) {
+    const box = document.getElementById('authError');
+    if (!msg) { box.style.display = 'none'; box.innerText = ''; return; }
+    box.innerText = msg;
+    box.style.display = 'block';
+  }
 
   function toggleAuthMode() {
     isLoginMode = !isLoginMode;
+    showAuthError('');
     document.getElementById('authTitle').innerText = isLoginMode ? 'Вход в систему' : 'Регистрация';
     document.getElementById('authActionBtn').innerText = isLoginMode ? 'Войти' : 'Создать аккаунт';
     document.getElementById('authSwitchText').innerText = isLoginMode ? 'Нет аккаунта? ' : 'Уже есть аккаунт? ';
     document.getElementById('authSwitchBtn').innerText = isLoginMode ? 'Зарегистрироваться' : 'Войти';
+    document.getElementById('authPassword').autocomplete = isLoginMode ? 'current-password' : 'new-password';
   }
 
-  function handleAuth() {
-    const email = document.getElementById('authEmail').value.trim();
+  function handleAuth(event) {
+    if (event) event.preventDefault();
+    showAuthError('');
+
+    const email = document.getElementById('authEmail').value.trim().toLowerCase();
     const pass = document.getElementById('authPassword').value.trim();
-    if (!email || !pass) { alert('Заполните все поля!'); return; }
-    let users = JSON.parse(localStorage.getItem('neuro_users')) || {};
+
+    if (!email || !pass) { showAuthError('Заполните Email и пароль!'); return; }
+    if (!email.includes('@')) { showAuthError('Введите корректный Email (например, name@mail.ru).'); return; }
+
+    const users = safeGetJson('neuro_users', {});
+
     if (isLoginMode) {
-      if (users[email] && users[email].password === pass) { currentUser = email; loginSuccess(); }
-      else alert('Неверный email или пароль!');
+      if (users[email] && users[email].password === pass) {
+        currentUser = email;
+        loginSuccess();
+      } else {
+        showAuthError('Неверный email или пароль! Если вы здесь впервые — нажмите «Зарегистрироваться».');
+      }
     } else {
-      if (users[email]) { alert('Этот email уже зарегистрирован!'); return; }
+      if (users[email]) {
+        showAuthError('Этот email уже зарегистрирован! Нажмите «Войти».');
+        return;
+      }
       users[email] = { password: pass, plan: null, selectedProducts: [], goal: 'maintenance' };
-      localStorage.setItem('neuro_users', JSON.stringify(users));
+      safeSetJson('neuro_users', users);
       currentUser = email;
       loginSuccess();
     }
   }
 
   function loginSuccess() {
-    localStorage.setItem('neuro_currentUser', currentUser);
+    showAuthError('');
+    safeSetString('neuro_currentUser', currentUser);
     document.getElementById('authPage').classList.remove('active');
     document.getElementById('appInterface').style.display = 'block';
     document.getElementById('logoutBtn').style.display = 'block';
@@ -323,21 +384,17 @@
 
   function logout() {
     currentUser = null;
-    localStorage.removeItem('neuro_currentUser');
+    safeRemove('neuro_currentUser');
     document.getElementById('appInterface').style.display = 'none';
     document.getElementById('logoutBtn').style.display = 'none';
     document.getElementById('authPage').classList.add('active');
     document.getElementById('userGreeting').innerText = 'Твой персональный ИИ-нутрициолог';
     document.getElementById('authEmail').value = '';
     document.getElementById('authPassword').value = '';
-    if (weeklyChartInstance) weeklyChartInstance.destroy();
-    if (dailyChartInstance) dailyChartInstance.destroy();
+    showAuthError('');
+    if (weeklyChartInstance) { weeklyChartInstance.destroy(); weeklyChartInstance = null; }
+    if (dailyChartInstance) { dailyChartInstance.destroy(); dailyChartInstance = null; }
   }
-
-  window.onload = function() {
-    const savedUser = localStorage.getItem('neuro_currentUser');
-    if (savedUser) { currentUser = savedUser; loginSuccess(); }
-  };
 
   // --- РЕАЛЬНЫЕ ФОТО ЕДЫ ---
   const imageCache = {};
@@ -488,14 +545,6 @@
     }
   };
 
-  let selectedProducts = [];
-  let currentWeekPlan = [];
-  let activeDayIndex = 0;
-  let weeklyChartInstance = null;
-  let dailyChartInstance = null;
-  const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
-  const shortDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-
   function navigateTo(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
@@ -532,38 +581,45 @@
   }
 
   function toggleProduct(id, btn) {
+    document.getElementById('planError').style.display = 'none';
     if (selectedProducts.includes(id)) { selectedProducts = selectedProducts.filter(p => p !== id); btn.classList.remove('active'); }
     else { selectedProducts.push(id); btn.classList.add('active'); }
   }
 
-  function selectAllProducts() { selectedProducts = database.products.map(p => p.id); renderIngredients(); }
+  function selectAllProducts() { selectedProducts = database.products.map(p => p.id); document.getElementById('planError').style.display = 'none'; renderIngredients(); }
   function clearProducts() { selectedProducts = []; renderIngredients(); }
 
   function savePlanToDB(plan) {
-    let users = JSON.parse(localStorage.getItem('neuro_users')) || {};
+    const users = safeGetJson('neuro_users', {});
     if (users[currentUser]) {
       users[currentUser].plan = plan;
       users[currentUser].selectedProducts = selectedProducts;
       users[currentUser].goal = selectedGoal;
-      localStorage.setItem('neuro_users', JSON.stringify(users));
+      safeSetJson('neuro_users', users);
     }
   }
 
   function loadUserPlan() {
-    let users = JSON.parse(localStorage.getItem('neuro_users')) || {};
-    const userData = users[currentUser];
-    selectedGoal = (userData && GOALS[userData.goal]) ? userData.goal : 'maintenance';
-    selectedProducts = (userData && Array.isArray(userData.selectedProducts)) ? userData.selectedProducts : [];
-    renderGoals();
-    renderIngredients();
-    if (userData?.plan?.length) {
-      currentWeekPlan = userData.plan;
-      renderCalendar();
-      selectDay(0);
-    } else {
+    try {
+      const users = safeGetJson('neuro_users', {});
+      const userData = users[currentUser];
+      selectedGoal = (userData && GOALS[userData.goal]) ? userData.goal : 'maintenance';
+      selectedProducts = (userData && Array.isArray(userData.selectedProducts)) ? userData.selectedProducts : [];
+      renderGoals();
+      renderIngredients();
+      if (userData?.plan?.length) {
+        currentWeekPlan = userData.plan;
+        renderCalendar();
+        selectDay(0);
+      } else {
+        currentWeekPlan = [];
+        document.getElementById('weekCalendar').innerHTML = '';
+        document.getElementById('dayDetails').style.display = 'none';
+      }
+    } catch (e) {
       currentWeekPlan = [];
-      document.getElementById('weekCalendar').innerHTML = '';
-      document.getElementById('dayDetails').style.display = 'none';
+      renderGoals();
+      renderIngredients();
     }
   }
 
@@ -587,7 +643,7 @@
 
   function pickSmartRecipe(list, goalId, usedNames) {
     const scored = list.map(r => {
-      let score = (r.goals?.includes(goalId) ? 10 : 0) + (r.ingredients || []).filter(id => selectedProducts.includes(id)).length * 4 + (usedNames.has(r.name) ? 0 : 6) + Math.random() * 2;
+      const score = (r.goals?.includes(goalId) ? 10 : 0) + (r.ingredients || []).filter(id => selectedProducts.includes(id)).length * 4 + (usedNames.has(r.name) ? 0 : 6) + Math.random() * 2;
       return { recipe: r, score };
     }).sort((a, b) => b.score - a.score);
     usedNames.add(scored[0].recipe.name);
@@ -612,25 +668,32 @@
 
   function normalizeAiDish(dish, goalId) {
     const scale = (GOALS[goalId] || GOALS.maintenance).portionScale;
-    const raw = parseInt(String(dish.portion || '').replace(/\D/g, ''), 10);
+    const raw = parseInt(String(dish?.portion || '').replace(/\D/g, ''), 10);
     const grams = raw > 0 ? raw : Math.round(320 * scale);
     return {
-      name: dish.name || 'Полезное блюдо',
-      imageQuery: dish.imageQuery || '',
-      portion: dish.portion || `${grams} г`,
+      name: dish?.name || 'Полезное блюдо',
+      imageQuery: dish?.imageQuery || '',
+      portion: dish?.portion || `${grams} г`,
       portionGrams: grams,
-      calories: Number(dish.calories) || 350,
-      protein: Number(dish.protein) || 22,
-      fat: Number(dish.fat) || 12,
-      carbs: Number(dish.carbs) || 35,
-      ingredients: Array.isArray(dish.ingredients) ? dish.ingredients : [],
-      missing: Array.isArray(dish.missing) ? dish.missing : [],
-      steps: Array.isArray(dish.steps) ? dish.steps : []
+      calories: Number(dish?.calories) || 350,
+      protein: Number(dish?.protein) || 22,
+      fat: Number(dish?.fat) || 12,
+      carbs: Number(dish?.carbs) || 35,
+      ingredients: Array.isArray(dish?.ingredients) ? dish.ingredients : [],
+      missing: Array.isArray(dish?.missing) ? dish.missing : [],
+      steps: Array.isArray(dish?.steps) ? dish.steps : []
     };
   }
 
   async function generateWeekPlan() {
-    if (selectedProducts.length === 0) { alert('Выберите хотя бы один продукт!'); return; }
+    const errBox = document.getElementById('planError');
+    if (selectedProducts.length === 0) {
+      errBox.innerText = 'Выберите хотя бы один продукт в холодильнике!';
+      errBox.style.display = 'block';
+      return;
+    }
+    errBox.style.display = 'none';
+
     const btn = document.getElementById('generateBtn');
     const goal = GOALS[selectedGoal] || GOALS.maintenance;
     btn.disabled = true;
@@ -682,13 +745,15 @@
   }
 
   function selectDay(index) {
+    const daily = currentWeekPlan[index];
+    if (!daily || !daily.breakfast || !daily.lunch || !daily.dinner) return;
+
     activeDayIndex = index;
     document.querySelectorAll('.day-card').forEach(c => c.classList.remove('active'));
     document.getElementById(`day-card-${index}`)?.classList.add('active');
     document.getElementById('dayDetails').style.display = 'block';
     document.getElementById('selectedDayTitle').innerText = daysOfWeek[index];
 
-    const daily = currentWeekPlan[index];
     const planGoal = GOALS[daily.goalId || selectedGoal] || GOALS.maintenance;
     document.getElementById('activeGoalBadge').innerText = `${planGoal.icon} Цель: ${planGoal.title} (${planGoal.targetKcal})`;
 
@@ -753,73 +818,80 @@
   }
 
   function updateCharts() {
-    if (!currentWeekPlan?.length) return;
-    const weekly = currentWeekPlan.map(d => (d.breakfast.calories || 0) + (d.lunch.calories || 0) + (d.dinner.calories || 0));
-    const grams = currentWeekPlan.map(d => ['breakfast', 'lunch', 'dinner'].reduce((s, k) => s + (d[k].portionGrams || parseInt(String(d[k].portion || '300').replace(/\D/g, ''), 10) || 300), 0));
-    const today = currentWeekPlan[activeDayIndex];
-<!DOCTYPE html>const daily = [today.breakfast.calories || 0, today.lunch.calories || 0, today.dinner.calories || 0];
+    if (!currentWeekPlan?.length || typeof Chart === 'undefined') return;
+    const weekly = currentWeekPlan.map(d => (d.breakfast?.calories || 0) + (d.lunch?.calories || 0) + (d.dinner?.calories || 0));
+    const grams = currentWeekPlan.map(d => ['breakfast', 'lunch', 'dinner'].reduce((s, k) => s + (d[k]?.portionGrams || parseInt(String(d[k]?.portion || '300').replace(/\D/g, ''), 10) || 300), 0));
+    const today = currentWeekPlan[activeDayIndex] || currentWeekPlan[0];
+    const daily = [today.breakfast?.calories || 0, today.lunch?.calories || 0, today.dinner?.calories || 0];
 
     document.getElementById('statsTotalDay').innerText = daily.reduce((a, b) => a + b, 0);
     document.getElementById('statsTotalWeek').innerText = weekly.reduce((a, b) => a + b, 0);
     document.getElementById('statsTotalMonth').innerText = weekly.reduce((a, b) => a + b, 0) * 4;
     document.getElementById('statsAvgWeight').innerText = `${Math.round(grams.reduce((a, b) => a + b, 0) / 7)} г`;
 
-    if (weeklyChartInstance) weeklyChartInstance.destroy();
-    weeklyChartInstance = new Chart(document.getElementById('weeklyChart').getContext('2d'), {
-      type: 'bar',
-      data: { labels: shortDays, datasets: [{ label: 'Ккал', data: weekly, backgroundColor: 'rgba(82, 183, 136, 0.6)', borderColor: '#52b788', borderWidth: 1, borderRadius: 5 }] },
-      options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94a3b8' } }, x: { grid: { display: false }, ticks: { color: '#94a3b8' } } }, plugins: { legend: { display: false } } }
+/html>
+    weeklyChartInstance = новый Диаграмма(документ.getElementById('еженедельная диаграмма').получитьКонтекст('2д'), {
+      тип: 'бар',
+      данные: { этикетки: короткиеДни, наборы данных: [{ этикетка: 'Ккал', данные: еженедельно, цвет фона: 'rgba(82, 183, 136, 0,6)', цвет границы: '#52b788', ширина границы: 1, borderRadius: 5 }] },
+      варианты: { отзывчивый: истинный, подерживатьAspectRatio: ложный, весы: { y: { beginAtZero: истинный, сетка: { цвет: 'rgba(255,255,255,0.1)' }, клещи: { цвет: '#94a3b8' } }, x: { сетка: { отображать: ложный }, клещи: { цвет: '#94a3b8' } } }, плагины: { легенда: { display: false } } }
     });
 
-    if (dailyChartInstance) dailyChartInstance.destroy();
-    dailyChartInstance = new Chart(document.getElementById('dailyChart').getContext('2d'), {
-      type: 'doughnut',
-      data: { labels: ['Завтрак', 'Обед', 'Ужин'], datasets: [{ data: daily, backgroundColor: ['#52b788', '#2d6a4f', '#b7e4c7'], borderWidth: 0 }] },
-      options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc', padding: 20 } } } }
+    если (dailyChartInstance) dailyChartInstance.разрушать();
+    dailyChartInstance = новый Диаграмма(документ.getElementById('ежедневный чарт').получитьКонтекст('2д'), {
+      тип: «пончик»,
+      данные: { этикетки: ['Завтрак', 'Обед', 'Ужин'], наборы данных: [{ данные: ежедневно, цвет фона: ['#52b788', '#2d6a4f', '#b7e4c7'], ширина границы: 0 }] },
+      варианты: { отзывчивый: истинный, подерживатьAspectRatio: ложный, вырезать: «70%», плагины: { легенда: { позиция: 'нижний', этикетки: { цвет: '#f8fafc', прокладка: 20 } } } }
     });
   }
 
-  const chatMessages = document.getElementById('chatMessages');
-  const userInput = document.getElementById('userInput');
-  const sendBtn = document.getElementById('sendBtn');
-  let isWaiting = false;
+  константа чатСообщения = документ.getElementById('чатСообщения');
+  константа пользовательВвод = документ.getElementById('пользовательский ввод');
+  константа sendBtn = документ.getElementById('sendBtn');
+  позволять ждет = ложный;
 
-  function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
-  function addMessage(text, sender) {
-    const div = document.createElement('div');
-    div.className = `msg-bubble ${sender}`;
-    div.innerText = text;
-    chatMessages.appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    return div;
+  функция handleEnter(e) { если (e.ключ === «Вход») отправитьСообщение(); }
+  функция добавитьСообщение(текст, отправитель) {
+    константа див = документ.создатьЭлемент('див');
+    див.имя класса = `msg-пузырь ${отправитель}`;
+    див.внутреннийТекст = текст;
+    чатСообщения.добавитьРебенок(див);
+    чатСообщения.прокрутитьВверх = чатСообщения.scrollHeight;
+    возвращаться див;
   }
 
-  async function sendMessage() {
-    const text = userInput.value.trim();
-    if (!text || isWaiting) return;
-    addMessage(text, 'msg-user');
-    userInput.value = '';
-    sendBtn.disabled = true;
-    isWaiting = true;
-    const loadingMsg = addMessage('Печатает...', 'msg-ai msg-loading');
-    const goal = GOALS[selectedGoal] || GOALS.maintenance;
-    try {
-      const res = await fetch("https://text.pollinations.ai/", {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: "system", content: `Ты — ИИ-нутрициолог. Цель пользователя: ${goal.title} (${goal.targetKcal}). Отвечай на русском кратко.` }, { role: "user", content: text }] })
+  асинхронный функция отправитьСообщение() {
+    константа текст = пользовательВвод.ценить.подрезать();
+    если (!текст || ждет) возвращаться;
+    добавитьСообщение(текст, 'msg-пользователь');
+    пользовательВвод.ценить = '';
+    sendBtn.неполноценный = истинный;
+    ждет = истинный;
+    константа загрузкаСообщение = добавитьСообщение('Печатает...', 'msg-ai msg-loading');
+    константа цель = ЦЕЛИ[выбраннаяЦель] || ЦЕЛИ.обслуживание;
+    пытаться {
+      константа рез = ждать принести("https://text.pollinations.ai/", {
+        метод: 'ПОСТ', заголовки: { «Тип содержимого»: 'приложение/json' },
+        тело: JSON.стринглиф({ сообщения: [{ роль: "система", содержание: `Ты — ИИ-нутрициолог. Цель пользователя: ${цель.заголовок} (${цель.цельКкал}). Отвечай на русском кратко.` }, { роль: "пользователь", содержание: текст }] })
       });
-      loadingMsg.innerText = await res.text();
-      loadingMsg.classList.remove('msg-loading');
-    } catch (e) {
-      loadingMsg.innerText = `⚠️ Ошибка: ${e.message}`;
-      loadingMsg.style.color = '#ff6b6b';
-    } finally {
-      setTimeout(() => { sendBtn.disabled = false; isWaiting = false; }, 10000);
+      загрузкаСообщение.внутреннийТекст = ждать рез.текст();
+      загрузкаСообщение.список классов.удалять('загрузка сообщений');
+    } ловить (e) {
+      загрузкаСообщение.внутреннийТекст = `⚠️ Ошибка: ${e.сообщение}`;
+      загрузкаСообщение.стиль.цвет = '#ff6b6b';
+    } окончательно {
+      setTimeout(() => { sendBtn.неполноценный = ложный; ждет = ложный; }, 10000);
     }
   }
 
-  renderGoals();
-  renderIngredients();
-</script>
-</body>
-</html>
+  документ.addEventListener(«DOMContentLoaded», () => {
+    renderGoals();
+    renderIngredients();
+    константа сохраненныйПользователь = safeGetString('neuro_currentUser');
+    если (сохраненныйПользователь) {
+      текущийПользователь = сохраненныйПользователь;
+      входУспех();
+    }
+  });
+</сценарий>
+</тело>
+ </html>
