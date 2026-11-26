@@ -19,6 +19,19 @@
   .step .num { font-size: 2em; font-weight: bold; color: #2d6a4f; }
   .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
   .feature { background: #f1faee; padding: 20px; border-radius: 10px; border-left: 4px solid #52b788; }
+  
+  /* Стили для интерактивного сканера */
+  .scanner-box { background: #2d6a4f; color: white; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 40px; }
+  .scanner-box h2 { color: white; border-left: none; text-align: center; padding-left: 0; margin-bottom: 15px; }
+  .btn-gen { background: #95d5b2; color: #1b4332; border: none; padding: 15px 30px; font-size: 1.1em; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; }
+  .btn-gen:hover { background: #b7e4c7; transform: scale(1.05); }
+  .btn-gen:disabled { background: #74c69d; cursor: not-allowed; transform: none; }
+  .result-box { display: none; background: #f1faee; color: #1a2e1a; padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; animation: fadeIn 0.5s; }
+  .result-box h3 { color: #2d6a4f; margin-bottom: 10px; margin-top: 15px; }
+  .result-box ul { padding-left: 20px; margin-bottom: 10px; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .loader { display: none; color: #fff; margin-top: 15px; font-style: italic; }
+
   .pricing { display: flex; gap: 20px; flex-wrap: wrap; }
   .plan { flex: 1; min-width: 220px; padding: 25px; border-radius: 12px; border: 2px solid #95d5b2; text-align: center; }
   .plan.premium { background: #2d6a4f; color: #fff; border-color: #2d6a4f; }
@@ -36,6 +49,33 @@
 </header>
 
 <div class="container">
+  
+  <!-- НОВЫЙ БЛОК: Интерактивный сканер -->
+  <section class="scanner-box">
+    <h2>Попробуйте ИИ прямо сейчас</h2>
+    <p>Нажмите кнопку, чтобы нейросеть проанализировала продукты и собрала рацион на день.</p>
+    <br>
+    <button class="btn-gen" id="scanBtn" onclick="startScan()">📸 Сканировать холодильник</button>
+    <div class="loader" id="loader">⏳ ИИ анализирует продукты...</div>
+    
+    <div class="result-box" id="resultBox">
+      <h3>✅ Анализ завершен!</h3>
+      <p><b>Найдено в холодильнике:</b> Куриная грудка, рис, помидоры, яйца, зелень.</p>
+      <h3>Ваш рацион на сегодня:</h3>
+      <ul>
+        <li><b>Завтрак:</b> Омлет с зеленью (350 ккал)</li>
+        <li><b>Обед:</b> Куриная грудка с рисом и салатом (550 ккал)</li>
+        <li><b>Ужин:</b> Легкий салат с яйцом (250 ккал)</li>
+      </ul>
+      <h3>🛒 Вам нужно докупить:</h3>
+      <ul>
+        <li>Оливковое масло (1 бут.)</li>
+        <li>Йогурт натуральный (1 шт.)</li>
+      </ul>
+      <p style="margin-top: 15px; font-size: 0.9em; color: #555;"><i>* Экономия бюджета: 400 руб. (продукты из холодильника не пропадут).</i></p>
+    </div>
+  </section>
+
   <section>
     <h2>Проблема</h2>
     <div class="problem">
@@ -84,5 +124,35 @@
 <footer>
   © 2026 НейроРацион — учебный стартап-проект. Сайт создан с помощью ИИ.
 </footer>
+
+<!-- СКРИПТ ДЛЯ РАБОТЫ КНОПКИ -->
+<script>
+  function startScan() {
+    // Скрываем старый результат, если он был
+    document.getElementById('resultBox').style.display = 'none';
+    
+    // Блокируем кнопку и показываем загрузку
+    const btn = document.getElementById('scanBtn');
+    const loader = document.getElementById('loader');
+    
+    btn.disabled = true;
+    btn.innerText = 'Сканирование...';
+    loader.style.display = 'block';
+    
+    // Имитация работы ИИ (задержка 2 секунды)
+    setTimeout(function() {
+      // Прячем загрузку
+      loader.style.display = 'none';
+      
+      // Возвращаем кнопку в исходное состояние
+      btn.disabled = false;
+      btn.innerText = '📸 Сканировать еще раз';
+      
+      // Показываем результат
+      document.getElementById('resultBox').style.display = 'block';
+    }, 2000);
+  }
+</script>
+
 </body>
 </html>
