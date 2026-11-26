@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>НейроРацион 12.0 — Личный кабинет</title>
+<title>НейроРацион — Личный кабинет</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
@@ -121,7 +121,6 @@
   .page.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* Навигация */
   .nav-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; justify-content: center; }
   .nav-tab {
     background: var(--bg-surface);
@@ -144,7 +143,6 @@
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
   }
 
-  /* Авторизация */
   .auth-form { max-width: 420px; margin: 0 auto; text-align: center; }
   .auth-form h2 { border-left: none; padding-left: 0; text-align: center; }
   .auth-form input {
@@ -191,7 +189,6 @@
     text-align: center;
   }
 
-  /* Цели */
   .goals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 12px; margin-bottom: 6px; }
   .goal-card {
     background: var(--bg-void);
@@ -216,7 +213,6 @@
   .goal-card.active .goal-kcal { color: #07080a; }
   .goal-card.active .goal-desc { color: #3f3f46; }
 
-  /* Продукты */
   .section-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
   .mini-actions { display: flex; gap: 8px; }
   .mini-btn {
@@ -296,7 +292,6 @@
   }
   .back-btn:hover { background: #ffffff; color: #07080a; }
 
-  /* Календарь */
   .week-calendar { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 24px; }
   .day-card {
     background: var(--bg-void);
@@ -328,7 +323,6 @@
   }
   .daily-summary-cards { display: flex; gap: 10px; flex-wrap: wrap; }
 
-  /* Карточки блюд */
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-bottom: 22px; }
   .recipe-card {
     background: var(--bg-void);
@@ -355,7 +349,6 @@
   .recipe-card .badge-portion { background: transparent; color: #e4e4e7; border: 1px solid var(--border-subtle); font-weight: 600; }
   .macros-line { font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: 8px; }
 
-  /* Статистика */
   .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px; }
   .stat-card {
     background: var(--bg-void);
@@ -372,13 +365,11 @@
   .chart-box h3 { font-family: 'Unbounded', sans-serif; color: #ffffff; margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; }
   .chart-box canvas { max-width: 100%; max-height: 280px; }
 
-  /* Список покупок */
   .shopping-list { background: var(--bg-void); border: 1px solid var(--border-subtle); padding: 20px; border-radius: 6px; position: relative; margin-top: 20px; }
   .shopping-list h3 { font-family: 'Unbounded', sans-serif; color: #ffffff; font-size: 0.95em; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
   .shopping-list ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
   .shopping-list li { display: flex; align-items: center; font-size: 0.92em; background: var(--bg-elevated); border: 1px solid var(--border-subtle); padding: 6px 14px; border-radius: 4px; color: #e4e4e7; }
 
-  /* Детали рецепта */
   .recipe-detail { text-align: center; }
   .recipe-detail .big-image { width: 100%; max-height: 420px; object-fit: cover; border-radius: 6px; margin-bottom: 24px; border: 1px solid var(--border-strong); box-shadow: 0 20px 50px rgba(0,0,0,0.7); background: #111318; display: block; }
   .recipe-detail h2 { border: none; padding: 0; text-align: center; font-size: 1.75em; color: #ffffff; margin-bottom: 14px; }
@@ -404,7 +395,6 @@
   .recipe-detail .ingredients-list li { background: #ffffff; color: #07080a; font-weight: 600; padding: 5px 14px; border-radius: 4px; font-size: 0.9em; }
   .recipe-detail .ingredients-list li.missing { background: transparent; border: 1px dashed var(--border-strong); color: #d4d4d8; font-weight: 500; }
 
-  /* Чат */
   .chat-messages { height: 210px; overflow-y: auto; background: var(--bg-void); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 16px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; }
   .msg-bubble { max-width: 85%; padding: 12px 16px; border-radius: 6px; font-size: 0.95em; line-height: 1.45; }
   .msg-user { align-self: flex-end; background: #ffffff; color: #07080a; font-weight: 500; }
@@ -413,9 +403,10 @@
   .chat-input-group { display: flex; gap: 10px; }
   .chat-input-group input { flex: 1; padding: 14px 16px; border-radius: 4px; border: 1px solid var(--border-subtle); background: var(--bg-void); color: #ffffff; outline: none; transition: 0.2s; }
   .chat-input-group input:focus { border-color: #ffffff; }
-  .chat-input-group button { padding: 14px 26px; border-radius: 4px; border: 1px solid #ffffff; background: #ffffff; color: #07080a; font-family: 'Unbounded', sans-serif; font-size: 0.85em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: 0.2s; }
+  .chat-input-group button { min-width: 150px; padding: 14px 22px; border-radius: 4px; border: 1px solid #ffffff; background: #ffffff; color: #07080a; font-family: 'Unbounded', sans-serif; font-size: 0.82em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: 0.2s; }
   .chat-input-group button:hover { background: #d4d4d8; border-color: #d4d4d8; }
-  .chat-input-group button:disabled { background: #27272a; border-color: #27272a; color: #71717a; cursor: not-allowed; }
+  .chat-input-group button:disabled { background: #27272a; border-color: #27272a; color: #a1a1aa; cursor: not-allowed; }
+  .chat-hint { margin-top: 8px; font-size: 0.8em; color: var(--text-muted); }
 
   @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
   footer { text-align: center; padding: 26px 20px; color: var(--text-muted); font-size: 0.85em; border-top: 1px solid var(--border-subtle); margin-top: 40px; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -425,8 +416,8 @@
 <body>
 
 <header>
-  <div class="brand-kicker">NUTRITION ENGINE // V12.0</div>
-  <h1 onclick="navigateTo('mainPage')">НейроРацион 12.0</h1>
+  <div class="brand-kicker">NUTRITION ENGINE</div>
+  <h1 onclick="navigateTo('mainPage')">НейроРацион</h1>
   <p id="userGreeting">Персональный ИИ-нутрициолог</p>
   <button id="logoutBtn" type="button" onclick="logout()">Выйти</button>
 </header>
@@ -486,6 +477,7 @@
           <input type="text" id="userInput" placeholder="Например: Что лучше на ужин при похудении?" onkeypress="handleEnter(event)">
           <button type="button" id="sendBtn" onclick="sendMessage()">Отправить</button>
         </div>
+        <div class="chat-hint" id="chatCooldownHint">Ограничение: 1 сообщение раз в 45 секунд.</div>
       </div>
     </div>
 
@@ -700,6 +692,7 @@
     document.getElementById('authEmail').value = '';
     document.getElementById('authPassword').value = '';
     showAuthError('');
+    resetChatCooldown();
     if (weeklyChartInstance) { weeklyChartInstance.destroy(); weeklyChartInstance = null; }
     if (dailyChartInstance) { dailyChartInstance.destroy(); dailyChartInstance = null; }
   }
@@ -803,7 +796,7 @@
     imgEl.src = realUrl || makePlaceholderSvg(dish.name, false);
   }
 
-  // --- БАЗА ПРОДУКТОВ И БЛЮД С ПОДРОБНЫМИ РЕЦЕПТАМИ ---
+  // --- БАЗА ПРОДУКТОВ И БЛЮД ---
   const database = {
     products: [
       { id: 'chicken', name: 'Курица', icon: '🍗' }, { id: 'turkey', name: 'Индейка', icon: '🦃' },
@@ -1497,10 +1490,43 @@
     });
   }
 
+  // --- ЧАТ С ОГРАНИЧЕНИЕМ 45 СЕКУНД ---
   const chatMessages = document.getElementById('chatMessages');
   const userInput = document.getElementById('userInput');
   const sendBtn = document.getElementById('sendBtn');
+  const chatCooldownHint = document.getElementById('chatCooldownHint');
   let isWaiting = false;
+  let chatCooldownTimer = null;
+
+  function resetChatCooldown() {
+    if (chatCooldownTimer) {
+      clearInterval(chatCooldownTimer);
+      chatCooldownTimer = null;
+    }
+    isWaiting = false;
+    sendBtn.disabled = false;
+    sendBtn.innerText = 'Отправить';
+    chatCooldownHint.innerText = 'Ограничение: 1 сообщение раз в 45 секунд.';
+  }
+
+  function startChatCooldown(seconds = 45) {
+    if (chatCooldownTimer) clearInterval(chatCooldownTimer);
+    let remaining = seconds;
+    isWaiting = true;
+    sendBtn.disabled = true;
+    sendBtn.innerText = `Ждите ${remaining}с`;
+    chatCooldownHint.innerText = `Следующее сообщение можно отправить через ${remaining} сек.`;
+
+    chatCooldownTimer = setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        resetChatCooldown();
+      } else {
+        sendBtn.innerText = `Ждите ${remaining}с`;
+        chatCooldownHint.innerText = `Следующее сообщение можно отправить через ${remaining} сек.`;
+      }
+    }, 1000);
+  }
 
   function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
   function addMessage(text, sender) {
@@ -1515,12 +1541,16 @@
   async function sendMessage() {
     const text = userInput.value.trim();
     if (!text || isWaiting) return;
+
     addMessage(text, 'msg-user');
     userInput.value = '';
-    sendBtn.disabled = true;
     isWaiting = true;
+    sendBtn.disabled = true;
+    sendBtn.innerText = 'Отправка...';
+
     const loadingMsg = addMessage('Печатает...', 'msg-ai msg-loading');
     const goal = GOALS[selectedGoal] || GOALS.maintenance;
+
     try {
       const res = await fetch("https://text.pollinations.ai/", {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -1532,7 +1562,7 @@
       loadingMsg.innerText = `Ошибка: ${e.message}`;
       loadingMsg.style.color = '#f87171';
     } finally {
-      setTimeout(() => { sendBtn.disabled = false; isWaiting = false; }, 10000);
+      startChatCooldown(45);
     }
   }
 
