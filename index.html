@@ -159,7 +159,6 @@
       { id: 'fish', name: 'Рыба', icon: '🐟', price: 300, weight: 0.4 }
     ],
     recipes: [
-      // Добавили иконки для каждого блюда
       { type: 'breakfast', name: 'Омлет с сыром', icon: '🍳', ingredients: ['eggs', 'cheese'], missing: ['tomato'], calories: 350 },
       { type: 'lunch', name: 'Курица с рисом', icon: '🍲', ingredients: ['chicken', 'rice'], missing: ['greens'], calories: 550 },
       { type: 'dinner', name: 'Салат из помидоров', icon: '🥗', ingredients: ['tomato', 'greens'], missing: [], calories: 150 }
@@ -190,30 +189,25 @@
     }
   }
 
-  // НОВАЯ ФУНКЦИЯ: Отображение фото и анимация сканирования
   function handleFileUpload(input) {
     if (input.files && input.files[0]) {
       const file = input.files[0];
       const reader = new FileReader();
       
       reader.onload = function(e) {
-        // Показываем картинку
         const img = document.getElementById('imagePreview');
         img.src = e.target.result;
         img.style.display = 'block';
         
-        // Скрываем иконку и текст
         document.getElementById('uploadIcon').style.display = 'none';
         document.getElementById('uploadText').style.display = 'none';
         
-        // Включаем анимацию сканирования
         const scanLine = document.getElementById('scanLine');
         scanLine.style.display = 'block';
         
         const status = document.getElementById('uploadStatus');
         status.innerText = '⏳ Нейросеть анализирует фото...';
         
-        // Имитация анализа
         setTimeout(() => {
           scanLine.style.display = 'none';
           status.innerText = '✅ Анализ завершен! Продукты добавлены.';
@@ -260,6 +254,7 @@
       database.recipes.forEach(dish => {
         totalCalories += dish.calories;
 
+        // Считаем экономию
         dish.ingredients.forEach(ing => {
           if (selectedProducts.includes(ing)) {
             const prod = database.products.find(p => p.id === ing);
@@ -268,9 +263,14 @@
           }
         });
 
-        dish.missing.forEach(ing => missingIngredients.add(ing));
+        // НОВАЯ ЛОГИКА: проверяем недостающее
+        dish.missing.forEach(ing => {
+          // Если этого продукта НЕТ в выбранных, добавляем в список покупок
+          if (!selectedProducts.includes(ing)) {
+            missingIngredients.add(ing);
+          }
+        });
         
-        // Выводим картинку блюда
         menuHTML += `
           <div class="recipe-card">
             <div class="recipe-image">${dish.icon}</div>
@@ -288,6 +288,7 @@
 
       menuResult.innerHTML = menuHTML;
 
+      // Если есть недостающие продукты, показываем список
       if (missingIngredients.size > 0) {
         let shoppingHTML = '';
         missingIngredients.forEach(ing => {
@@ -297,6 +298,7 @@
         shoppingList.innerHTML = shoppingHTML;
         document.getElementById('shoppingResult').style.display = 'block';
       } else {
+        // Если всё есть, прячем список покупок
         document.getElementById('shoppingResult').style.display = 'none';
       }
 
@@ -315,6 +317,8 @@
 
   function copyShoppingList() {
     const items = document.querySelectorAll('#shoppingList li');
+    if (items.length === 0) return;
+    
     let text = "🛒 Список покупок (НейроРацион):\n\n";
     items.forEach(item => text += "☐ " + item.innerText.trim() + "\n");
 
