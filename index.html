@@ -137,7 +137,7 @@
     </div>
   </div>
 
-  <!-- БЛОК ЧАТА С OPENROUTER -->
+  <!-- БЛОК ЧАТА -->
   <div class="glass-panel">
     <h2>🤖 Спросите ИИ-нутрициолога</h2>
     <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9em;">Задайте любой вопрос о питании или рецептах.</p>
@@ -160,11 +160,6 @@
 
 <script>
   document.addEventListener('contextmenu', e => e.preventDefault());
-
-  // ⚠️ ВАШИ ДАННЫЕ
-  const OPENROUTER_API_KEY = 'sk_rq0tzD4vB9nrVfgQcY2jlUeD0L3fM6i0';
-  // Ссылка на ваш Cloudflare Worker (без слэша в конце)
-  const PROXY_URL = 'https://square-flower-9f69.olezhka-loseffz.workers.dev';
 
   const database = {
     products: [
@@ -352,7 +347,7 @@
     });
   }
 
-  // --- ЛОГИКА ИИ-ЧАТА С OPENROUTER (ЧЕРЕЗ ПРОКСИ) ---
+  // --- ЛОГИКА ИИ-ЧАТА БЕЗ КЛЮЧЕЙ И ВОРКЕРОВ ---
   const chatMessages = document.getElementById('chatMessages');
   const userInput = document.getElementById('userInput');
   const sendBtn = document.getElementById('sendBtn');
@@ -381,34 +376,17 @@
     const loadingMsg = addMessage('Печатает...', 'msg-ai msg-loading');
 
     try {
-      // Отправляем запрос через Cloudflare Worker
-      const response = await fetch(PROXY_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${OPENROUTER_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.0-flash-lite-preview-02-05:free", 
-          messages: [
-            { role: "system", content: "Ты — ИИ-нутрициолог. Отвечай кратко, полезно и по делу." },
-            { role: "user", content: text }
-          ],
-          max_tokens: 500
-        })
-      });
+      // Запрос к бесплатному API Pollinations.ai
+      const prompt = encodeURIComponent(`Ты — ИИ-нутрициолог. Отвечай кратко, полезно и по делу. Вопрос пользователя: ${text}`);
+      const response = await fetch(`https://text.pollinations.ai/${prompt}`);
+      
+      const aiText = await response.text();
 
-      const data = await response.json();
-      
-      if (data.error) throw new Error(data.error.message);
-      
-      const aiText = data.choices[0].message.content;
-      
       loadingMsg.innerText = aiText;
       loadingMsg.classList.remove('msg-loading');
 
     } catch (error) {
-      loadingMsg.innerText = `⚠️ Ошибка: ${error.message}`;
+      loadingMsg.innerText = `⚠️ Ошибка: ${error.message}. Проверьте интернет.`;
       loadingMsg.style.color = '#ff6b6b';
     } finally {
       sendBtn.disabled = false;
