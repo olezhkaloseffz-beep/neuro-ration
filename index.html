@@ -3,204 +3,221 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>НейроРацион — умный сканер холодильника</title>
+<title>НейроРацион — умный подбор рациона</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  body { 
-    font-family: 'Segoe UI', Arial, sans-serif; 
-    color: #1a2e1a; 
-    line-height: 1.6;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-  }
-  
-  header { background: linear-gradient(135deg, #1b4332, #2d6a4f); color: #fff; padding: 60px 20px; text-align: center; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a2e1a; line-height: 1.6; background-color: #f8fdf9; }
+  header { background: linear-gradient(135deg, #1b4332, #2d6a4f); color: #fff; padding: 50px 20px; text-align: center; }
   header h1 { font-size: 2.5em; margin-bottom: 10px; }
   header p { font-size: 1.2em; color: #b7e4c7; }
-  .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
-  section { margin-bottom: 50px; }
-  h2 { color: #2d6a4f; font-size: 1.8em; margin-bottom: 20px; border-left: 5px solid #95d5b2; padding-left: 15px; }
-  .problem { background: #f1faee; padding: 25px; border-radius: 12px; }
-  .steps { display: flex; gap: 20px; flex-wrap: wrap; }
-  .step { flex: 1; min-width: 200px; background: #d8f3dc; padding: 25px; border-radius: 12px; text-align: center; }
-  .step .num { font-size: 2em; font-weight: bold; color: #2d6a4f; }
-  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-  .feature { background: #f1faee; padding: 20px; border-radius: 10px; border-left: 4px solid #52b788; }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+  section { margin-bottom: 40px; }
+  h2 { color: #2d6a4f; font-size: 1.6em; margin-bottom: 20px; border-left: 5px solid #95d5b2; padding-left: 15px; }
   
-  .camera-section { background: #2d6a4f; color: white; padding: 30px; border-radius: 12px; text-align: center; }
-  .camera-section h2 { color: white; border-left: none; text-align: center; padding-left: 0; margin-bottom: 15px; }
-  .camera-container { position: relative; max-width: 500px; margin: 0 auto 20px auto; background: #000; border-radius: 12px; overflow: hidden; display: none; }
-  video { width: 100%; display: block; }
-  .btn-gen { background: #95d5b2; color: #1b4332; border: none; padding: 15px 30px; font-size: 1.1em; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; margin: 5px; }
-  .btn-gen:hover { background: #b7e4c7; transform: scale(1.05); }
-  .btn-gen:disabled { background: #74c69d; cursor: not-allowed; transform: none; }
-  .btn-scan { background: #ff9f1c; color: #fff; display: none; }
-  .btn-scan:hover { background: #ffbf69; }
-  
-  .result-box { display: none; background: #f1faee; color: #1a2e1a; padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; animation: fadeIn 0.5s; }
-  .result-box h3 { color: #2d6a4f; margin-bottom: 10px; margin-top: 15px; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  .loader { display: none; color: #fff; margin-top: 15px; font-style: italic; font-size: 1.1em; }
+  /* Блок выбора продуктов */
+  .ingredients-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .ingredient-btn { 
+    background: #fff; border: 2px solid #d8f3dc; padding: 15px 10px; border-radius: 10px; 
+    cursor: pointer; font-size: 1em; font-weight: bold; color: #2d6a4f; transition: 0.2s; 
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+  }
+  .ingredient-btn:hover { border-color: #95d5b2; }
+  .ingredient-btn.active { background: #d8f3dc; border-color: #52b788; box-shadow: 0 0 10px rgba(82, 183, 136, 0.3); }
+  .ingredient-btn span { font-size: 1.5em; }
 
+  .generate-btn { 
+    background: #2d6a4f; color: white; border: none; padding: 15px 40px; font-size: 1.2em; 
+    font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px;
+  }
+  .generate-btn:hover { background: #1b4332; transform: scale(1.02); }
+  .generate-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+  /* Блок результата */
+  .result-section { display: none; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); animation: fadeIn 0.5s; }
+  .recipe-card { background: #f1faee; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #52b788; }
+  .recipe-card h3 { color: #2d6a4f; margin-bottom: 5px; }
+  .recipe-card p { font-size: 0.95em; color: #333; }
+  .shopping-list { background: #fff3cd; padding: 20px; border-radius: 10px; border-left: 4px solid #ffca2c; }
+  .shopping-list h3 { color: #856404; margin-bottom: 10px; }
+  .shopping-list ul { padding-left: 20px; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   footer { background: #1b4332; color: #b7e4c7; text-align: center; padding: 25px 20px; font-size: 0.9em; }
-  @media (max-width: 600px) { header h1 { font-size: 1.8em; } }
 </style>
 </head>
 <body>
 <header>
   <h1>🥗 НейроРацион</h1>
-  <p>Сфотографируй холодильник — получи рацион</p>
+  <p>Умный подбор рациона из того, что есть под рукой</p>
 </header>
 
 <div class="container">
-  <section class="camera-section">
-    <h2>Протестируйте ИИ-сканер</h2>
-    <p>Нажмите кнопку ниже, разрешите доступ к камере и наведите её на любые продукты.</p>
-    <br>
+  <section>
+    <h2>Шаг 1: Отметьте, что у вас есть</h2>
+    <p style="margin-bottom: 15px; color: #555;">Нажмите на продукты, которые есть в вашем холодильнике:</p>
     
-    <div class="camera-container" id="cameraContainer">
-      <video id="video" autoplay playsinline></video>
+    <div class="ingredients-grid" id="ingredientsGrid">
+      <!-- Кнопки будут сгенерированы через JS -->
     </div>
 
-    <button class="btn-gen" id="startCamBtn" onclick="startCamera()">📷 Включить камеру</button>
-    <button class="btn-gen btn-scan" id="scanBtn" onclick="takeSnap()">📸 Сделать снимок и сканировать</button>
+    <button class="generate-btn" id="generateBtn" onclick="generateMenu()">✨ Сгенерировать рацион</button>
+  </section>
+
+  <!-- Блок с результатом -->
+  <section class="result-section" id="resultSection">
+    <h2>Ваш персональный рацион на день</h2>
     
-    <div class="loader" id="loader">⏳ ИИ распознает продукты на фото...</div>
-    
-    <div class="result-box" id="resultBox"></div>
-  </section>
+    <div id="menuResult"></div>
 
-  <section>
-    <h2>Проблема</h2>
-    <div class="problem">
-      <p>Люди тратят 30–60 минут в день на мысли «что приготовить», покупают продукты «на глаз» и выбрасывают до 30% еды. Приложения-калории требуют ручного ввода каждого продукта — и люди их бросают.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2>Как это работает</h2>
-    <div class="steps">
-      <div class="step"><div class="num">1</div><p>Фотографируете холодильник</p></div>
-      <div class="step"><div class="num">2</div><p>ИИ распознаёт продукты</p></div>
-      <div class="step"><div class="num">3</div><p>Получаете рацион и список покупок</p></div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Функции</h2>
-    <div class="features">
-      <div class="feature"><b>📸 ИИ-сканер</b><br>Распознаёт продукты по фото</div>
-      <div class="feature"><b>🍽️ Рацион на неделю</b><br>С учётом КБЖУ, аллергий и времени готовки</div>
-      <div class="feature"><b>🛒 Список покупок</b><br>Под бюджет и акции магазинов</div>
-      <div class="feature"><b>🎤 Голосовой помощник</b><br>«Что приготовить из курицы и риса?»</div>
+    <div class="shopping-list" id="shoppingResult">
+      <h3>🛒 Что нужно докупить:</h3>
+      <ul id="shoppingList"></ul>
     </div>
   </section>
 </div>
 
 <footer>
-  © 2026 НейроРацион — учебный стартап-проект. Сайт создан с помощью ИИ. Все функции предоставляются бесплатно.
+  © 2026 НейроРацион — учебный стартап-проект. Создан с помощью ИИ.
 </footer>
 
 <script>
-  // ЗАЩИТА ОТ КОПИРОВАНИЯ
-  document.addEventListener('contextmenu', e => e.preventDefault());
-  document.addEventListener('dragstart', e => e.preventDefault());
+  // База данных продуктов и блюд (имитация работы ИИ)
+  const database = {
+    products: [
+      { id: 'chicken', name: 'Курица', icon: '🍗' },
+      { id: 'rice', name: 'Рис', icon: '🍚' },
+      { id: 'eggs', name: 'Яйца', icon: '🥚' },
+      { id: 'tomato', name: 'Помидоры', icon: '🍅' },
+      { id: 'cheese', name: 'Сыр', icon: '🧀' },
+      { id: 'pasta', name: 'Макароны', icon: '🍝' },
+      { id: 'potato', name: 'Картофель', icon: '🥔' },
+      { id: 'greens', name: 'Зелень', icon: '🌿' },
+      { id: 'bread', name: 'Хлеб', icon: '🍞' },
+      { id: 'milk', name: 'Молоко', icon: '🥛' }
+    ],
+    recipes: {
+      breakfast: [
+        { name: 'Омлет с сыром', ingredients: ['eggs', 'cheese'], missing: ['greens'], calories: '350 ккал' },
+        { name: 'Бутерброды с сыром', ingredients: ['bread', 'cheese'], missing: ['tomato'], calories: '250 ккал' }
+      ],
+      lunch: [
+        { name: 'Курица с рисом', ingredients: ['chicken', 'rice'], missing: ['tomato', 'greens'], calories: '550 ккал' },
+        { name: 'Паста с сыром', ingredients: ['pasta', 'cheese'], missing: ['milk'], calories: '600 ккал' },
+        { name: 'Жареная картошка с курицей', ingredients: ['potato', 'chicken'], missing: [], calories: '650 ккал' }
+      ],
+      dinner: [
+        { name: 'Салат из помидоров с зеленью', ingredients: ['tomato', 'greens'], missing: ['cheese'], calories: '200 ккал' },
+        { name: 'Омлет с помидорами', ingredients: ['eggs', 'tomato'], missing: [], calories: '300 ккал' }
+      ]
+    }
+  };
 
-  const video = document.getElementById('video');
-  const cameraContainer = document.getElementById('cameraContainer');
-  const startCamBtn = document.getElementById('startCamBtn');
-  const scanBtn = document.getElementById('scanBtn');
-  const loader = document.getElementById('loader');
-  const resultBox = document.getElementById('resultBox');
-  let stream = null;
+  let selectedProducts = [];
 
-  // ⚠️ ССЫЛКА НА ВАШ CLOUDFLARE WORKER (без слэша в конце)
-  const PROXY_URL = 'https://square-flower-9f69.olezhka-loseffz.workers.dev';
+  // 1. Отрисовка кнопок продуктов
+  function renderIngredients() {
+    const grid = document.getElementById('ingredientsGrid');
+    grid.innerHTML = '';
+    database.products.forEach(product => {
+      const btn = document.createElement('div');
+      btn.className = 'ingredient-btn';
+      btn.innerHTML = `<span>${product.icon}</span> ${product.name}`;
+      btn.onclick = () => toggleProduct(product.id, btn);
+      grid.appendChild(btn);
+    });
+  }
 
-  async function startCamera() {
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-      video.srcObject = stream;
-      cameraContainer.style.display = 'block';
-      startCamBtn.style.display = 'none';
-      scanBtn.style.display = 'inline-block';
-      resultBox.style.display = 'none';
-    } catch (err) {
-      alert('Не удалось получить доступ к камере.');
+  // 2. Выбор/отмена продукта
+  function toggleProduct(id, btnElement) {
+    if (selectedProducts.includes(id)) {
+      selectedProducts = selectedProducts.filter(p => p !== id);
+      btnElement.classList.remove('active');
+    } else {
+      selectedProducts.push(id);
+      btnElement.classList.add('active');
     }
   }
 
-  async function takeSnap() {
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
+  // 3. Генерация меню (главная фича)
+  function generateMenu() {
+    if (selectedProducts.length === 0) {
+      alert('Пожалуйста, выберите хотя бы один продукт!');
+      return;
     }
 
-    scanBtn.style.display = 'none';
-    loader.style.display = 'block';
-    cameraContainer.style.opacity = '0.5';
-    setTimeout(() => { cameraContainer.style.opacity = '1'; }, 150);
+    const resultSection = document.getElementById('resultSection');
+    const menuResult = document.getElementById('menuResult');
+    const shoppingList = document.getElementById('shoppingList');
+    
+    // Показываем загрузку (эффект ИИ)
+    const btn = document.getElementById('generateBtn');
+    btn.disabled = true;
+    btn.innerText = '⏳ ИИ подбирает рацион...';
+    resultSection.style.display = 'none';
 
-    // Делаем снимок
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const base64Image = canvas.toDataURL('image/jpeg').split(',')[1];
+    setTimeout(() => {
+      let menuHTML = '';
+      let missingIngredients = new Set();
 
-    try {
-      // Отправляем через прокси на Groq
-      const response = await fetch(PROXY_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: "qwen/qwen3.8-27b", // Бесплатная модель Groq с поддержкой картинок
-          messages: [
-            {
-              role: "user",
-              content: [
-                { type: "text", text: 'Ты — ИИ-помощник по питанию. Посмотри на фото продуктов. Верни СТРОГО JSON без лишнего текста в формате: {"products": ["продукт1", "продукт2"], "dish": "название блюда или рациона", "calories": "примерно 500 ккал"}. Если на фото нет еды, верни пустой массив products.' },
-                { type: "image_url", image_url: { url: `data:image/jpeg;base64,${base64Image}` } }
-              ]
-            }
-          ]
-        })
-      });
+      // Функция подбора блюда
+      function findDish(mealType) {
+        const possibleDishes = database.recipes[mealType];
+        // Ищем блюдо, для которого у нас есть максимум ингредиентов
+        let bestDish = possibleDishes[0];
+        let maxMatches = -1;
 
-      const data = await response.json();
-      
-      if (data.error) {
-        throw new Error(data.error.message);
+        possibleDishes.forEach(dish => {
+          const matches = dish.ingredients.filter(ing => selectedProducts.includes(ing)).length;
+          if (matches > maxMatches) {
+            maxMatches = matches;
+            bestDish = dish;
+          }
+        });
+
+        // Добавляем недостающие ингредиенты в список покупок
+        bestDish.missing.forEach(ing => missingIngredients.add(ing));
+
+        return `
+          <div class="recipe-card">
+            <h3>${mealType === 'breakfast' ? '🍳 Завтрак' : mealType === 'lunch' ? '🍲 Обед' : '🥗 Ужин'}: ${bestDish.name}</h3>
+            <p><b>Калорийность:</b> ${bestDish.calories}</p>
+            <p><b>Используем:</b> ${bestDish.ingredients.map(i => database.products.find(p => p.id === i).name).join(', ')}</p>
+          </div>
+        `;
       }
 
-      // Groq отвечает в формате OpenAI
-      const textResponse = data.choices[0].message.content;
-      const cleanJson = textResponse.replace(/```json|```/g, '').trim();
-      const result = JSON.parse(cleanJson);
+      // Собираем меню
+      menuHTML += findDish('breakfast');
+      menuHTML += findDish('lunch');
+      menuHTML += findDish('dinner');
 
-      let html = `<h3>✅ Анализ завершен!</h3>`;
-      if (result.products && result.products.length > 0) {
-        html += `<p><b>Найдено:</b> ${result.products.join(', ')}</p>`;
-        html += `<p><b>Предлагаемое блюдо:</b> ${result.dish}</p>`;
-        html += `<p><b>Примерная калорийность:</b> ${result.calories}</p>`;
+      menuResult.innerHTML = menuHTML;
+
+      // Собираем список покупок
+      if (missingIngredients.size > 0) {
+        let shoppingHTML = '';
+        missingIngredients.forEach(ing => {
+          const product = database.products.find(p => p.id === ing);
+          shoppingHTML += `<li>${product.icon} ${product.name}</li>`;
+        });
+        shoppingList.innerHTML = shoppingHTML;
+        document.getElementById('shoppingResult').style.display = 'block';
       } else {
-        html += `<p>На фото не удалось распознать продукты. Попробуйте навести камеру на еду.</p>`;
+        document.getElementById('shoppingResult').style.display = 'none';
       }
+
+      // Возвращаем кнопку
+      btn.disabled = false;
+      btn.innerText = '✨ Сгенерировать рацион';
+      resultSection.style.display = 'block';
       
-      resultBox.innerHTML = html;
-    } catch (error) {
-      console.error(error);
-      resultBox.innerHTML = `<h3>⚠️ Ошибка</h3><p>Ошибка: ${error.message}</p>`;
-    } finally {
-      loader.style.display = 'none';
-      cameraContainer.style.display = 'none';
-      startCamBtn.style.display = 'inline-block';
-      startCamBtn.innerText = '🔄 Сканировать другой продукт';
-      resultBox.style.display = 'block';
-    }
+      // Прокрутка к результату
+      resultSection.scrollIntoView({ behavior: 'smooth' });
+    }, 1000); // Задержка для эффекта "ИИ думает"
   }
+
+  // Запуск
+  renderIngredients();
 </script>
 
 </body>
