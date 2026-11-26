@@ -161,8 +161,10 @@
 <script>
   document.addEventListener('contextmenu', e => e.preventDefault());
 
-  // ВАШ КЛЮЧ OPENROUTER
+  // ⚠️ ВАШИ ДАННЫЕ
   const OPENROUTER_API_KEY = 'sk_rq0tzD4vB9nrVfgQcY2jlUeD0L3fM6i0';
+  // Ссылка на ваш Cloudflare Worker (без слэша в конце)
+  const PROXY_URL = 'https://square-flower-9f69.olezhka-loseffz.workers.dev';
 
   const database = {
     products: [
@@ -350,7 +352,7 @@
     });
   }
 
-  // --- ЛОГИКА ИИ-ЧАТА С OPENROUTER ---
+  // --- ЛОГИКА ИИ-ЧАТА С OPENROUTER (ЧЕРЕЗ ПРОКСИ) ---
   const chatMessages = document.getElementById('chatMessages');
   const userInput = document.getElementById('userInput');
   const sendBtn = document.getElementById('sendBtn');
@@ -379,15 +381,14 @@
     const loadingMsg = addMessage('Печатает...', 'msg-ai msg-loading');
 
     try {
-      // Отправляем запрос напрямую в OpenRouter
-      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      // Отправляем запрос через Cloudflare Worker
+      const response = await fetch(PROXY_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${OPENROUTER_API_KEY}`
         },
         body: JSON.stringify({
-          // Бесплатная и быстрая модель
           model: "google/gemini-2.0-flash-lite-preview-02-05:free", 
           messages: [
             { role: "system", content: "Ты — ИИ-нутрициолог. Отвечай кратко, полезно и по делу." },
