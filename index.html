@@ -28,7 +28,6 @@
   .nav-tab:hover { background: rgba(255,255,255,0.1); }
   .nav-tab.active { background: var(--primary); border-color: var(--primary-light); box-shadow: 0 0 10px rgba(82, 183, 136, 0.3); }
 
-  /* Форма входа */
   .auth-form { max-width: 400px; margin: 0 auto; text-align: center; }
   .auth-form input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 1em; }
   .auth-form input:focus { border-color: var(--primary-light); }
@@ -340,7 +339,50 @@
     }
   };
 
-  // --- ФОТОГРАФИИ БЛЮД ---
+  // --- РЕАЛЬНЫЕ ФОТОГРАФИИ ЕДЫ (TheMealDB + Wikimedia Commons) ---
+  const imageCache = {};
+
+  const ruToEnFood = [
+    ['омлет', 'omelette'],
+    ['яичниц', 'fried eggs'],
+    ['яйц', 'eggs'],
+    ['сыр', 'cheese'],
+    ['куриц', 'chicken'],
+    ['курин', 'chicken'],
+    ['рис', 'rice'],
+    ['паст', 'pasta'],
+    ['макарон', 'pasta'],
+    ['спагетти', 'spaghetti'],
+    ['салат', 'salad'],
+    ['помидор', 'tomato'],
+    ['томат', 'tomato'],
+    ['бутерброд', 'sandwich'],
+    ['сэндвич', 'sandwich'],
+    ['тост', 'toast'],
+    ['рыб', 'fish'],
+    ['лосос', 'salmon'],
+    ['говядин', 'beef'],
+    ['стейк', 'steak'],
+    ['мяс', 'meat'],
+    ['картоф', 'potato'],
+    ['картош', 'potato'],
+    ['пюре', 'mashed potatoes'],
+    ['суп', 'soup'],
+    ['каш', 'porridge'],
+    ['овсян', 'oatmeal'],
+    ['греч', 'buckwheat'],
+    ['блин', 'pancakes'],
+    ['оладь', 'pancakes'],
+    ['творог', 'cottage cheese'],
+    ['запекан', 'casserole'],
+    ['рагу', 'stew'],
+    ['котлет', 'cutlet'],
+    ['хлеб', 'bread'],
+    ['молок', 'milk'],
+    ['зелен', 'herbs'],
+    ['овощ', 'vegetables']
+  ];
+
   function escapeHtml(str) {
     return String(str || '')
       .replace(/&/g, '&amp;')
@@ -350,15 +392,9 @@
       .replace(/'/g, '&#39;');
   }
 
-  function getFoodImage(dish, seed = 1, width = 400, height = 300) {
-    const basePrompt = dish.imagePrompt || dish.name || 'healthy food';
-    const fullPrompt = `${basePrompt}, appetizing food photography, restaurant plating, studio lighting`;
-    return `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=${width}&height=${height}&nologo=true&seed=${seed}`;
-  }
-
-  function handleImageError(img) {
-    img.onerror = null;
-    const title = (img.alt || 'Блюдо').slice(0, 28);
+  function makePlaceholderSvg(title, isLoading = false) {
+    const safeTitle = escapeHtml((title || 'Блюдо').slice(0, 28));
+    const sub = isLoading ? 'Загрузка фото...' : safeTitle;
     const svg = `
       <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
         <defs>
@@ -368,10 +404,140 @@
           </linearGradient>
         </defs>
         <rect width="400" height="300" fill="url(#g)"/>
-        <text x="50%" y="44%" text-anchor="middle" font-size="48">🍽️</text>
-        <text x="50%" y="64%" text-anchor="middle" fill="#b7e4c7" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="bold">${escapeHtml(title)}</text>
+        <text x="50%" y="44%" text-anchor="middle" font-size="46">🍽️</text>
+        <text x="50%" y="64%" text-anchor="middle" fill="#b7e4c7" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="bold">${sub}</text>
       </svg>`;
-    img.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+  }
+
+  function handleImageError(img) {
+    img.onerror = null;
+    img.src = makePlaceholderSvg(img.alt || 'Блюдо', false);
+  }
+
+  function buildFoodKeywords(dish) {
+    if (dish.imageQuery && /[a-zA-Z]/.test(dish.imageQuery)) {
+      return dish.imageQuery.trim().split(/\s+/);
+    }
+    const lowerName = (dish.name || '').toLowerCase();
+    const matched = [];
+    for (const [ru, en] of ruToEnFood) {
+      if (lowerName.includes(ru) && !matched.includes(en)) {
+        matched.push(en);
+      }
+    }
+    if (matched.length > 0) return matched;
+    return ['food', 'dish'];
+  }
+
+  async function searchMealDB(query, seed = 0) {
+    try {
+      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(query)}`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (data.meals && data.meals.length > 0) {
+        const meal = data.meals[seed % Math.min(data.meals.length, 6)];
+        return meal.strMealThumb || null;
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  async function searchWikimediaFood(query, seed = 0) {
+    try {
+      const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query + ' food')}&gsrnamespace=6&gsrlimit=6&prop=imageinfo&iiprop=url|mime&iiurlwidth=600&format=json&origin=*`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
+      const valid = pages
+        .filter(p => {
+          const info = p.imageinfo?.[0];
+          const title = (p.title || '').toLowerCase();
+          return info?.thumburl &&
+            (info.mime === 'image/jpeg' || info.mime === 'image/png' || info.mime === 'image/webp') &&
+            !title.includes('icon') &&
+            !title.includes('logo');
+        })
+        .map(p => p.imageinfo[0].thumburl);
+
+      if (valid.length > 0) {
+        return valid[seed % valid.length];
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  async function searchRuWikiFood(dishName) {
+    try {
+      const url = `https://ru.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(dishName)}&gsrlimit=3&prop=pageimages&piprop=thumbnail&pithumbsize=600&format=json&origin=*`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
+      const found = pages.find(p => p.thumbnail?.source);
+      return found ? found.thumbnail.source : null;
+    } catch (e) {}
+    return null;
+  }
+
+  async function resolveFoodImage(dish, seed = 0) {
+    const cacheKey = `${dish.name}|${seed}`;
+    if (imageCache[cacheKey]) return imageCache[cacheKey];
+
+    const keywords = buildFoodKeywords(dish);
+    const fullQuery = keywords.slice(0, 3).join(' ');
+
+    // 1. Точный поиск в кулинарной базе TheMealDB
+    let imgUrl = await searchMealDB(fullQuery, seed);
+
+    // 2. Поиск реального фото блюда на Wikimedia Commons по английским тегам
+    if (!imgUrl) {
+      imgUrl = await searchWikimediaFood(fullQuery, seed);
+    }
+
+    // 3. Поиск по русской Википедии
+    if (!imgUrl && dish.name) {
+      imgUrl = await searchRuWikiFood(dish.name);
+    }
+
+    // 4. Поиск по главному ингредиенту в TheMealDB
+    if (!imgUrl) {
+      for (const kw of keywords) {
+        imgUrl = await searchMealDB(kw, seed);
+        if (imgUrl) break;
+      }
+    }
+
+    // 5. Резервное реальное блюдо из TheMealDB
+    if (!imgUrl) {
+      try {
+        const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+        const data = await res.json();
+        imgUrl = data?.meals?.[0]?.strMealThumb || null;
+      } catch (e) {}
+    }
+
+    if (imgUrl) {
+      imageCache[cacheKey] = imgUrl;
+    }
+    return imgUrl;
+  }
+
+  async function loadDishImage(imgEl, dish, seed) {
+    if (!imgEl) return;
+    const reqId = `${Date.now()}_${Math.random()}`;
+    imgEl.dataset.reqId = reqId;
+    imgEl.src = makePlaceholderSvg(dish.name, true);
+
+    const realUrl = await resolveFoodImage(dish, seed);
+    if (imgEl.dataset.reqId !== reqId) return;
+
+    if (realUrl) {
+      imgEl.src = realUrl;
+    } else {
+      imgEl.src = makePlaceholderSvg(dish.name, false);
+    }
   }
 
   const database = {
@@ -393,7 +559,7 @@
       breakfast: [
         {
           name: 'Омлет с сыром',
-          imagePrompt: 'fluffy cheese omelet on white ceramic plate',
+          imageQuery: 'cheese omelette',
           calories: 350,
           ingredients: ['eggs', 'cheese'],
           missing: ['tomato', 'соль', 'перец'],
@@ -401,7 +567,7 @@
         },
         {
           name: 'Бутерброды с сыром',
-          imagePrompt: 'toasted cheese sandwiches with herbs on wooden board',
+          imageQuery: 'cheese sandwich',
           calories: 250,
           ingredients: ['bread', 'cheese'],
           missing: ['tomato', 'масло'],
@@ -411,7 +577,7 @@
       lunch: [
         {
           name: 'Курица с рисом',
-          imagePrompt: 'grilled chicken breast with steamed white rice and herbs',
+          imageQuery: 'chicken rice',
           calories: 550,
           ingredients: ['chicken', 'rice'],
           missing: ['greens', 'соль', 'специи'],
@@ -419,7 +585,7 @@
         },
         {
           name: 'Паста с сыром',
-          imagePrompt: 'creamy pasta with melted cheese in bowl',
+          imageQuery: 'cheese pasta',
           calories: 600,
           ingredients: ['pasta', 'cheese'],
           missing: ['milk', 'соль'],
@@ -429,7 +595,7 @@
       dinner: [
         {
           name: 'Салат из помидоров',
-          imagePrompt: 'fresh tomato salad with green herbs and olive oil',
+          imageQuery: 'tomato salad',
           calories: 150,
           ingredients: ['tomato', 'greens'],
           missing: ['масло', 'соль'],
@@ -437,7 +603,7 @@
         },
         {
           name: 'Омлет с помидорами',
-          imagePrompt: 'omelet with fresh tomatoes and herbs in skillet',
+          imageQuery: 'tomato omelette',
           calories: 300,
           ingredients: ['eggs', 'tomato'],
           missing: ['соль', 'перец'],
@@ -490,7 +656,6 @@
     }
   }
 
-  // --- СОХРАНЕНИЕ ---
   function savePlanToDB(plan) {
     let users = JSON.parse(localStorage.getItem('neuro_users')) || {};
     if (users[currentUser]) {
@@ -528,7 +693,6 @@
     }
   }
 
-  // --- ГЕНЕРАЦИЯ ---
   async function generateWeekPlan() {
     if (selectedProducts.length === 0) {
       alert('Выберите хотя бы один продукт!');
@@ -549,14 +713,14 @@
           {
             "breakfast": {
               "name": "Название блюда на русском",
-              "imagePrompt": "short appetizing dish description in English",
+              "imageQuery": "short dish name in English, e.g. cheese omelette",
               "calories": 350,
               "ingredients": ["продукт1", "продукт2"],
               "missing": ["чего не хватает (включая специи: соль, перец, масло)"],
               "steps": ["Шаг 1", "Шаг 2"]
             },
-            "lunch": { "name": "...", "imagePrompt": "...", "calories": 500, "ingredients": [], "missing": [], "steps": [] },
-            "dinner": { "name": "...", "imagePrompt": "...", "calories": 300, "ingredients": [], "missing": [], "steps": [] }
+            "lunch": { "name": "...", "imageQuery": "...", "calories": 500, "ingredients": [], "missing": [], "steps": [] },
+            "dinner": { "name": "...", "imageQuery": "...", "calories": 300, "ingredients": [], "missing": [], "steps": [] }
           },
           ... (7 дней)
         ]
@@ -654,16 +818,13 @@
         dish.missing.forEach(ing => missingIngredients.add(ing));
       }
 
-      const seed = index * 10 + mealIndex + 1;
-      const imgUrl = getFoodImage(dish, seed, 400, 300);
-
       menuHTML += `
         <div class="recipe-card" onclick="openRecipe(${index}, ${mealIndex})">
           <img
-            src="${imgUrl}"
+            id="meal-img-${index}-${mealIndex}"
+            src="${makePlaceholderSvg(dish.name, true)}"
             class="recipe-image"
             alt="${escapeHtml(dish.name)}"
-            loading="lazy"
             referrerpolicy="no-referrer"
             onerror="handleImageError(this)">
           <div class="recipe-card-content">
@@ -677,6 +838,11 @@
 
     document.getElementById('dayCalories').innerText = totalCalories;
     menuResult.innerHTML = menuHTML;
+
+    meals.forEach((item, mealIndex) => {
+      const imgEl = document.getElementById(`meal-img-${index}-${mealIndex}`);
+      loadDishImage(imgEl, item.dish, index * 10 + mealIndex);
+    });
 
     if (missingIngredients.size > 0) {
       let shoppingHTML = '';
@@ -698,10 +864,9 @@
     if (mealIndex === 2) dish = dailyPlan.dinner;
 
     const detailImg = document.getElementById('detailImage');
-    const seed = dayIndex * 10 + mealIndex + 1;
     detailImg.onerror = function() { handleImageError(this); };
     detailImg.alt = dish.name;
-    detailImg.src = getFoodImage(dish, seed, 800, 450);
+    loadDishImage(detailImg, dish, dayIndex * 10 + mealIndex);
 
     document.getElementById('detailTitle').innerText = dish.name;
     document.getElementById('detailCalories').innerText = `${dish.calories || 0} ккал`;
